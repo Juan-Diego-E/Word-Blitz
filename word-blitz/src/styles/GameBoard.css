@@ -1,0 +1,95 @@
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+}
+
+.username {
+    margin-right: 10px;
+}
+
+.avatar {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+}
+
+.game-mode-selector select {
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.main-gameboard {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin-bottom: 20px;
+}
+
+.word-grid {
+    /* Añadir lógica para la cuadrícula de letras */
+}
+
+.input-area {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.input-area input {
+    padding: 10px;
+    font-size: 1.2em;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 2px solid #007BFF;
+}
+
+.submit-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.sidebar {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar .scoreboard,
+.hint-button,
+.leaderboard-button,
+.settings-button {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.footer .nav-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.status-bar {
+    margin-left: auto;
+}

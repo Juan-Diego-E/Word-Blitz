@@ -1,0 +1,22 @@
+@import './index.css';
+
+/* 
+--tangelo: #F5550Eff;--------------- orange
+--air-superiority-blue: #76A7BEff;-- skyblue
+--yinmn-blue: #0D5189ff;------------ blue
+--dark-slate-gray: #243D3Dff;------- darkblue_1
+--oxford-blue: #0C1A37ff; ---------- darkblue_1
+*/
+
+img{
+    width: 100px;
+    border-radius: 50%;
+}
+
+.gameboard-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 80dvw;
+    margin: 10px auto;
+}
