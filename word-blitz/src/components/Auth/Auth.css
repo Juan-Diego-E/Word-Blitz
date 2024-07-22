@@ -1,0 +1,52 @@
+@import '../../styles/variables.css';
+
+/* 
+    --color-tangelo: #F5550Eff;
+    --color-air-superiority-blue: #76A7BEff;
+    --color-yinmn-blue: #0D5189ff;
+    --color-dark-slate-gray: #243D3Dff;
+    --color-oxford-blue: #0C1A37ff;
+    
+    --color-white: #ffffff;
+    --color-black: #000000;
+
+    --font-poppins: "Poppins", sans-serif;
+    --font-title: 700;
+    --font-body: 400;
+ */
+
+.auth-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-poppins);
+    font-weight: var(--font-body);
+}
+
+.auth-container h2 {
+    font-weight: var(--font-title);
+    margin-bottom: 20px;
+}
+
+.auth-container input {
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 80%;
+    max-width: 400px;
+    border: 1px solid var(--color-white);
+    border-radius: 5px;
+}
+
+.auth-container button {
+    padding: 10px 20px;
+    border: none;
+    background-color: var(--color-yinmn-blue);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.auth-container button:hover {}

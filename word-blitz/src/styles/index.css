@@ -1,24 +1,33 @@
+@import './variables.css';
+
+/* 
+    --color-tangelo: #F5550Eff;
+    --color-air-superiority-blue: #76A7BEff;
+    --color-yinmn-blue: #0D5189ff;
+    --color-dark-slate-gray: #243D3Dff;
+    --color-oxford-blue: #0C1A37ff;
+    
+    --color-white: #ffffff;
+    --color-black: #000000;
+
+    --font-poppins: "Poppins", sans-serif;
+    --font-title: 700;
+    --font-body: 400;
+ */
+
 * {
   margin: 0;
   padding: 0;
-}
-
-:root {
-  --tangelo: #F5550Eff;
-  --air-superiority-blue: #76A7BEff;
-  --yinmn-blue: #0D5189ff;
-  --dark-slate-gray: #243D3Dff;
-  --oxford-blue: #0C1A37ff;
 }
 
 body {
   width: 100dvw;
   height: 100dvh;
   overflow: hidden;
-  background: radial-gradient(circle, var(--air-superiority-blue), var(--yinmn-blue)90.8%);
+  background: radial-gradient(circle, var(--color-air-superiority-blue), var(--color-yinmn-blue)90.8%);
 }
 
-.bg-lights{
+.bg-lights {
   z-index: -99;
   top: 0;
   left: 0;
@@ -32,5 +41,7 @@ body {
 }
 
 @keyframes bg-move-animation {
-  100% { background-position: 50px 50px; }
+  100% {
+    background-position: 50px 50px;
+  }
 }
