@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Auth.css';
+import LogoImage from '../../assets/images/logo_v1_1024x1024.png'
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -11,6 +12,7 @@ const Login = () => {
 
     return (
         <div className="auth-container">
+            <img src={LogoImage} alt="" />
             <h2>Iniciar Sesión</h2>
             <input
                 type="email"

@@ -15,6 +15,11 @@
     --font-body: 400;
  */
 
+img {
+    width: 200px;
+    border-radius: 50%;
+}
+
 .auth-container {
     height: 100vh;
     display: flex;
@@ -43,10 +48,12 @@
     padding: 10px 20px;
     border: none;
     background-color: var(--color-yinmn-blue);
-    color: white;
+    color: var(--color-white);
     border-radius: 5px;
     cursor: pointer;
     margin: 5px;
 }
 
-.auth-container button:hover {}
+.auth-container button:hover {
+    filter: brightness(1.2);
+}
