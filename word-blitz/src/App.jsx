@@ -7,7 +7,7 @@ function App() {
   return (
     <>
       <div className='bg-lights'></div>
-
+    <ClassicMode />
       <Login />
       <Register />
     </>
