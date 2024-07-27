@@ -1,0 +1,51 @@
+@import '../styles/variables.css';
+
+/* 
+    --color-tangelo: #F5550Eff;
+    --color-air-superiority-blue: #76A7BEff;
+    --color-yinmn-blue: #0D5189ff;
+    --color-dark-slate-gray: #243D3Dff;
+    --color-oxford-blue: #0C1A37ff;
+    
+    --color-white: #ffffff;
+    --color-white-44: #ffffff70;
+    --color-black: #000000;
+
+    --font-poppins: "Poppins", sans-serif;
+    --font-title: 700;
+    --font-body: 400;
+ */
+
+.menu-container {
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100dvh;
+}
+
+.menu-container img {
+    width: 220px;
+    transform: translateX(-5px);
+}
+
+h1 {
+    text-shadow: 0px -1px 0px var(--color-white-44);
+    color: var(--color-yinmn-blue);
+}
+
+.play-button {
+    background-color: var(--color-yinmn-blue);
+    text-shadow: 2px 1px 0px var(--color-dark-slate-gray);
+    color: var(--color-white);
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.play-button:hover {
+    background-color: var(--color-oxford-blue);
+}

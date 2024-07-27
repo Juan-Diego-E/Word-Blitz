@@ -8,6 +8,7 @@
     --color-oxford-blue: #0C1A37ff;
     
     --color-white: #ffffff;
+    --color-white-44: #ffffff70;
     --color-black: #000000;
 
     --font-poppins: "Poppins", sans-serif;
@@ -18,6 +19,7 @@
 * {
   margin: 0;
   padding: 0;
+  font-family: var(--font-poppins);
 }
 
 body {
@@ -35,12 +37,12 @@ body {
   height: 100dvh;
   position: absolute;
   background: url('https://www.toptal.com/designers/subtlepatterns/uploads/tic-tac-toe.png') repeat 0 0;
-  animation: bg-move-animation 10s infinite;
+  animation: bg-animation 10s infinite;
   animation-timing-function: linear;
   mix-blend-mode: color-burn;
 }
 
-@keyframes bg-move-animation {
+@keyframes bg-animation {
   100% {
     background-position: 50px 50px;
   }
