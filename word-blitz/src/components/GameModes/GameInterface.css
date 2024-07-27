@@ -1,0 +1,114 @@
+@import '../../styles/variables.css';
+
+/* 
+    --color-tangelo: #F5550Eff;
+    --color-air-superiority-blue: #76A7BEff;
+    --color-yinmn-blue: #0D5189ff;
+    --color-dark-slate-gray: #243D3Dff;
+    --color-oxford-blue: #0C1A37ff;
+    
+    --color-white: #ffffff;
+    --color-black: #000000;
+
+    --font-poppins: "Poppins", sans-serif;
+    --font-title: 700;
+    --font-body: 400;
+ */
+
+
+.game-interface {
+    text-align: center;
+    margin-top: 20px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: var(--color-dark-slate-gray);
+    color: var(--color-white);
+}
+
+.left,
+.center,
+.right {
+    flex: 1;
+}
+
+.body {
+    margin-top: 20px;
+}
+
+.player-name {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.card {
+    width: 200px;
+    height: 300px;
+    margin: 0 auto;
+    background-color: var(--color-air-superiority-blue);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card-back {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-white);
+}
+
+.logo {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.watermark {
+    font-size: 16px;
+    opacity: 0.5;
+}
+
+footer {
+    margin-top: 20px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+.judgement-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+.judgement-buttons button {
+    margin: 0 10px;
+    padding: 10px 20px;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.yes-button {
+    background-color: green;
+    color: var(--color-white);
+    border: none;
+    border-radius: 5px;
+}
+
+.no-button {
+    background-color: red;
+    color: var(--color-white);
+    border: none;
+    border-radius: 5px;
+}

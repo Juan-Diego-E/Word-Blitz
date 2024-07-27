@@ -1,0 +1,37 @@
+@import '../../styles/variables.css';
+
+/* 
+    --color-tangelo: #F5550Eff;
+    --color-air-superiority-blue: #76A7BEff;
+    --color-yinmn-blue: #0D5189ff;
+    --color-dark-slate-gray: #243D3Dff;
+    --color-oxford-blue: #0C1A37ff;
+    
+    --color-white: #ffffff;
+    --color-black: #000000;
+
+    --font-poppins: "Poppins", sans-serif;
+    --font-title: 700;
+    --font-body: 400;
+ */
+
+.game-mode-selection {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.mode-button {
+    font-size: 18px;
+    padding: 10px 20px;
+    margin: 10px;
+    background-color: var(--color-air-superiority-blue);
+    border: none;
+    border-radius: 5px;
+    color: var(--color-white);
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.mode-button:hover {
+    background-color: var(--color-yinmn-blue);
+}
