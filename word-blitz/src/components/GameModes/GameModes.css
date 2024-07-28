@@ -15,11 +15,6 @@
     --font-body: 400;
  */
 
-.game-mode-selection {
-    text-align: center;
-    margin-top: 50px;
-}
-
 .mode-button {
     font-size: 18px;
     padding: 10px 20px;

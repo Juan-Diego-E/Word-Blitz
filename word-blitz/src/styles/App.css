@@ -27,25 +27,24 @@
 
 .menu-container img {
     width: 220px;
-    transform: translateX(-5px);
-}
-
-h1 {
-    text-shadow: 0px -1px 0px var(--color-white-44);
-    color: var(--color-yinmn-blue);
+    transform: translateX(-7px);
+    margin-bottom: 40px;
 }
 
 .play-button {
-    background-color: var(--color-yinmn-blue);
     text-shadow: 2px 1px 0px var(--color-dark-slate-gray);
     color: var(--color-white);
     font-size: 1.5rem;
     padding: 10px 20px;
     border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    transition: 0.3s ease-in-out;
+    background-color: var(--color-air-superiority-blue);
+    outline: 2px solid var(--color-white-44);
+    border-radius: 8px;
 }
 
 .play-button:hover {
-    background-color: var(--color-oxford-blue);
+    outline: 2px solid var(--color-white);
+    background-color: var(--color-air-superiority-blue);
+    border-radius: 6px;
 }
