@@ -39,31 +39,6 @@ h1 {
     font-size: 2.2rem;
 }
 
-.btn-return {
-    margin: 20px 0px 0px;
-    padding: 0px 6px;
-    transition: 0.3s ease-in-out;
-    background-color: var(--color-white-44);
-    outline: 2px solid var(--color-white-44);
-    border-radius: 8px;
-    font-size: 1.8rem;
-}
-
-.btn-return:hover {
-    background-color: var(--color-air-superiority-blue);
-    outline: 2px solid var(--color-white);
-    border-radius: 6px;
-}
-
-.game-modes-container {
-    height: 80%;
-    width: 74%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-}
-
 .game-modes-list {
     width: 100%;
     height: 100%;

@@ -20,9 +20,9 @@ const SelectMode = () => {
                     <i className="bi bi-arrow-left-short"></i>
                 </button>
             </nav>
-            <div className='game-modes-container'>
+            <div className="game-modes-container">
                 <h1>Modo de Juego</h1>
-                <ul className='game-modes-list'>
+                <ul className="game-modes-list">
                     <li className="game-mode">
                         <button onClick={startClassicMode}>Clásico</button>
                     </li>

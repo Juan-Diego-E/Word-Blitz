@@ -8,6 +8,7 @@
     --color-oxford-blue: #0C1A37ff;
     
     --color-white: #ffffff;
+    --color-white-44: #ffffff70;
     --color-black: #000000;
 
     --font-poppins: "Poppins", sans-serif;
@@ -15,28 +16,78 @@
     --font-body: 400;
  */
 
+/* * {
+    outline: 1px solid red;
+} */
+
+nav {
+    width: 100%;
+}
+
+h2 {
+    text-shadow: 0px -1px 0px var(--color-white-44);
+    color: var(--color-yinmn-blue);
+    font-size: 2.2rem;
+}
+
 .classic-mode {
+    height: 100dvh;
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.classic-game-mode-container {
+    height: 80%;
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
-    margin-top: 20px;
 }
 
 .config-section {
-    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin: 3px 0;
+    font-size: 1.2rem;
+}
+
+.config-section:nth-child(2) button, .config-section:nth-child(1) button{
+    visibility: hidden;
+}
+
+.player-add-section{
+    display: flex;
+    align-items: center;
+}
+
+.classic-game-mode-container ul{
+    min-width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
 input {
-    padding: 5px;
-    margin-left: 10px;
+    padding: 6px 0px;
 }
 
+
 button {
-    padding: 5px 10px;
-    background-color: var(--color-air-superiority-blue);
-    border: none;
-    border-radius: 5px;
+    box-shadow: 0px 0px 1px 1px var(--color-white-44);
+    background-color: var(--color-white-44);
     color: var(--color-white);
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    border-radius: 8px;
+    border: none;
+    margin: 10px;
+    padding: 2px 8px;
+    font-size: 1.2rem;
+    box-shadow: none;
 }
 
 button:hover {
