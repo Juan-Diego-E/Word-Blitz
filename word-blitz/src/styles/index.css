@@ -47,3 +47,7 @@ body {
     background-position: 50px 50px;
   }
 }
+
+button{
+  cursor: pointer;
+}
