@@ -31,7 +31,6 @@ section{
 
 nav{
     width: 100%;
-    margin-bottom: 10px;
 }
 
 h1 {
@@ -41,12 +40,13 @@ h1 {
 }
 
 .btn-return{
-    margin: 10px;
+    margin: 20px 0px 0px;
+    padding: 0px 6px;
     transition: 0.3s ease-in-out;
     background-color: var(--color-white-44);
     outline: 2px solid var(--color-white-44);
     border-radius: 8px;
-    font-size: 1.2rem;
+    font-size: 1.8rem;
 }
 .btn-return:hover{
     background-color: var(--color-air-superiority-blue);

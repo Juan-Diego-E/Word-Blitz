@@ -17,7 +17,7 @@ const SelectMode = () => {
         <section>
             <nav>
                 <button onClick={navigateBack} className="btn-return">
-                    <i className="bi bi-arrow-return-left"></i>
+                    <i className="bi bi-arrow-left-short"></i>
                 </button>
             </nav>
             <div className='game-modes-container'>
