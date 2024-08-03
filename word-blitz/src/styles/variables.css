@@ -7,9 +7,14 @@
     --color-dark-slate-gray: #243D3Dff;
     --color-oxford-blue: #0C1A37ff;
     
+    --color-green: #00aa009f;
+    --color-red: #ff2b2b91;
+
     --color-white: #ffffff;
-    --color-white-44: #ffffff70;
     --color-black: #000000;
+    
+    --color-white-44: #ffffff70;
+    --color-black-44: #00000070;
 
     --font-poppins: "Poppins", sans-serif;
     --font-title: 700;

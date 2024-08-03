@@ -10,7 +10,7 @@ const ClassicMode = () => {
     };
 
     const [players, setPlayers] = useState([]);
-    const [playerName, setPlayerName] = useState('Jugador 1');
+    const [playerName, setPlayerName] = useState('Jugador');
     const [timer, setTimer] = useState(30);
     const [wordLimit, setWordLimit] = useState(10);
     const [isGameStarted, setIsGameStarted] = useState(false);
@@ -18,7 +18,7 @@ const ClassicMode = () => {
     const addPlayer = () => {
         if (playerName) {
             setPlayers([...players, playerName]);
-            setPlayerName('Jugador 1');
+            setPlayerName('Jugador');
         }
     };
 

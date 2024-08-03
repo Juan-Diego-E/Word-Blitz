@@ -8,6 +8,7 @@
     --color-oxford-blue: #0C1A37ff;
     
     --color-white: #ffffff;
+    --color-white-44: #ffffff70;
     --color-black: #000000;
 
     --font-poppins: "Poppins", sans-serif;
@@ -15,18 +16,25 @@
     --font-body: 400;
  */
 
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes spin {
+    from {
+        --angle: 0deg;
+    }
+
+    to {
+        --angle: 360deg;
+    }
+}
 
 .game-interface {
     text-align: center;
-    margin-top: 20px;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    background-color: var(--color-dark-slate-gray);
-    color: var(--color-white);
+    user-select: none;
 }
 
 .left,
@@ -35,47 +43,12 @@ header {
     flex: 1;
 }
 
-.body {
-    margin-top: 20px;
-}
-
-.player-name {
-    font-size: 24px;
-    margin-bottom: 20px;
-}
-
-.card {
-    width: 200px;
-    height: 300px;
-    margin: 0 auto;
-    background-color: var(--color-air-superiority-blue);
+header {
     display: flex;
     justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.card:hover {
-    transform: scale(1.05);
-}
-
-.card-back {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    color: var(--color-white);
-}
-
-.logo {
-    font-size: 24px;
-    margin-bottom: 10px;
-}
-
-.watermark {
-    font-size: 16px;
-    opacity: 0.5;
+    color: var(--color-black);
+    /* height: 80px; */
+    font-size: 1.4rem;
 }
 
 footer {
@@ -87,27 +60,150 @@ ul {
     padding: 0;
 }
 
+.left {
+    align-self: center;
+}
+
+.left span {
+    background-color: var(--color-air-superiority-blue);
+    width: 50px;
+    height: 50px;
+    margin: 30px 20px 0px auto;
+    border-radius: 18px;
+    display: grid;
+    place-items: center;
+    position: relative;
+    transition: 0.4s linear;
+    font-size: 1.8rem;
+}
+
+.left span::after,
+.left span::before {
+    content: '';
+    position: absolute;
+    background-image: conic-gradient(from var(--angle), #ff4545, #00ff99, #006aff, #ff0095, #ff4545);
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    border-radius: 20px;
+    padding: 4px;
+    opacity: 0.4;
+    animation: 10s spin linear infinite;
+}
+
+.left span::before {
+    filter: blur(1rem);
+    opacity: 0.5;
+}
+
+.center {
+    background: var(--color-white-44);
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    transform: translateY(-40px);
+    height: 80px;
+    border-radius: 50%;
+}
+
+.center span {
+    margin-bottom: 4px;
+}
+
+.right{
+    align-self: center;
+    text-align: start;
+}
+
+.body {
+    margin-top: 8px;
+}
+
+.player-name {
+    font-weight: var(--font-title);
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    color: var(--color-white);
+    text-shadow: 1px 1px 10px var(--color-black-44);
+}
+
+.card {
+    background-color: var(--color-air-superiority-blue);
+    width: 200px;
+    height: 300px;
+    margin: 0 auto;
+    border-radius: 18px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.4s linear;
+    position: relative;
+}
+
+.card::after,
+.card::before {
+    content: '';
+    position: absolute;
+    background-image: conic-gradient(from var(--angle), #ff4545, #00ff99, #006aff, #ff0095, #ff4545);
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+    border-radius: 20px;
+    padding: 4px;
+    opacity: 0.4;
+    animation: 10s spin linear infinite;
+}
+
+.card::before {
+    filter: blur(1rem);
+    opacity: 0.5;
+}
+
+.card:hover {
+    background: #c5d3cf86;
+}
+
+
+.card-back {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--color-white-44);
+}
+
+.logo img {
+    width: 80%;
+    transform: translateX(-4px);
+    opacity: 0.7;
+    margin: 10%;
+}
+
+body .category {
+    font-size: 1.4rem;
+}
+
 .judgement-buttons {
     display: flex;
     justify-content: center;
 }
 
 .judgement-buttons button {
-    margin: 0 10px;
-    padding: 10px 20px;
-    font-size: 18px;
+    margin: 0 20px;
+    padding: 0 10px;
+    font-size: 2.4rem;
     cursor: pointer;
 }
 
 .yes-button {
-    background-color: green;
+    background-color: var(--color-green);
     color: var(--color-white);
-    border: none;
     border-radius: 5px;
 }
 
 .no-button {
-    background-color: red;
+    background-color: var(--color-red);
     color: var(--color-white);
     border: none;
     border-radius: 5px;

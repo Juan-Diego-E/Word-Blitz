@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './GameInterface.css';
+import LogoImage from '../../assets/images/logo_v1_1024x1024.png'
 
 const GameInterface = ({ players, timer, wordLimit }) => {
     const [currentPlayer, setCurrentPlayer] = useState(0);
@@ -7,7 +8,7 @@ const GameInterface = ({ players, timer, wordLimit }) => {
     const [category, setCategory] = useState('');
     const [timeLeft, setTimeLeft] = useState(timer);
 
-    const categories = ['Frutas', 'Animales', 'Países', 'Colores']; // Ejemplo de categorías
+    const categories = ['Fruta', 'Mamifero', 'País', 'Color', 'Deporte', 'Animal Acuatico', 'Ave']; // Ejemplo de categorías
 
     const nextPlayer = () => {
         setCurrentPlayer((prev) => (prev + 1) % players.length);
@@ -38,10 +39,20 @@ const GameInterface = ({ players, timer, wordLimit }) => {
     return (
         <div className="game-interface">
             <header>
-                <div className="left">{players[currentPlayer].charAt(0)}</div>
-                <div className="center">{timeLeft}s</div>
+                <div className="left">
+                    <span>
+                        {players[currentPlayer].charAt(0)}
+                    </span>
+                </div>
+                <div className="center">
+                    <span>
+                        {timeLeft}s
+                    </span>
+                </div>
                 <div className="right">
-                    <button className="settings-button">⚙️</button>
+                    <button className="settings-button">
+                        <i className="bi bi-gear-fill"></i>
+                    </button>
                 </div>
             </header>
             <div className="body">
@@ -51,24 +62,26 @@ const GameInterface = ({ players, timer, wordLimit }) => {
                         <div className="category">{category}</div>
                     ) : (
                         <div className="card-back">
-                            <div className="logo">Word Blitz</div>
+                            <div className="watermark">Toca para voltear</div>
+                            <div className="logo"><img src={LogoImage} /></div>
                             <div className="watermark">Toca para voltear</div>
                         </div>
                     )}
                 </div>
             </div>
             <footer>
-                {/* Ranking temporal o botones de "SI" y "NO" según el estado del juego */}
+                {/* Ranking temporal o botones de "check" y "x" según el estado del juego */}
                 {!showCategory ? (
                     <ul>
+                        <h2>Ranking</h2>
                         {players.map((player, index) => (
-                            <li key={index}>{player}</li>
+                            <li key={index}>{index+1}: {player}</li>
                         ))}
                     </ul>
                 ) : (
                     <div className="judgement-buttons">
-                        <button className="yes-button">SI</button>
-                        <button className="no-button">NO</button>
+                        <button className="yes-button"><i className="bi bi-check"></i></button>
+                        <button className="no-button"><i className="bi bi-x"></i></button>
                     </div>
                 )}
             </footer>
