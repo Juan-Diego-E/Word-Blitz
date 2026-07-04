@@ -1,1 +1,0 @@
-// Configura y exporta la tienda de Redux.

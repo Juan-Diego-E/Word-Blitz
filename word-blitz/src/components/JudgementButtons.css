@@ -1,0 +1,32 @@
+.judgement {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-4);
+  width: 100%;
+  max-width: 420px;
+}
+.judgement__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding: var(--sp-4);
+  border-radius: var(--radius-md);
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  border: 1px solid var(--color-white-22);
+  backdrop-filter: var(--glass-blur);
+  transition: transform 0.12s ease, background 0.2s ease, opacity 0.2s ease;
+}
+.judgement__btn:disabled { opacity: 0.4; cursor: not-allowed; }
+.judgement__btn:not(:disabled):active { transform: scale(0.96); }
+.judgement__btn--si {
+  background: var(--color-green-soft);
+  border-color: var(--color-green);
+  color: #d5ffd5;
+}
+.judgement__btn--no {
+  background: var(--color-red-soft);
+  border-color: var(--color-red);
+  color: #ffd9d9;
+}

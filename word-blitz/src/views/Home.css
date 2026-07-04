@@ -1,0 +1,35 @@
+.home {
+  justify-content: center;
+  text-align: center;
+}
+.home__logo {
+  margin: 0;
+  font-size: var(--fs-hero);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-shadow: 0 10px 40px #0d5189aa;
+}
+.home__logo-accent { color: var(--color-tangelo); }
+.home__tagline {
+  max-width: 34ch;
+  margin: 0;
+  color: var(--color-white-70);
+  font-size: var(--fs-lg);
+  text-wrap: balance;
+}
+.home__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-4);
+}
+.home__cta {
+  font-size: var(--fs-xl);
+  padding: var(--sp-4) var(--sp-8);
+}
+.home__tv-link {
+  margin-top: var(--sp-6);
+  font-size: var(--fs-sm);
+}

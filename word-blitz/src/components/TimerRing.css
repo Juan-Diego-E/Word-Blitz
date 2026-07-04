@@ -1,0 +1,21 @@
+.timer-ring {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+.timer-ring svg { display: block; }
+.timer-ring__progress { transition: stroke-dashoffset 0.2s linear, stroke 0.3s ease; }
+.timer-ring__value {
+  position: absolute;
+  font-weight: 700;
+  font-size: 1.4rem;
+  font-variant-numeric: tabular-nums;
+}
+.timer-ring--tv .timer-ring__value { font-size: 3.4rem; }
+.timer-ring--urgent .timer-ring__value {
+  color: var(--color-red);
+  animation: timer-pulse 1s ease infinite;
+}
+@keyframes timer-pulse {
+  50% { transform: scale(1.15); }
+}

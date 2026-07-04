@@ -1,22 +1,59 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-
+/* Design tokens — paleta de BRAND.md */
 :root {
-    --color-tangelo: #F5550Eff;
-    --color-air-superiority-blue: #76A7BEff;
-    --color-yinmn-blue: #0D5189ff;
-    --color-dark-slate-gray: #243D3Dff;
-    --color-oxford-blue: #0C1A37ff;
-    
-    --color-green: #00aa009f;
-    --color-red: #ff2b2b91;
+  /* Color */
+  --color-tangelo: #f5550e;
+  --color-tangelo-soft: #f5550e33;
+  --color-blue-air: #76a7be;
+  --color-blue-yinmn: #0d5189;
+  --color-slate: #243d3d;
+  --color-oxford: #0c1a37;
+  --color-green: #00aa00;
+  --color-green-soft: #00aa0040;
+  --color-red: #ff2b2b;
+  --color-red-soft: #ff2b2b40;
+  --color-white: #ffffff;
+  --color-white-70: #ffffff70;
+  --color-white-44: #ffffff44;
+  --color-white-22: #ffffff22;
+  --color-white-12: #ffffff1f;
+  --color-black-70: #00000070;
 
-    --color-white: #ffffff;
-    --color-black: #000000;
-    
-    --color-white-44: #ffffff70;
-    --color-black-44: #00000070;
+  /* Tipografía */
+  --font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.25rem;
+  --fs-xl: 1.75rem;
+  --fs-2xl: 2.5rem;
+  --fs-hero: clamp(3rem, 12vw, 6rem);
 
-    --font-poppins: "Poppins", sans-serif;
-    --font-title: 700;
-    --font-body: 400;
+  /* Espaciado y radios */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-8: 3rem;
+  --radius-sm: 0.6rem;
+  --radius-md: 1rem;
+  --radius-lg: 1.6rem;
+  --radius-pill: 999px;
+
+  /* Glass */
+  --glass-bg: linear-gradient(160deg, #ffffff24, #ffffff0d);
+  --glass-border: 1px solid var(--color-white-22);
+  --glass-blur: blur(14px);
+  --shadow-soft: 0 10px 34px #00000045;
+
+  /* Táctil */
+  --tap-min: 44px;
+}
+
+/* Ángulo animable del borde cónico (conservado del look original) */
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
 }

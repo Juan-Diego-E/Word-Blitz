@@ -1,0 +1,39 @@
+.roulette {
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--glass-bg);
+  border: var(--glass-border);
+  backdrop-filter: var(--glass-blur);
+  box-shadow: var(--shadow-soft);
+  position: relative;
+}
+
+.roulette--control { width: 76px; height: 76px; }
+.roulette--tv { width: clamp(140px, 18vw, 240px); height: clamp(140px, 18vw, 240px); }
+
+.roulette__letter {
+  font-weight: 700;
+  line-height: 1;
+  font-size: 2.2rem;
+}
+.roulette--tv .roulette__letter { font-size: clamp(4rem, 9vw, 7.5rem); }
+
+.roulette--spinning .roulette__letter {
+  color: var(--color-blue-air);
+}
+
+.roulette--settled {
+  border-color: var(--color-tangelo);
+  box-shadow: 0 0 0 3px var(--color-tangelo-soft), 0 0 34px #f5550e66;
+}
+.roulette--settled .roulette__letter {
+  color: var(--color-tangelo);
+  animation: letter-pop 0.35s ease;
+}
+
+@keyframes letter-pop {
+  0% { transform: scale(0.6); }
+  60% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}

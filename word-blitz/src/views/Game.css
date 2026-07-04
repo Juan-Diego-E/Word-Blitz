@@ -1,0 +1,108 @@
+.game { gap: var(--sp-4); }
+
+.game__header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--sp-3);
+  width: 100%;
+  max-width: 480px;
+}
+.game__header-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-1);
+}
+.game__progress {
+  font-size: var(--fs-sm);
+  color: var(--color-white-70);
+}
+.game__room {
+  font-size: var(--fs-xs);
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--color-white-12);
+  border: 1px solid var(--color-white-22);
+  letter-spacing: 0.15em;
+}
+.game__header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+.game__settings-btn {
+  font-size: 1.3rem;
+  border-radius: 50%;
+  background: var(--color-white-12);
+  border: 1px solid var(--color-white-22);
+}
+
+.game__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-3);
+}
+.game__timeout {
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4);
+  border-color: var(--color-red);
+  text-align: center;
+  animation: timeout-in 0.3s ease;
+  max-width: 340px;
+}
+@keyframes timeout-in {
+  from { opacity: 0; transform: translateY(8px); }
+}
+.game__rule-hint {
+  margin: 0;
+  font-size: var(--fs-xs);
+  color: var(--color-white-44);
+  text-align: center;
+}
+
+.game--over { justify-content: center; }
+.game__over-title {
+  margin: 0;
+  font-size: var(--fs-2xl);
+  text-align: center;
+  text-wrap: balance;
+}
+.game__over-actions {
+  display: flex;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.game--over .podium { max-width: 480px; }
+
+.game__settings {
+  border: var(--glass-border);
+  color: var(--color-white);
+  padding: var(--sp-5);
+  max-width: 380px;
+  width: calc(100% - 2 * var(--sp-5));
+}
+.game__settings::backdrop { background: #0c1a37cc; backdrop-filter: blur(4px); }
+.game__settings h2 { margin: 0 0 var(--sp-4); }
+.game__settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-5);
+}
+.game__settings input {
+  padding: var(--sp-2);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-white-22);
+  background: var(--color-white-12);
+  color: var(--color-white);
+}
+.game__settings-actions {
+  display: flex;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}

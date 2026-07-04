@@ -1,0 +1,194 @@
+@import './variables.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  color: var(--color-white);
+  background-color: var(--color-oxford);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---- Fondo animado: gradiente radial + patrón "tatetí" local (CSS puro) ---- */
+.bg-lights {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(120% 90% at 50% 0%, var(--color-blue-yinmn) 0%, var(--color-oxford) 62%, #060d1f 100%);
+}
+
+.bg-lights::before {
+  content: '';
+  position: absolute;
+  inset: -120px;
+  --line: #76a7be2e;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 26px, var(--line) 26px 29px,
+      transparent 29px 66px, var(--line) 66px 69px,
+      transparent 69px 120px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent 0 26px, var(--line) 26px 29px,
+      transparent 29px 66px, var(--line) 66px 69px,
+      transparent 69px 120px
+    );
+  mix-blend-mode: color-burn;
+  animation: bg-drift 60s linear infinite;
+}
+
+.bg-lights::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(60% 45% at 50% 110%, #f5550e14 0%, transparent 70%);
+}
+
+@keyframes bg-drift {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(120px, 120px, 0); }
+}
+
+/* ---- Glass ---- */
+.glass {
+  background: var(--glass-bg);
+  border: var(--glass-border);
+  border-radius: var(--radius-lg);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Borde con gradiente cónico animado (acento premium, se usa con criterio) */
+.glow-border {
+  position: relative;
+}
+.glow-border::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  z-index: -1;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--angle),
+    var(--color-blue-air),
+    var(--color-tangelo),
+    var(--color-blue-yinmn),
+    var(--color-blue-air)
+  );
+  animation: spin-angle 6s linear infinite;
+  filter: blur(6px);
+  opacity: 0.85;
+}
+@keyframes spin-angle {
+  to { --angle: 360deg; }
+}
+
+/* ---- Base de controles ---- */
+button {
+  font-family: inherit;
+  font-size: var(--fs-md);
+  color: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  min-height: var(--tap-min);
+  min-width: var(--tap-min);
+}
+
+input,
+select {
+  font-family: inherit;
+  font-size: var(--fs-md);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-tangelo);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3) var(--sp-6);
+  border-radius: var(--radius-pill);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+}
+.btn:active { transform: scale(0.97); }
+
+.btn-primary {
+  background: var(--color-tangelo);
+  color: #fff;
+  box-shadow: 0 8px 26px #f5550e55;
+}
+.btn-primary:hover { box-shadow: 0 10px 32px #f5550e77; }
+
+.btn-secondary {
+  background: var(--color-white-12);
+  border: 1px solid var(--color-white-22);
+  color: var(--color-white);
+  backdrop-filter: var(--glass-blur);
+}
+.btn-secondary:hover { background: var(--color-white-22); }
+
+.btn-ghost {
+  color: var(--color-white-70);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ---- Utilitarios ---- */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.view {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--sp-5);
+  gap: var(--sp-5);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+[data-reduced-motion='true'] *,
+[data-reduced-motion='true'] *::before,
+[data-reduced-motion='true'] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}

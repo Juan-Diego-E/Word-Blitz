@@ -1,0 +1,12 @@
+.turn-banner {
+  margin: 0;
+  padding: var(--sp-2) var(--sp-5);
+  border-radius: var(--radius-pill);
+  background: var(--color-white-12);
+  border: 1px solid var(--color-white-22);
+  backdrop-filter: var(--glass-blur);
+  font-size: var(--fs-md);
+  color: var(--color-white-70);
+}
+.turn-banner strong { color: var(--color-white); }
+.turn-banner--tv { font-size: clamp(1.4rem, 3vw, 2.4rem); padding: var(--sp-3) var(--sp-6); }

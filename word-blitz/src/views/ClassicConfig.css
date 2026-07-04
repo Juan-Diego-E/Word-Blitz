@@ -1,0 +1,105 @@
+.classic-config h1 {
+  margin: 0;
+  font-size: var(--fs-2xl);
+  text-align: center;
+}
+.config-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+  width: 100%;
+  max-width: 480px;
+  padding: var(--sp-5);
+}
+.config-form__section {
+  border: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+.config-form__section legend {
+  font-weight: 700;
+  font-size: var(--fs-lg);
+  padding: 0;
+  margin-bottom: var(--sp-2);
+}
+.config-form input[type='text'],
+.config-form input[type='number'],
+.config-form select {
+  width: 100%;
+  padding: var(--sp-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-white-22);
+  background: var(--color-white-12);
+  color: var(--color-white);
+  min-height: var(--tap-min);
+}
+.config-form input::placeholder { color: var(--color-white-44); }
+.config-form__player {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: center;
+}
+.config-form__remove {
+  flex: none;
+  border-radius: var(--radius-md);
+  background: var(--color-red-soft);
+  border: 1px solid var(--color-red);
+}
+.config-form__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+.config-form__row label { flex: 1; }
+.config-form__row select { max-width: 180px; }
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+.stepper input {
+  width: 74px !important;
+  text-align: center;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.stepper input::-webkit-outer-spin-button,
+.stepper input::-webkit-inner-spin-button { -webkit-appearance: none; }
+.stepper button {
+  border-radius: var(--radius-md);
+  background: var(--color-white-12);
+  border: 1px solid var(--color-white-22);
+  font-size: var(--fs-lg);
+}
+.config-form__code {
+  max-width: 140px;
+  text-align: center;
+  font-size: var(--fs-lg);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+}
+.config-form__hint {
+  margin: 0;
+  color: var(--color-white-70);
+  font-size: var(--fs-sm);
+}
+.config-form__status { margin: 0; font-size: var(--fs-sm); color: var(--color-white-70); }
+.config-form__status--ok { color: #9be89b; }
+.config-form__status--err { color: #ffb3b3; }
+.config-form__errors {
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: var(--radius-md);
+  background: var(--color-red-soft);
+  border: 1px solid var(--color-red);
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  font-size: var(--fs-sm);
+}
+.config-form__submit { font-size: var(--fs-lg); }

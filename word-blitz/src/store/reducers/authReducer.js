@@ -1,1 +1,0 @@
-// Reductor de Redux para la autenticación.
