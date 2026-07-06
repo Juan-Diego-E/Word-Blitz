@@ -29,7 +29,7 @@
   border-color: var(--color-tangelo);
 }
 .mode-card--disabled { opacity: 0.55; }
-.mode-card__icon { font-size: 2rem; }
+.mode-card__icon { color: var(--color-tangelo); }
 .mode-card__name { font-size: var(--fs-lg); font-weight: 700; }
 .mode-card__desc { color: var(--color-white-70); font-size: var(--fs-sm); }
 .mode-card__badge {

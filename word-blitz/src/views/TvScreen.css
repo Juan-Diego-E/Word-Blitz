@@ -3,11 +3,13 @@
 .tv--waiting { justify-content: center; text-align: center; }
 .tv__logo {
   margin: 0;
-  font-size: var(--fs-hero);
-  font-weight: 700;
-  line-height: 1;
+  line-height: 0;
 }
-.tv__logo-accent { color: var(--color-tangelo); }
+.tv__logo img {
+  width: clamp(220px, 26vw, 380px);
+  height: auto;
+  filter: drop-shadow(0 14px 40px #0c1a3766);
+}
 .tv__join {
   display: flex;
   flex-direction: column;
@@ -52,7 +54,7 @@
   width: 100%;
   max-width: 1400px;
 }
-.tv__brand { font-weight: 700; font-size: var(--fs-lg); color: var(--color-white-70); }
+.tv__brand { width: 84px; height: auto; }
 .tv__room {
   padding: var(--sp-1) var(--sp-4);
   border-radius: var(--radius-pill);
@@ -75,6 +77,13 @@
   align-items: center;
   gap: var(--sp-3);
 }
+.tv__timeout-icon,
+.tv__over-trophy {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.12em;
+}
+.tv__over-trophy { color: #f0b429; }
 .tv__timeout {
   margin: 0;
   font-size: clamp(1.4rem, 3vw, 2.4rem);

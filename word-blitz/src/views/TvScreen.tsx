@@ -3,6 +3,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import QRCode from 'qrcode';
+import { AlarmClock, Trophy } from 'lucide-react';
+import logo from '../assets/logo.png';
 import { Card } from '../components/Card';
 import { PlayerTurnBanner } from '../components/PlayerTurnBanner';
 import { Podium } from '../components/Podium';
@@ -39,7 +41,7 @@ export function TvScreen() {
     return (
       <main className="view tv tv--waiting">
         <h1 className="tv__logo">
-          Word<span className="tv__logo-accent">Blitz</span>
+          <img src={logo} alt="Word Blitz" width={640} height={640} />
         </h1>
         <div className="tv__join glass glow-border">
           <p className="tv__join-label">Código de sala</p>
@@ -63,7 +65,9 @@ export function TvScreen() {
     const winner = [...st.players].sort((a, b) => b.puntaje - a.puntaje)[0];
     return (
       <main className="view tv tv--over">
-        <h1 className="tv__over-title">🏆 ¡Ganó {winner.nombre}!</h1>
+        <h1 className="tv__over-title">
+          <Trophy aria-hidden="true" className="tv__over-trophy" /> ¡Ganó {winner.nombre}!
+        </h1>
         <Podium players={st.players} size="tv" title="Podio final" />
       </main>
     );
@@ -72,7 +76,7 @@ export function TvScreen() {
   return (
     <main className="view tv">
       <header className="tv__header">
-        <span className="tv__brand">WordBlitz</span>
+        <img src={logo} alt="Word Blitz" className="tv__brand" width={640} height={640} />
         <span className="tv__room">Sala {session.code}</span>
       </header>
 
@@ -88,7 +92,9 @@ export function TvScreen() {
             size="tv"
           />
           {st.phase === 'timeout' && (
-            <p className="tv__timeout" role="status">⏰ ¡Tiempo!</p>
+            <p className="tv__timeout" role="status">
+              <AlarmClock aria-hidden="true" className="tv__timeout-icon" /> ¡Tiempo!
+            </p>
           )}
           {st.phase === 'idle' && (
             <p className="tv__idle-hint">Esperando la próxima carta…</p>

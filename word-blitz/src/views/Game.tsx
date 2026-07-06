@@ -2,6 +2,7 @@
 // regresiva + ajustes, jugador en turno, carta, SÍ/NO y ranking temporal.
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
+import { AlarmClock, Settings, Trophy, Tv } from 'lucide-react';
 import { Card } from '../components/Card';
 import { JudgementButtons } from '../components/JudgementButtons';
 import { PlayerTurnBanner } from '../components/PlayerTurnBanner';
@@ -59,7 +60,9 @@ export function Game() {
     const winner = [...g.players].sort((a, b) => b.puntaje - a.puntaje)[0];
     return (
       <main className="view game game--over">
-        <h1 className="game__over-title">🏆 ¡Ganó {winner.nombre}!</h1>
+        <h1 className="game__over-title">
+          <Trophy aria-hidden="true" className="game__over-trophy" /> ¡Ganó {winner.nombre}!
+        </h1>
         <Podium players={g.players} size="tv" title="Podio final" />
         <div className="game__over-actions">
           <button
@@ -100,7 +103,7 @@ export function Game() {
           <span className="game__progress">{cardsLabel}</span>
           {session.status === 'connected' && (
             <span className="game__room" aria-label={`Conectado a la sala ${session.code}`}>
-              📺 {session.code}
+              <Tv size={14} aria-hidden="true" /> {session.code}
             </span>
           )}
         </div>
@@ -112,7 +115,7 @@ export function Game() {
             onClick={() => setShowSettings(true)}
             aria-label="Ajustes de la partida"
           >
-            ⚙️
+            <Settings aria-hidden="true" />
           </button>
         </div>
       </header>
@@ -128,7 +131,8 @@ export function Game() {
         />
         {g.phase === 'timeout' && (
           <p className="game__timeout glass" role="status">
-            ⏰ ¡Tiempo! Le toca a <strong>{nextPlayer.nombre}</strong> con la misma carta.
+            <AlarmClock aria-hidden="true" className="game__timeout-icon" /> ¡Tiempo! Le toca a{' '}
+            <strong>{nextPlayer.nombre}</strong> con la misma carta.
           </p>
         )}
       </div>

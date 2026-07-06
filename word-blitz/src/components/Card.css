@@ -2,6 +2,31 @@
   perspective: 1000px;
   padding: 0;
   border-radius: var(--radius-lg);
+  position: relative;
+}
+
+/* Borde cónico arcoíris original de la carta */
+.card::before,
+.card::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  z-index: -1;
+  border-radius: calc(var(--radius-lg) + 4px);
+  background: conic-gradient(
+    from var(--angle),
+    #ff4545, #00ff99, #006aff, #ff0095, #ff4545
+  );
+  opacity: 0.4;
+  animation: spin-angle 10s linear infinite;
+}
+.card::before {
+  filter: blur(1rem);
+  opacity: 0.5;
+}
+
+.card:not(:disabled):hover .card__face--back {
+  background: var(--color-white-22);
 }
 .card--control { width: min(78vw, 300px); aspect-ratio: 3 / 4; }
 .card--tv { width: clamp(280px, 30vw, 460px); aspect-ratio: 3 / 4; }
@@ -37,11 +62,9 @@
   background: linear-gradient(160deg, #0d518955, #0c1a3799), var(--glass-bg);
 }
 .card__logo {
-  font-size: 3rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--color-blue-air);
-  text-shadow: 0 4px 18px #0d5189aa;
+  width: 62%;
+  height: auto;
+  filter: drop-shadow(0 6px 18px #0c1a3766);
 }
 .card__hint {
   color: var(--color-white-70);
@@ -49,7 +72,7 @@
 }
 
 .card__face--front { transform: rotateY(180deg); }
-.card__icon { font-size: 3rem; }
+.card__icon { font-size: 3rem; color: var(--color-tangelo); }
 .card--tv .card__icon { font-size: clamp(3.5rem, 6vw, 5.5rem); }
 .card__category {
   font-size: var(--fs-xl);

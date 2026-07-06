@@ -4,13 +4,13 @@
 }
 .home__logo {
   margin: 0;
-  font-size: var(--fs-hero);
-  font-weight: 700;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  text-shadow: 0 10px 40px #0d5189aa;
+  line-height: 0;
 }
-.home__logo-accent { color: var(--color-tangelo); }
+.home__logo img {
+  width: clamp(200px, 55vw, 340px);
+  height: auto;
+  filter: drop-shadow(0 14px 40px #0c1a3766);
+}
 .home__tagline {
   max-width: 34ch;
   margin: 0;

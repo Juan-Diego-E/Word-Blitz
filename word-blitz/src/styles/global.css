@@ -16,52 +16,27 @@ body {
   margin: 0;
   font-family: var(--font-family);
   color: var(--color-white);
-  background-color: var(--color-oxford);
+  /* Gradiente original del proyecto (conservado a pedido del dueño) */
+  background: radial-gradient(circle, var(--color-blue-air), var(--color-blue-yinmn) 90.8%);
+  background-attachment: fixed;
+  /* overflow: hidden bloquearía el scroll en pantallas largas (config);
+     con overflow-x alcanza para evitar el scroll horizontal. */
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ---- Fondo animado: gradiente radial + patrón "tatetí" local (CSS puro) ---- */
+/* ---- Fondo animado: patrón tic-tac-toe local (asset propio, sin CDN) ---- */
 .bg-lights {
   position: fixed;
   inset: 0;
-  z-index: -1;
-  background:
-    radial-gradient(120% 90% at 50% 0%, var(--color-blue-yinmn) 0%, var(--color-oxford) 62%, #060d1f 100%);
-}
-
-.bg-lights::before {
-  content: '';
-  position: absolute;
-  inset: -120px;
-  --line: #76a7be2e;
-  background-image:
-    repeating-linear-gradient(
-      0deg,
-      transparent 0 26px, var(--line) 26px 29px,
-      transparent 29px 66px, var(--line) 66px 69px,
-      transparent 69px 120px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent 0 26px, var(--line) 26px 29px,
-      transparent 29px 66px, var(--line) 66px 69px,
-      transparent 69px 120px
-    );
+  z-index: -99;
+  background: url('../assets/tic-tac-toe.webp') repeat 0 0;
   mix-blend-mode: color-burn;
-  animation: bg-drift 60s linear infinite;
+  animation: bg-animation 10s linear infinite;
 }
 
-.bg-lights::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(60% 45% at 50% 110%, #f5550e14 0%, transparent 70%);
-}
-
-@keyframes bg-drift {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(120px, 120px, 0); }
+@keyframes bg-animation {
+  100% { background-position: 50px 50px; }
 }
 
 /* ---- Glass ---- */
@@ -74,26 +49,26 @@ body {
   box-shadow: var(--shadow-soft);
 }
 
-/* Borde con gradiente cónico animado (acento premium, se usa con criterio) */
-.glow-border {
-  position: relative;
-}
-.glow-border::before {
+/* Borde cónico arcoíris animado (conservado del look original).
+   Dos capas: ::after = anillo nítido, ::before = halo difuminado. */
+.glow-border { position: relative; }
+.glow-border::before,
+.glow-border::after {
   content: '';
   position: absolute;
-  inset: -2px;
+  inset: -4px;
   z-index: -1;
-  border-radius: inherit;
+  border-radius: calc(var(--radius-lg) + 4px);
   background: conic-gradient(
     from var(--angle),
-    var(--color-blue-air),
-    var(--color-tangelo),
-    var(--color-blue-yinmn),
-    var(--color-blue-air)
+    #ff4545, #00ff99, #006aff, #ff0095, #ff4545
   );
-  animation: spin-angle 6s linear infinite;
-  filter: blur(6px);
-  opacity: 0.85;
+  opacity: 0.4;
+  animation: spin-angle 10s linear infinite;
+}
+.glow-border::before {
+  filter: blur(1rem);
+  opacity: 0.5;
 }
 @keyframes spin-angle {
   to { --angle: 360deg; }

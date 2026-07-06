@@ -19,6 +19,9 @@
   color: var(--color-white-70);
 }
 .game__room {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   font-size: var(--fs-xs);
   padding: 2px 10px;
   border-radius: var(--radius-pill);
@@ -32,7 +35,8 @@
   gap: var(--sp-2);
 }
 .game__settings-btn {
-  font-size: 1.3rem;
+  display: grid;
+  place-items: center;
   border-radius: 50%;
   background: var(--color-white-12);
   border: 1px solid var(--color-white-22);
@@ -63,6 +67,18 @@
 }
 
 .game--over { justify-content: center; }
+.game__over-trophy {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.12em;
+  color: #f0b429;
+}
+.game__timeout-icon {
+  width: 1.1em;
+  height: 1.1em;
+  vertical-align: -0.2em;
+  color: var(--color-red);
+}
 .game__over-title {
   margin: 0;
   font-size: var(--fs-2xl);

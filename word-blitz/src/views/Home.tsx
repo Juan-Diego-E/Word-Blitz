@@ -5,6 +5,7 @@ import { loadGameSnapshot } from '../lib/persistence';
 import { useGameStore } from '../store/gameStore';
 import { usePageTitle } from '../hooks/usePageTitle';
 import type { GameSnapshot } from '../types';
+import logo from '../assets/logo.png';
 import './Home.css';
 
 export function Home() {
@@ -29,7 +30,7 @@ export function Home() {
   return (
     <main className="view home">
       <h1 className="home__logo">
-        Word<span className="home__logo-accent">Blitz</span>
+        <img src={logo} alt="Word Blitz" width={640} height={640} />
       </h1>
       <p className="home__tagline">{meta.tagline}</p>
 

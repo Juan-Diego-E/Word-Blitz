@@ -26,7 +26,7 @@ export function getCategoriasActivas(idioma: Idioma = 'es', dificultad?: Dificul
   );
 }
 
-export async function addCategoriaCustom(nombre: string, icono = '✏️'): Promise<Categoria> {
+export async function addCategoriaCustom(nombre: string, icono = 'message-circle'): Promise<Categoria> {
   const slug = nombre
     .toLowerCase()
     .normalize('NFD')

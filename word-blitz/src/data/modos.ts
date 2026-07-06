@@ -7,7 +7,7 @@ export const modosBase: Modo[] = [
     nombre: 'Clásico',
     descripcion: 'Letra, categoría y tiempo. El de siempre, para jugar en ronda.',
     habilitado: true,
-    icono: '🎴',
+    icono: 'layers',
     reglas: { usaTimer: true, usaLetra: true, puntosPorAcierto: 1, rebote: true },
   },
   {
@@ -16,7 +16,7 @@ export const modosBase: Modo[] = [
     nombre: 'Palabra Diaria',
     descripcion: 'Un desafío nuevo cada día.',
     habilitado: false,
-    icono: '📅',
+    icono: 'calendar-days',
     reglas: {},
   },
   {
@@ -25,7 +25,7 @@ export const modosBase: Modo[] = [
     nombre: 'Infinito',
     descripcion: 'Sin límite de rondas: hasta que aguante la mesa.',
     habilitado: false,
-    icono: '♾️',
+    icono: 'infinity',
     reglas: {},
   },
   {
@@ -34,7 +34,7 @@ export const modosBase: Modo[] = [
     nombre: 'Multijugador',
     descripcion: 'Cada uno con su celu, todos contra todos.',
     habilitado: false,
-    icono: '📱',
+    icono: 'smartphone',
     reglas: {},
   },
   {
@@ -43,7 +43,7 @@ export const modosBase: Modo[] = [
     nombre: 'Contrarreloj',
     descripcion: 'Cuántas palabras te salen antes de que suene la chicharra.',
     habilitado: false,
-    icono: '⏱️',
+    icono: 'timer',
     reglas: {},
   },
 ];

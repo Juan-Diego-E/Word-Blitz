@@ -28,6 +28,22 @@
   background: var(--color-tangelo-soft);
   border: 1px solid var(--color-tangelo);
 }
+.podium__pos {
+  display: grid;
+  place-items: center;
+  width: 1.9rem;
+  height: 1.9rem;
+  border-radius: 50%;
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  background: var(--color-white-22);
+  color: var(--color-white);
+}
+.podium__pos--1 { background: #f0b429; color: #3a2b00; }
+.podium__pos--2 { background: #c8d2dc; color: #29323c; }
+.podium__pos--3 { background: #c98a52; color: #3d2410; }
+.podium--tv .podium__pos { width: 2.6rem; height: 2.6rem; font-size: var(--fs-md); }
+
 .podium__name {
   overflow: hidden;
   text-overflow: ellipsis;

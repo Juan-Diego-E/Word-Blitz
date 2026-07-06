@@ -1,4 +1,5 @@
 // SÍ / NO del moderador, con feedback de color y vibración opcional.
+import { Check, X } from 'lucide-react';
 import { useSettingsStore } from '../store/settingsStore';
 import './JudgementButtons.css';
 
@@ -21,7 +22,7 @@ export function JudgementButtons({ onJudge, disabled }: Props) {
         onClick={() => judge(false)}
         disabled={disabled}
       >
-        <span aria-hidden="true">✕</span> No
+        <X aria-hidden="true" strokeWidth={3} /> No
       </button>
       <button
         type="button"
@@ -29,7 +30,7 @@ export function JudgementButtons({ onJudge, disabled }: Props) {
         onClick={() => judge(true)}
         disabled={disabled}
       >
-        <span aria-hidden="true">✓</span> ¡Sí!
+        <Check aria-hidden="true" strokeWidth={3} /> ¡Sí!
       </button>
     </div>
   );

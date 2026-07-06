@@ -7,7 +7,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'favicon-32.png', 'apple-touch-icon.png', 'og-image.png'],
+      includeAssets: ['favicon.ico', 'favicon-32.png', 'apple-touch-icon.png', 'og-image.png'],
       workbox: {
         // Cachear también Google Fonts para que Poppins funcione offline.
         runtimeCaching: [

@@ -67,6 +67,14 @@ El canal solo transporta estado efímero del juego (sin datos personales).
   interval con cleanup — testeado contra el bug histórico de intervalos
   apilados.
 - **PWA**: `vite-plugin-pwa`, contenido local y fuentes cacheadas offline.
-- **Fondo animado**: patrón "tatetí" en CSS puro (`styles/global.css`), sin CDN.
+- **Fondo animado**: el gradiente y el patrón tic-tac-toe originales, con el
+  asset localizado en `src/assets/tic-tac-toe.webp` (sin CDN). El borde cónico
+  arcoíris original vive en la carta (`Card.css`) y en `.glow-border`.
+- **Íconos**: SVG vía `lucide-react`, referenciados por nombre desde la capa de
+  datos (`icono: 'paw-print'`) y resueltos en `components/Icon.tsx` — render
+  consistente en cualquier dispositivo (sin emojis).
+- **Logo**: `src/assets/logo.png` (UI) y derivados en `public/` (favicons, PWA,
+  OG). Para actualizar el logo: reemplazá el PNG maestro y regenerá los íconos.
+  Ojo: la v1 dice "WORD BLTZ" (sin la I).
 - **Fase 3**: modos futuros tipados en `data/modos.ts` y ruteados a un
   placeholder (`views/ComingSoon.tsx`).
