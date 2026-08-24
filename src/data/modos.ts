@@ -11,6 +11,15 @@ export const modosBase: Modo[] = [
     reglas: { usaTimer: true, usaLetra: true, puntosPorAcierto: 1, rebote: true },
   },
   {
+    id: 'modo-1000-nombres',
+    slug: '1000-nombres',
+    nombre: '1000 Nombres',
+    descripcion: 'Tablero con peones: acertá para avanzar. Primero en llegar a la META gana.',
+    habilitado: true,
+    icono: 'flag',
+    reglas: { usaTimer: true, usaLetra: true, tablero: true },
+  },
+  {
     id: 'modo-palabra-diaria',
     slug: 'palabra-diaria',
     nombre: 'Palabra Diaria',

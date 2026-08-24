@@ -1,0 +1,7 @@
+Sin alterar los patrones de diseño, quisiera que añadas un nuevo modo de juego en el cual exista un tablero con letras aleatorias al igual que el juego de mesa "1000 nombres"(adjunto imagen real del tablero de ejemplo).
+
+Este tablero representará mediante su interfaz las distintas posibilidades de letras, el limite visual definido para todos los jugadores. También se deberán asignar "peones" a cada jugador. Estos peones, tendrán un color distinto y representarán la casilla en la cual se encuentra cada jugador en tiempo real.
+
+
+
+Si tienes alguna duda, antes de proceder, házmelo saber.

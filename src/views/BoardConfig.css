@@ -1,0 +1,57 @@
+/* Config del Modo 1000 Nombres. Reutiliza `.config-form` del Clásico
+   (importada global desde ClassicConfig.css) y agrega su propio afinado. */
+@import '../views/ClassicConfig.css';
+
+.board-config h1 {
+  margin: 0;
+  font-size: var(--fs-2xl);
+  text-align: center;
+}
+
+.board-config__pawn {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid #ffffffcc;
+  box-shadow: 0 2px 6px #00000055, inset 0 -2px 4px #00000033;
+}
+
+.board-config__layouts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: var(--sp-2);
+}
+
+.board-config__layout {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: var(--sp-3);
+  border-radius: var(--radius-md);
+  background: var(--color-white-12);
+  border: 1px solid var(--color-white-22);
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+.board-config__layout:hover { background: var(--color-white-22); }
+.board-config__layout input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  cursor: pointer;
+}
+.board-config__layout--selected {
+  border-color: var(--color-tangelo);
+  background: linear-gradient(160deg, #f5550e33, #f5550e11);
+  transform: translateY(-1px);
+}
+.board-config__layout-name {
+  font-weight: 700;
+  font-size: var(--fs-md);
+}
+.board-config__layout-desc {
+  color: var(--color-white-70);
+  font-size: var(--fs-xs);
+}

@@ -26,6 +26,7 @@ export interface Letra {
 
 export type ModoSlug =
   | 'clasico'
+  | '1000-nombres'
   | 'palabra-diaria'
   | 'infinito'
   | 'multijugador'
@@ -87,6 +88,59 @@ export interface GameSnapshot {
   startedAt: number;
 }
 
+// ---- Modo 1000 Nombres (tablero con peones) ----
+
+export type BoardLayoutId = 'abecedario' | 'facil' | 'intermedio' | 'dificil' | 'extremo' | 'aleatorio';
+
+export interface BoardLayoutDef {
+  id: BoardLayoutId;
+  nombre: string;
+  descripcion: string;
+  /** Letras fijas para este layout. Ignorado si `aleatorio`. */
+  letras?: string[];
+  /** Tamaño usado cuando el layout es aleatorio. */
+  tamano?: number;
+}
+
+/** Colores de peón asignados por orden de jugador. */
+export const PAWN_COLORS = [
+  '#f5550e', // tangelo
+  '#0d5189', // blue-yinmn
+  '#00aa00', // green
+  '#ffcf3f', // amarillo
+  '#c02cff', // violeta
+  '#00c9c9', // cian
+  '#ff2b8f', // rosa
+  '#7a5230', // marrón
+] as const;
+
+export interface BoardPlayer extends Player {
+  color: string;
+  /** Índice de la casilla actual en el tablero (0 = START, `boardLetters.length-1` = META). */
+  position: number;
+}
+
+export type BoardPhase =
+  | 'idle'      // esperando voltear la carta / pedir palabra
+  | 'spinning'  // carta volteando
+  | 'revealed'  // categoría visible, timer corriendo
+  | 'timeout'
+  | 'finished';
+
+/** Snapshot serializable para persistencia y TV. */
+export interface BoardSnapshot {
+  players: BoardPlayer[];
+  turnIndex: number;
+  boardLetters: string[];
+  layoutId: BoardLayoutId;
+  currentCategory: Pick<Categoria, 'id' | 'nombre' | 'icono'> | null;
+  phase: BoardPhase;
+  timerSeconds: number;
+  deadline: number | null;
+  startedAt: number;
+  winnerId: string | null;
+}
+
 // ---- Sala TV ----
 
 export type RoomRole = 'host' | 'tv';
@@ -96,4 +150,5 @@ export type RoomMessage =
   | { type: 'hello-host'; code: string }
   | { type: 'hello-tv'; code: string }
   | { type: 'state'; code: string; state: GameSnapshot }
+  | { type: 'board-state'; code: string; state: BoardSnapshot }
   | { type: 'bye'; code: string; from: RoomRole };

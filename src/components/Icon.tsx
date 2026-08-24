@@ -2,7 +2,7 @@
 // Reemplaza a los emojis: render consistente entre dispositivos.
 import {
   AlarmClock, Armchair, BookUser, Briefcase, Building2, Bus, CalendarDays,
-  Check, CircleHelp, Clapperboard, CookingPot, CupSoda, Dumbbell, Flower2,
+  Check, CircleHelp, Clapperboard, CookingPot, CupSoda, Dumbbell, Flag, Flower2,
   Ghost, Globe, Guitar, Hand, Infinity as InfinityIcon, Languages, Layers,
   MessageCircle, Music, Palette, PawPrint, Salad, Settings, Shirt, Smartphone,
   Star, Tag, Timer, Trophy, Tv, Umbrella, User, Utensils, Wrench, X,
@@ -22,6 +22,7 @@ const icons: Record<string, LucideIcon> = {
   'cooking-pot': CookingPot,
   'cup-soda': CupSoda,
   dumbbell: Dumbbell,
+  flag: Flag,
   'flower-2': Flower2,
   ghost: Ghost,
   globe: Globe,

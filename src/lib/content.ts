@@ -5,13 +5,16 @@
 import { categoriasBase } from '../data/categorias';
 import { letrasBase } from '../data/letras';
 import { modosBase } from '../data/modos';
+import { layoutsBase, buildBoardLetters } from '../data/boards';
 import { appMeta, gameDefaults } from '../data/defaults';
-import type { Categoria, Dificultad, Idioma, Letra, Modo } from '../types';
+import type { BoardLayoutDef, Categoria, Dificultad, Idioma, Letra, Modo } from '../types';
 import { getCategoriasCustom, saveCategoriaCustom } from './persistence';
 
 export const getAppMeta = () => appMeta;
 export const getGameDefaults = () => gameDefaults;
 export const getModos = (): Modo[] => modosBase;
+export const getBoardLayouts = (): BoardLayoutDef[] => layoutsBase;
+export const getBoardLetters = (id: string): string[] => buildBoardLetters(id);
 
 let customCache: Categoria[] = [];
 

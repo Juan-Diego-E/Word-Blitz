@@ -1,0 +1,158 @@
+/* Vista del Modo 1000 Nombres. Reutiliza layouts y estilos del Clásico
+   donde tiene sentido y agrega afinado para el tablero. */
+@import '../views/Game.css';
+
+.board-game { gap: var(--sp-4); }
+
+.board-game__header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--sp-3);
+  width: 100%;
+  max-width: 900px;
+}
+.board-game__header-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-1);
+}
+.board-game__progress {
+  font-size: var(--fs-sm);
+  color: var(--color-white-70);
+}
+.board-game__room {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--fs-xs);
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  background: var(--color-white-12);
+  border: 1px solid var(--color-white-22);
+  letter-spacing: 0.15em;
+}
+.board-game__header-right {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+.board-game__settings-btn {
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-white-12);
+  border: 1px solid var(--color-white-22);
+}
+
+/* Letra objetivo (izq del header): destaca la letra de la casilla siguiente. */
+.board-game__letter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 56px;
+  padding: var(--sp-1) var(--sp-3);
+  border-radius: var(--radius-md);
+  background: linear-gradient(160deg, #f5550e55, #f5550e22);
+  border: 1px solid var(--color-tangelo);
+  box-shadow: 0 6px 20px #f5550e40;
+}
+.board-game__letter-label {
+  font-size: var(--fs-xs);
+  color: var(--color-white-70);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.board-game__letter-value {
+  font-size: var(--fs-xl);
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* La carta central en el tablero achica en control para no tapar casillas. */
+.board-game__center-card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.board-game__center-card .card--control {
+  width: min(100%, 240px);
+  aspect-ratio: 3 / 4;
+  max-height: 100%;
+}
+
+.board-game__timeout {
+  margin: 0;
+  padding: var(--sp-3) var(--sp-4);
+  border-color: var(--color-red);
+  text-align: center;
+  animation: timeout-in 0.3s ease;
+  max-width: 480px;
+}
+.board-game__timeout-icon {
+  width: 1.1em;
+  height: 1.1em;
+  vertical-align: -0.2em;
+  color: var(--color-red);
+}
+.board-game__rule-hint {
+  margin: 0;
+  font-size: var(--fs-xs);
+  color: var(--color-white-44);
+  text-align: center;
+}
+
+.board-game--over { justify-content: center; }
+.board-game--over .podium { max-width: 480px; }
+.board-game__over-title {
+  margin: 0;
+  font-size: var(--fs-2xl);
+  text-align: center;
+  text-wrap: balance;
+}
+.board-game__over-trophy {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.12em;
+  color: #f0b429;
+}
+.board-game__over-actions {
+  display: flex;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Diálogo de ajustes (mismo skin que el Clásico). */
+.board-game__settings {
+  border: var(--glass-border);
+  color: var(--color-white);
+  padding: var(--sp-5);
+  max-width: 380px;
+  width: calc(100% - 2 * var(--sp-5));
+}
+.board-game__settings::backdrop { background: #0c1a37cc; backdrop-filter: blur(4px); }
+.board-game__settings h2 { margin: 0 0 var(--sp-4); }
+.board-game__settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-5);
+}
+.board-game__settings input {
+  padding: var(--sp-2);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-white-22);
+  background: var(--color-white-12);
+  color: var(--color-white);
+}
+.board-game__settings-actions {
+  display: flex;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}

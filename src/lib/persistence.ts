@@ -1,10 +1,12 @@
 // IndexedDB (categorías custom, partida en curso) + localStorage (preferencias).
-import type { Categoria, GameSnapshot } from '../types';
+import type { BoardSnapshot, Categoria, GameSnapshot } from '../types';
 
 const DB_NAME = 'word-blitz';
-const DB_VERSION = 1;
+// v2 agrega el store `tablero` para el Modo 1000 Nombres.
+const DB_VERSION = 2;
 const STORE_CATS = 'categoriasCustom';
 const STORE_GAME = 'partida';
+const STORE_BOARD = 'tablero';
 
 function openDb(): Promise<IDBDatabase> {
   return new Promise((resolve, reject) => {
@@ -16,6 +18,9 @@ function openDb(): Promise<IDBDatabase> {
       }
       if (!db.objectStoreNames.contains(STORE_GAME)) {
         db.createObjectStore(STORE_GAME);
+      }
+      if (!db.objectStoreNames.contains(STORE_BOARD)) {
+        db.createObjectStore(STORE_BOARD);
       }
     };
     req.onsuccess = () => resolve(req.result);
@@ -63,6 +68,20 @@ export const loadGameSnapshot = (): Promise<GameSnapshot | undefined> =>
 
 export const clearGameSnapshot = (): Promise<unknown> =>
   tx(STORE_GAME, 'readwrite', (s) => s.delete(GAME_KEY)).catch(() => undefined);
+
+// --- Partida en curso del Modo 1000 Nombres ---
+const BOARD_KEY = 'actual';
+
+export const saveBoardSnapshot = (snap: BoardSnapshot): Promise<unknown> =>
+  tx(STORE_BOARD, 'readwrite', (s) => s.put(snap, BOARD_KEY)).catch(() => undefined);
+
+export const loadBoardSnapshot = (): Promise<BoardSnapshot | undefined> =>
+  tx(STORE_BOARD, 'readonly', (s) => s.get(BOARD_KEY) as IDBRequest<BoardSnapshot | undefined>).catch(
+    () => undefined,
+  );
+
+export const clearBoardSnapshot = (): Promise<unknown> =>
+  tx(STORE_BOARD, 'readwrite', (s) => s.delete(BOARD_KEY)).catch(() => undefined);
 
 // --- Preferencias (localStorage) ---
 const PREFS_KEY = 'wb-prefs';

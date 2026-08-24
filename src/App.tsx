@@ -6,6 +6,8 @@ import { Home } from './views/Home';
 import { SelectMode } from './views/SelectMode';
 import { ClassicConfig } from './views/ClassicConfig';
 import { Game } from './views/Game';
+import { BoardConfig } from './views/BoardConfig';
+import { BoardGame } from './views/BoardGame';
 import { TvScreen } from './views/TvScreen';
 import { JoinRedirect } from './views/JoinRedirect';
 import { ComingSoon } from './views/ComingSoon';
@@ -30,6 +32,8 @@ export function App() {
         <Route path="/jugar" element={<SelectMode />} />
         <Route path="/clasico" element={<ClassicConfig />} />
         <Route path="/partida" element={<Game />} />
+        <Route path="/1000-nombres" element={<BoardConfig />} />
+        <Route path="/1000-nombres/partida" element={<BoardGame />} />
         <Route path="/tv" element={<TvScreen />} />
         <Route path="/unirse/:code" element={<JoinRedirect />} />
         <Route path="/:slug" element={<ComingSoon />} />
