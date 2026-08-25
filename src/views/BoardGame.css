@@ -17,7 +17,7 @@
 }
 
 /* PlayerTurnBanner ocupa una fila propia arriba de todo. */
-.board-game .player-turn-banner {
+.board-game .turn-banner {
   align-self: center;
 }
 
@@ -294,22 +294,36 @@
   .board-game__board-slot .board-track { --track-max-h: min(72dvh, 620px); }
 }
 
-/* Ajustes muy chicos (celu horizontal <= 480px de alto): compactar más
-   para que board + carta + botones entren en la vista. */
-@media (orientation: landscape) and (max-height: 480px) {
-  .board-game { gap: var(--sp-2); padding: var(--sp-2); }
-  .board-game__stage { gap: var(--sp-3); }
-  .board-game .player-turn-banner { font-size: var(--fs-md); }
-  .board-game__letter { min-width: 60px; padding: var(--sp-1) var(--sp-3); }
-  .board-game__letter-value { font-size: var(--fs-lg); }
-  /* Nota: no forzamos `width` de la carta acá — la carta vive en el
-     centro del tablero y se dimensiona sola con `cq*` contra el hueco. */
-  .board-game__board-slot .board-track { --track-max-h: max(42dvh, 170px); }
-  .board-game__info-slot,
-  .board-game__podium-slot {
-    max-height: calc(100dvh - 70px);
+/* Landscape corto (celu horizontal <= 600px de alto): columnas laterales
+   más finas para que el tablero central tenga espacio real. */
+@media (orientation: landscape) and (max-width: 1100px) and (max-height: 600px) {
+  .board-game__stage {
+    grid-template-columns:
+      minmax(140px, 180px)
+      minmax(0, 1fr)
+      minmax(140px, 180px);
+    gap: var(--sp-3);
   }
-  .board-game__board-slot { max-height: calc(100dvh - 70px); overflow-y: auto; }
+  .board-game__podium-slot .podium { padding: var(--sp-3); }
+  .board-game__podium-slot .podium__title { font-size: var(--fs-md); }
+  .board-game__podium-slot .podium__row {
+    padding: var(--sp-1) var(--sp-2);
+    font-size: var(--fs-sm);
+  }
+  .board-game__letter { min-width: 90px; padding: var(--sp-2) var(--sp-3); }
+  .board-game__letter-value { font-size: clamp(1.5rem, 4.5vw, 2.5rem); }
+  .board-game__info-top { gap: var(--sp-2); }
+  .board-game__info-meta { gap: var(--sp-2); }
+  .board-game__settings-btn { width: 40px; height: 40px; }
+}
+@media (orientation: landscape) and (max-height: 480px) {
+  .board-game { gap: var(--sp-1); padding: var(--sp-1) var(--sp-2); }
+  .board-game__stage { gap: var(--sp-2); }
+  .board-game .turn-banner { font-size: var(--fs-sm); }
+  .board-game__board-slot .board-track { --track-max-h: min(62dvh, 200px); }
+  .board-game__info-slot,
+  .board-game__podium-slot,
+  .board-game__board-slot { max-height: calc(100dvh - 44px); }
 }
 
 /* ============================================================
