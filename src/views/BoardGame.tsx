@@ -1,6 +1,7 @@
 // Vista control (celu del moderador) para el Modo 1000 Nombres.
-// Estructura pareja a `Game.tsx`: header con timer/ajustes, banner del turno,
-// tablero con carta central, botones SÍ/NO y podio con puntaje/posición.
+// Layout responsive con tres slots lógicos: podio (izq. en landscape),
+// tablero+carta (centro), info del turno (der. en landscape). En portrait
+// el orden se invierte por CSS (info arriba, tablero al medio, podio abajo).
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { AlarmClock, Settings, Trophy, Tv } from 'lucide-react';
@@ -18,6 +19,8 @@ import { useSessionStore } from '../store/sessionStore';
 import './BoardGame.css';
 
 const defaults = getGameDefaults();
+// Duración del flip de la carta (ver Card.css → transition 0.6s).
+const CARD_FLIP_MS = 620;
 
 export function BoardGame() {
   usePageTitle('1000 Nombres — Partida');
@@ -33,6 +36,15 @@ export function BoardGame() {
     if (!g.inProgress && g.players.length === 0) navigate('/1000-nombres', { replace: true });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [g.inProgress, g.players.length]);
+
+  // Sin ruleta en este modo: cuando arranca el "spinning" (flip de la carta),
+  // esperamos a que termine la animación y disparamos startRound() para
+  // pasar a "revealed" y arrancar el timer.
+  useEffect(() => {
+    if (g.phase !== 'spinning') return;
+    const t = window.setTimeout(() => useBoardGameStore.getState().startRound(), CARD_FLIP_MS);
+    return () => window.clearTimeout(t);
+  }, [g.phase]);
 
   useEffect(() => {
     if (g.phase !== 'timeout') return;
@@ -98,68 +110,80 @@ export function BoardGame() {
 
   return (
     <main className="view board-game">
-      <header className="board-game__header">
-        <div className="board-game__letter" aria-label={`Letra objetivo: ${targetLetter}`}>
-          <span className="board-game__letter-label">Letra</span>
-          <span className="board-game__letter-value">{targetLetter}</span>
-        </div>
-        <div className="board-game__header-center">
-          <span className="board-game__progress">
-            Casilla {current.position} de {total - 1}
-          </span>
-          {session.status === 'connected' && (
-            <span className="board-game__room" aria-label={`Conectado a la sala ${session.code}`}>
-              <Tv size={14} aria-hidden="true" /> {session.code}
-            </span>
-          )}
-        </div>
-        <div className="board-game__header-right">
-          <TimerRing seconds={g.phase === 'revealed' ? seconds : null} totalSeconds={g.timerSeconds} />
-          <button
-            type="button"
-            className="board-game__settings-btn"
-            onClick={() => setShowSettings(true)}
-            aria-label="Ajustes de la partida"
-          >
-            <Settings aria-hidden="true" />
-          </button>
-        </div>
-      </header>
-
       <PlayerTurnBanner nombre={current.nombre} />
 
-      <BoardTrack
-        letters={g.boardLetters}
-        players={g.players}
-        currentPlayerId={current.id}
-        targetCell={targetCell}
-      >
-        <div className="board-game__center-card">
-          <Card
-            category={g.currentCategory}
-            flipped={flipped}
-            onFlip={g.drawCard}
-            disabled={g.phase === 'spinning'}
-            size="control"
-          />
-        </div>
-      </BoardTrack>
+      <div className="board-game__stage">
+        {/* Podio (izq. en landscape, abajo en portrait) */}
+        <aside className="board-game__podium-slot" aria-label="Ranking">
+          <Podium players={g.players} currentPlayerId={current.id} title="Ranking" />
+        </aside>
 
-      {g.phase === 'timeout' && (
-        <p className="board-game__timeout glass" role="status">
-          <AlarmClock aria-hidden="true" className="board-game__timeout-icon" /> ¡Tiempo!{' '}
-          <strong>{current.nombre}</strong> se queda en su casilla.
-        </p>
-      )}
+        {/* Tablero + carta al centro. La carta va DENTRO del hueco central
+            del tablero; container queries en `.board-track__center` calculan
+            el tamaño máximo respetando la aspect-ratio 3/4 sin inflar el
+            grid del tablero. */}
+        <section className="board-game__board-slot">
+          <BoardTrack
+            letters={g.boardLetters}
+            players={g.players}
+            currentPlayerId={current.id}
+            targetCell={targetCell}
+          >
+            <div className="board-game__card-wrap">
+              <Card
+                category={g.currentCategory}
+                flipped={flipped}
+                onFlip={g.drawCard}
+                disabled={g.phase === 'spinning'}
+                size="control"
+              />
+            </div>
+          </BoardTrack>
 
-      <JudgementButtons onJudge={g.judge} disabled={g.phase !== 'revealed'} />
-      {g.phase === 'revealed' && (
-        <p className="board-game__rule-hint">
-          Palabra que empiece con <strong>{targetLetter}</strong> para avanzar a la próxima casilla.
-        </p>
-      )}
+          {g.phase === 'timeout' && (
+            <p className="board-game__timeout glass" role="status">
+              <AlarmClock aria-hidden="true" className="board-game__timeout-icon" /> ¡Tiempo!{' '}
+              <strong>{current.nombre}</strong> se queda en su casilla.
+            </p>
+          )}
 
-      <Podium players={g.players} currentPlayerId={current.id} title="Ranking" />
+          <JudgementButtons onJudge={g.judge} disabled={g.phase !== 'revealed'} />
+          {g.phase === 'revealed' && (
+            <p className="board-game__rule-hint">
+              Palabra que empiece con <strong>{targetLetter}</strong> para avanzar a la próxima casilla.
+            </p>
+          )}
+        </section>
+
+        {/* Info del turno (der. en landscape, arriba en portrait) */}
+        <aside className="board-game__info-slot" aria-label="Información del turno">
+          <div className="board-game__info-top">
+            <div className="board-game__letter" aria-label={`Letra objetivo: ${targetLetter}`}>
+              <span className="board-game__letter-label">Letra</span>
+              <span className="board-game__letter-value">{targetLetter}</span>
+            </div>
+            <TimerRing seconds={g.phase === 'revealed' ? seconds : null} totalSeconds={g.timerSeconds} />
+          </div>
+          <div className="board-game__info-meta">
+            <span className="board-game__progress">
+              Casilla {current.position} de {total - 1}
+            </span>
+            {session.status === 'connected' && (
+              <span className="board-game__room" aria-label={`Conectado a la sala ${session.code}`}>
+                <Tv size={14} aria-hidden="true" /> {session.code}
+              </span>
+            )}
+            <button
+              type="button"
+              className="board-game__settings-btn"
+              onClick={() => setShowSettings(true)}
+              aria-label="Ajustes de la partida"
+            >
+              <Settings aria-hidden="true" />
+            </button>
+          </div>
+        </aside>
+      </div>
 
       <dialog ref={settingsRef} className="board-game__settings glass" onClose={() => setShowSettings(false)}>
         <h2>Ajustes</h2>

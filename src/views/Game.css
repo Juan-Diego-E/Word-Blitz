@@ -98,7 +98,12 @@
   color: var(--color-white);
   padding: var(--sp-5);
   max-width: 380px;
-  width: calc(100% - 2 * var(--sp-5));
+  width: calc(100% - 2 * var(--sp-4));
+  /* En pantallas cortas (celu horizontal), el modal debe scrollear
+     internamente antes que salirse de la vista. */
+  max-height: calc(100dvh - 2 * var(--sp-4));
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 .game__settings::backdrop { background: #0c1a37cc; backdrop-filter: blur(4px); }
 .game__settings h2 { margin: 0 0 var(--sp-4); }
@@ -121,4 +126,27 @@
   gap: var(--sp-3);
   flex-wrap: wrap;
   justify-content: flex-end;
+}
+
+/* ============================================================
+   LANDSCAPE / TABLETS — Modo Clásico
+   Compactamos header (letras + tiempo arriba) y hacemos que la carta
+   no ocupe más alto del disponible. El podio limita altura y scrollea.
+   ============================================================ */
+@media (min-width: 900px),
+       (orientation: landscape) and (max-height: 600px) {
+  .game { gap: var(--sp-3); padding: var(--sp-3); }
+  .game__header { max-width: 720px; }
+  .game__stage .card--control { width: min(30vw, 48vh, 240px); }
+  .podium--control { max-height: 40dvh; overflow-y: auto; }
+}
+@media (orientation: landscape) and (max-height: 480px) {
+  .game { gap: var(--sp-2); padding: var(--sp-2); }
+  .game__stage .card--control { width: min(24vw, 40vh, 180px); }
+  .podium--control { max-height: 30dvh; }
+}
+
+/* Modal: en pantallas cortas asegurar scroll. */
+@media (max-height: 600px) {
+  .game__settings { max-height: calc(100dvh - var(--sp-3)); }
 }

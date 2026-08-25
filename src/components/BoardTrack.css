@@ -1,18 +1,34 @@
 /* Tablero perimetral. Cada casilla vive en una celda de una grilla
    cols×rows; el centro queda libre para el contenido del turno. */
 .board-track {
+  /* El tablero preserva su aspect-ratio y se auto-limita tanto por el
+     ancho del contenedor como por la altura disponible del slot. Sin
+     `width:100%`, el navegador puede usar la aspect-ratio para calcular
+     ambas dimensiones respetando `max-width` y `max-height`.
+     El truco `--track-max-h` puede ser sobreescrito por breakpoints. */
+  --track-max-h: 900px;
+  /* `width: 100%` deja el tablero fluir al ancho del contenedor
+     dentro de un límite. `max-width` con el min() clampa por la
+     altura permitida (multiplicando por la relación cols/rows) para
+     que el navegador respete aspect-ratio en ambos ejes. */
   width: 100%;
-  max-width: 900px;
+  max-width: min(100%, calc(var(--track-max-h) * var(--board-cols) / var(--board-rows)));
+  height: auto;
+  max-height: var(--track-max-h);
   aspect-ratio: var(--board-cols) / var(--board-rows);
   display: grid;
-  grid-template-columns: repeat(var(--board-cols), 1fr);
-  grid-template-rows: repeat(var(--board-rows), 1fr);
+  /* `minmax(0, 1fr)` evita que el contenido intrínseco de las celdas
+     empuje los tracks y rompa la aspect-ratio del tablero. */
+  grid-template-columns: repeat(var(--board-cols), minmax(0, 1fr));
+  grid-template-rows: repeat(var(--board-rows), minmax(0, 1fr));
   gap: 4px;
   padding: 10px;
   border-radius: var(--radius-lg);
   background: linear-gradient(160deg, #0d51894d, #76a7be33);
   border: 1px solid var(--color-white-22);
   box-shadow: var(--shadow-soft);
+  margin-inline: auto;
+  min-width: 0;
 }
 
 .board-track--tv {
@@ -33,6 +49,11 @@
   font-weight: 700;
   font-size: clamp(0.9rem, 2.5vw, 1.6rem);
   transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  /* Necesarios para que el contenido no fuerce el crecimiento de las
+     filas y el aspect-ratio del tablero se respete. */
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .board-track--tv .board-track__cell {
@@ -105,12 +126,20 @@
   50%      { filter: brightness(1.35); }
 }
 
-/* ---- Centro ---- */
+/* ---- Centro ----
+   `position: relative` + hijos absolute permite que la carta se dimensione
+   contra el hueco central SIN inflar los tracks del grid (y por tanto sin
+   romper la aspect-ratio del tablero). `container-type: size` habilita a
+   los descendientes usar `cqw`/`cqh` para calcular sus propias medidas
+   respetando la aspect-ratio contra el ancho y alto del hueco. */
 .board-track__center {
+  position: relative;
+  container-type: size;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--sp-3);
+  padding: 0;
   min-width: 0;
   min-height: 0;
+  overflow: hidden;
 }

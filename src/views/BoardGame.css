@@ -1,23 +1,96 @@
-/* Vista del Modo 1000 Nombres. Reutiliza layouts y estilos del Clásico
-   donde tiene sentido y agrega afinado para el tablero. */
-@import '../views/Game.css';
+/* Vista del Modo 1000 Nombres.
+   Estructura lógica en el DOM: podio → tablero+carta → info.
+   Layout responsive:
+   - Portrait (default): stack vertical con la INFO arriba (letra + tiempo),
+     el tablero+carta al medio y el podio abajo. Usamos `order` para que
+     coincida con la lectura natural del usuario.
+   - Landscape / ≥900px de ancho: 3 columnas, orden natural del DOM
+     (podio izq., tablero centro, info der.). */
 
-.board-game { gap: var(--sp-4); }
+.board-game {
+  gap: var(--sp-3);
+  padding: var(--sp-4);
+  align-items: stretch;
+  /* En pantallas altas el contenido queda vertical-centrado para que
+     el tablero no flote arriba con mucho espacio muerto abajo. */
+  justify-content: center;
+}
 
-.board-game__header {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
+/* PlayerTurnBanner ocupa una fila propia arriba de todo. */
+.board-game .player-turn-banner {
+  align-self: center;
+}
+
+/* ---- Stage: contenedor de los 3 slots ---- */
+.board-game__stage {
+  display: flex;
+  flex-direction: column;
   gap: var(--sp-3);
   width: 100%;
-  max-width: 900px;
+  align-items: stretch;
 }
-.board-game__header-center {
+
+/* Portrait: reordenar visualmente sin tocar el DOM.
+   info arriba (1) → tablero (2) → podio (3). */
+.board-game__info-slot   { order: 1; }
+.board-game__board-slot  { order: 2; }
+.board-game__podium-slot { order: 3; }
+
+.board-game__board-slot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  align-items: center;
+  min-width: 0;
+}
+
+/* ---- INFO SLOT ---- */
+.board-game__info-slot {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  align-items: center;
+}
+.board-game__info-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-4);
+  width: 100%;
+  flex-wrap: wrap;
+}
+.board-game__info-meta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+}
+
+/* Letra objetivo grande y con acento. */
+.board-game__letter {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--sp-1);
+  min-width: 64px;
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--radius-md);
+  background: linear-gradient(160deg, #f5550e55, #f5550e22);
+  border: 1px solid var(--color-tangelo);
+  box-shadow: 0 6px 20px #f5550e40;
 }
+.board-game__letter-label {
+  font-size: var(--fs-xs);
+  color: var(--color-white-70);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.board-game__letter-value {
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  line-height: 1;
+}
+
 .board-game__progress {
   font-size: var(--fs-sm);
   color: var(--color-white-70);
@@ -33,55 +106,73 @@
   border: 1px solid var(--color-white-22);
   letter-spacing: 0.15em;
 }
-.board-game__header-right {
-  display: flex;
-  align-items: center;
-  gap: var(--sp-2);
-}
 .board-game__settings-btn {
   display: grid;
   place-items: center;
   border-radius: 50%;
   background: var(--color-white-12);
   border: 1px solid var(--color-white-22);
+  width: 40px;
+  height: 40px;
+  min-height: 40px;
+  min-width: 40px;
 }
 
-/* Letra objetivo (izq del header): destaca la letra de la casilla siguiente. */
-.board-game__letter {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 56px;
-  padding: var(--sp-1) var(--sp-3);
-  border-radius: var(--radius-md);
-  background: linear-gradient(160deg, #f5550e55, #f5550e22);
-  border: 1px solid var(--color-tangelo);
-  box-shadow: 0 6px 20px #f5550e40;
-}
-.board-game__letter-label {
-  font-size: var(--fs-xs);
-  color: var(--color-white-70);
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-}
-.board-game__letter-value {
-  font-size: var(--fs-xl);
-  font-weight: 700;
-  line-height: 1;
-}
-
-/* La carta central en el tablero achica en control para no tapar casillas. */
-.board-game__center-card {
-  width: 100%;
-  height: 100%;
+/* ---- BOARD SLOT ---- */
+/* Carta principal: vive en el CENTRO del tablero (dentro del container
+   `.board-track__center`). Usa `cqw`/`cqh` para calcular su tamaño
+   contra el hueco central preservando la aspect-ratio 3/4 sin importar
+   qué tan wide/tall sea ese hueco.
+   La carta es sólo la representación linda previa a la categoría; una
+   vez volteada lo importante es leer la categoría, por eso se mantiene
+   deliberadamente compacta. */
+.board-game__card-wrap {
+  position: absolute;
+  inset: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: none; /* la carta reactiva vuelve a habilitar clicks */
 }
-.board-game__center-card .card--control {
-  width: min(100%, 240px);
+.board-game__card-wrap .card--control {
+  pointer-events: auto;
+  /* Calculamos ancho Y alto contra el hueco central preservando la
+     aspect-ratio 3/4. Usamos las mismas cq units en ambos ejes en
+     paralelo para no depender de una CSS variable con `min()`. */
+  height: min(calc(100cqh - 12px), calc((100cqw - 12px) * 4 / 3));
+  width: min(calc((100cqh - 12px) * 3 / 4), calc(100cqw - 12px));
+  min-width: 0;
   aspect-ratio: 3 / 4;
-  max-height: 100%;
+}
+
+/* Tipografía interna de la carta escalada al tamaño real. Como la carta
+   es sólo la representación linda previa a la categoría, el contenido
+   se comprime lo suficiente para no cortarse aun con la carta pequeña. */
+.board-game__card-wrap .card--control .card__face {
+  padding: var(--sp-2);
+  gap: var(--sp-1);
+  overflow: hidden;
+}
+.board-game__card-wrap .card--control .card__icon {
+  font-size: clamp(1.1rem, 18cqi, 2rem);
+}
+/* Usamos container queries: la tipografía escala con el ancho real de la
+   carta, no del viewport, así una categoría larga entra en la carta chica
+   sin cortar y sigue legible en la carta grande. */
+.board-game__card-wrap .card--control {
+  container-type: inline-size;
+}
+.board-game__card-wrap .card--control .card__category {
+  font-size: clamp(0.7rem, 9cqi, 1.1rem);
+  line-height: 1.15;
+}
+.board-game__card-wrap .card--control .card__desc {
+  font-size: clamp(0.55rem, 6cqi, 0.8rem);
+  line-height: 1.1;
+}
+.board-game__card-wrap .card--control .card__logo { width: 44%; }
+.board-game__card-wrap .card--control .card__hint {
+  font-size: clamp(0.55rem, 6cqi, 0.8rem);
 }
 
 .board-game__timeout {
@@ -91,6 +182,9 @@
   text-align: center;
   animation: timeout-in 0.3s ease;
   max-width: 480px;
+}
+@keyframes timeout-in {
+  from { opacity: 0; transform: translateY(8px); }
 }
 .board-game__timeout-icon {
   width: 1.1em;
@@ -105,6 +199,122 @@
   text-align: center;
 }
 
+/* ---- PODIO ---- */
+.board-game__podium-slot {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.board-game__podium-slot .podium {
+  width: 100%;
+  max-width: 480px;
+}
+
+/* ============================================================
+   LANDSCAPE / PANTALLAS ANCHAS: 3 columnas lado a lado.
+   Triggers:
+   - orientación horizontal con poca altura (celu horizontal, tablet chica)
+   - anchos ≥ 900px (tablets grandes, laptops, monitores)
+   ============================================================ */
+@media (min-width: 900px),
+       (orientation: landscape) and (max-height: 600px) {
+  .board-game {
+    padding: var(--sp-3);
+    min-height: 100dvh;
+  }
+  .board-game__stage {
+    display: grid;
+    grid-template-columns:
+      minmax(220px, 320px)
+      minmax(0, 1fr)
+      minmax(220px, 320px);
+    align-items: stretch;
+    gap: var(--sp-5);
+    max-width: 1600px;
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  /* Con grid, el `order` de portrait no aplica; ubicamos por columna y
+     forzamos la MISMA fila para que se muestren lado a lado. */
+  .board-game__info-slot,
+  .board-game__board-slot,
+  .board-game__podium-slot { order: 0; grid-row: 1; }
+  .board-game__podium-slot { grid-column: 1; }
+  .board-game__board-slot  { grid-column: 2; }
+  .board-game__info-slot   { grid-column: 3; }
+
+  /* Columnas laterales: ocupan toda la altura del stage, con scroll
+     interno si hace falta y contenido centrado verticalmente. */
+  .board-game__info-slot,
+  .board-game__podium-slot {
+    align-self: stretch;
+    justify-content: center;
+    max-height: calc(100dvh - 120px);
+    overflow-y: auto;
+    gap: var(--sp-5);
+  }
+
+  .board-game__info-top { flex-direction: column; gap: var(--sp-4); }
+  .board-game__info-meta { flex-direction: column; gap: var(--sp-3); }
+
+  /* Letra objetivo bien grande — es la info clave del turno. */
+  .board-game__letter {
+    min-width: 130px;
+    padding: var(--sp-4) var(--sp-5);
+  }
+  .board-game__letter-value { font-size: clamp(2.8rem, 5vw, 4.2rem); }
+  .board-game__letter-label { font-size: var(--fs-sm); }
+
+  /* Podio con tipografía más presente en landscape. */
+  .board-game__podium-slot .podium {
+    max-width: none;
+    padding: var(--sp-5);
+  }
+  .board-game__podium-slot .podium__title {
+    font-size: var(--fs-lg);
+  }
+  .board-game__podium-slot .podium__row {
+    padding: var(--sp-2) var(--sp-3);
+    font-size: var(--fs-md);
+  }
+
+  /* Botón de settings más generoso en landscape. */
+  .board-game__settings-btn { width: 48px; height: 48px; }
+
+  /* Board slot centrado dentro de su columna y aprovechando la altura
+     disponible. --track-max-h controla el tamaño máximo del tablero. */
+  .board-game__board-slot {
+    gap: var(--sp-3);
+    justify-content: center;
+    align-items: center;
+    min-height: 0;
+    height: 100%;
+  }
+  .board-game__board-slot .board-track { --track-max-h: min(72dvh, 620px); }
+}
+
+/* Ajustes muy chicos (celu horizontal <= 480px de alto): compactar más
+   para que board + carta + botones entren en la vista. */
+@media (orientation: landscape) and (max-height: 480px) {
+  .board-game { gap: var(--sp-2); padding: var(--sp-2); }
+  .board-game__stage { gap: var(--sp-3); }
+  .board-game .player-turn-banner { font-size: var(--fs-md); }
+  .board-game__letter { min-width: 60px; padding: var(--sp-1) var(--sp-3); }
+  .board-game__letter-value { font-size: var(--fs-lg); }
+  /* Nota: no forzamos `width` de la carta acá — la carta vive en el
+     centro del tablero y se dimensiona sola con `cq*` contra el hueco. */
+  .board-game__board-slot .board-track { --track-max-h: max(42dvh, 170px); }
+  .board-game__info-slot,
+  .board-game__podium-slot {
+    max-height: calc(100dvh - 70px);
+  }
+  .board-game__board-slot { max-height: calc(100dvh - 70px); overflow-y: auto; }
+}
+
+/* ============================================================
+   Estado final
+   ============================================================ */
 .board-game--over { justify-content: center; }
 .board-game--over .podium { max-width: 480px; }
 .board-game__over-title {
@@ -126,13 +336,18 @@
   justify-content: center;
 }
 
-/* Diálogo de ajustes (mismo skin que el Clásico). */
+/* ============================================================
+   Diálogo de ajustes: siempre scrolleable si supera la pantalla.
+   ============================================================ */
 .board-game__settings {
   border: var(--glass-border);
   color: var(--color-white);
   padding: var(--sp-5);
   max-width: 380px;
-  width: calc(100% - 2 * var(--sp-5));
+  width: calc(100% - 2 * var(--sp-4));
+  max-height: calc(100dvh - 2 * var(--sp-4));
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 .board-game__settings::backdrop { background: #0c1a37cc; backdrop-filter: blur(4px); }
 .board-game__settings h2 { margin: 0 0 var(--sp-4); }
@@ -142,6 +357,7 @@
   justify-content: space-between;
   gap: var(--sp-3);
   margin-bottom: var(--sp-5);
+  flex-wrap: wrap;
 }
 .board-game__settings input {
   padding: var(--sp-2);
