@@ -7,6 +7,7 @@ import { AlarmClock, Trophy } from 'lucide-react';
 import logo from '../assets/logo.png';
 import { BoardTrack } from '../components/BoardTrack';
 import { Card } from '../components/Card';
+import { Confetti } from '../components/Confetti';
 import { PlayerTurnBanner } from '../components/PlayerTurnBanner';
 import { Podium } from '../components/Podium';
 import { RouletteLetters } from '../components/RouletteLetters';
@@ -78,6 +79,7 @@ export function TvScreen() {
       const winner = bst.players.find((p) => p.id === bst.winnerId) ?? bst.players[0];
       return (
         <main className="view tv tv--over">
+          <Confetti />
           <h1 className="tv__over-title">
             <Trophy aria-hidden="true" className="tv__over-trophy" /> ¡Ganó {winner.nombre}!
           </h1>
@@ -134,6 +136,7 @@ export function TvScreen() {
     const winner = [...st!.players].sort((a, b) => b.puntaje - a.puntaje)[0];
     return (
       <main className="view tv tv--over">
+        <Confetti />
         <h1 className="tv__over-title">
           <Trophy aria-hidden="true" className="tv__over-trophy" /> ¡Ganó {winner.nombre}!
         </h1>

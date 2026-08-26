@@ -150,3 +150,11 @@
 @media (max-height: 600px) {
   .game__settings { max-height: calc(100dvh - var(--sp-3)); }
 }
+
+/* Link "Más ajustes" dentro del diálogo in-game (compartido con BoardGame). */
+.game__settings-more,
+.board-game__settings-more {
+  display: inline-block;
+  margin: var(--sp-2) 0 var(--sp-1);
+  font-size: var(--fs-sm);
+}

@@ -3,19 +3,23 @@
 // tablero+carta (centro), info del turno (der. en landscape). En portrait
 // el orden se invierte por CSS (info arriba, tablero al medio, podio abajo).
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { AlarmClock, Settings, Trophy, Tv } from 'lucide-react';
 import { BoardTrack } from '../components/BoardTrack';
 import { Card } from '../components/Card';
+import { Confetti } from '../components/Confetti';
 import { JudgementButtons } from '../components/JudgementButtons';
+import { Toggle } from '../components/Toggle';
 import { PlayerTurnBanner } from '../components/PlayerTurnBanner';
 import { Podium } from '../components/Podium';
 import { TimerRing } from '../components/TimerRing';
 import { useTimer } from '../hooks/useTimer';
+import { useCountdownTicks } from '../hooks/useCountdownTicks';
 import { usePageTitle } from '../hooks/usePageTitle';
 import { getGameDefaults } from '../lib/content';
 import { useBoardGameStore } from '../store/boardGameStore';
 import { useSessionStore } from '../store/sessionStore';
+import { useSettingsStore } from '../store/settingsStore';
 import './BoardGame.css';
 
 const defaults = getGameDefaults();
@@ -27,10 +31,13 @@ export function BoardGame() {
   const navigate = useNavigate();
   const g = useBoardGameStore();
   const session = useSessionStore();
+  const sonido = useSettingsStore((st) => st.sonido);
+  const setSonido = useSettingsStore((st) => st.setSonido);
   const [showSettings, setShowSettings] = useState(false);
   const settingsRef = useRef<HTMLDialogElement>(null);
 
   const { seconds } = useTimer(g.phase === 'revealed' ? g.deadline : null, g.handleTimeout);
+  useCountdownTicks(g.phase === 'revealed' ? seconds : null);
 
   useEffect(() => {
     if (!g.inProgress && g.players.length === 0) navigate('/1000-nombres', { replace: true });
@@ -71,6 +78,7 @@ export function BoardGame() {
     const winner = g.players.find((p) => p.id === g.winnerId) ?? g.players[0];
     return (
       <main className="view board-game board-game--over">
+        <Confetti />
         <h1 className="board-game__over-title">
           <Trophy aria-hidden="true" className="board-game__over-trophy" /> ¡Ganó {winner.nombre}!
         </h1>
@@ -203,6 +211,13 @@ export function BoardGame() {
             <button type="button" onClick={() => g.setTimerSeconds(g.timerSeconds + 5)} aria-label="Más tiempo">+</button>
           </div>
         </div>
+        <Toggle
+          id="sonido-ingame-tablero"
+          label="Sonido"
+          checked={sonido}
+          onChange={setSonido}
+        />
+        <Link to="/ajustes" className="btn-ghost board-game__settings-more">Más ajustes</Link>
         <div className="board-game__settings-actions">
           <button
             type="button"

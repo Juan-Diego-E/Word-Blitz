@@ -1,19 +1,23 @@
 // Vista control (celular del moderador): header con letra activa + cuenta
 // regresiva + ajustes, jugador en turno, carta, SÍ/NO y ranking temporal.
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { AlarmClock, Settings, Trophy, Tv } from 'lucide-react';
 import { Card } from '../components/Card';
+import { Confetti } from '../components/Confetti';
 import { JudgementButtons } from '../components/JudgementButtons';
+import { Toggle } from '../components/Toggle';
 import { PlayerTurnBanner } from '../components/PlayerTurnBanner';
 import { Podium } from '../components/Podium';
 import { RouletteLetters } from '../components/RouletteLetters';
 import { TimerRing } from '../components/TimerRing';
 import { useTimer } from '../hooks/useTimer';
+import { useCountdownTicks } from '../hooks/useCountdownTicks';
 import { usePageTitle } from '../hooks/usePageTitle';
 import { getGameDefaults } from '../lib/content';
 import { useGameStore } from '../store/gameStore';
 import { useSessionStore } from '../store/sessionStore';
+import { useSettingsStore } from '../store/settingsStore';
 import './Game.css';
 
 const defaults = getGameDefaults();
@@ -23,10 +27,13 @@ export function Game() {
   const navigate = useNavigate();
   const g = useGameStore();
   const session = useSessionStore();
+  const sonido = useSettingsStore((st) => st.sonido);
+  const setSonido = useSettingsStore((st) => st.setSonido);
   const [showSettings, setShowSettings] = useState(false);
   const settingsRef = useRef<HTMLDialogElement>(null);
 
   const { seconds } = useTimer(g.phase === 'revealed' ? g.deadline : null, g.handleTimeout);
+  useCountdownTicks(g.phase === 'revealed' ? seconds : null);
 
   // Sin partida armada → volver a configurar.
   useEffect(() => {
@@ -60,6 +67,7 @@ export function Game() {
     const winner = [...g.players].sort((a, b) => b.puntaje - a.puntaje)[0];
     return (
       <main className="view game game--over">
+        <Confetti />
         <h1 className="game__over-title">
           <Trophy aria-hidden="true" className="game__over-trophy" /> ¡Ganó {winner.nombre}!
         </h1>
@@ -164,6 +172,13 @@ export function Game() {
             <button type="button" onClick={() => g.setTimerSeconds(g.timerSeconds + 5)} aria-label="Más tiempo">+</button>
           </div>
         </div>
+        <Toggle
+          id="sonido-ingame"
+          label="Sonido"
+          checked={sonido}
+          onChange={setSonido}
+        />
+        <Link to="/ajustes" className="btn-ghost game__settings-more">Más ajustes</Link>
         <div className="game__settings-actions">
           <button
             type="button"

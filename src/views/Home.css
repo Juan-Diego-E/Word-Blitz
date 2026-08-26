@@ -33,3 +33,20 @@
   margin-top: var(--sp-6);
   font-size: var(--fs-sm);
 }
+
+/* Acceso a Ajustes: discreto, al pie de la home. */
+.home__settings-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  color: var(--color-white-70);
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-pill);
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.home__settings-link:hover {
+  color: var(--color-white);
+  background: var(--color-white-12);
+}

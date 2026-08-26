@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
+import { Settings } from 'lucide-react';
 import { getAppMeta } from '../lib/content';
 import { loadBoardSnapshot, loadGameSnapshot } from '../lib/persistence';
 import { useGameStore } from '../store/gameStore';
@@ -63,6 +64,10 @@ export function Home() {
 
       <Link to="/tv" className="btn-ghost home__tv-link">
         ¿Esta es la pantalla grande? Abrí el modo TV
+      </Link>
+
+      <Link to="/ajustes" className="home__settings-link" aria-label="Ajustes">
+        <Settings aria-hidden="true" size={20} /> Ajustes
       </Link>
     </main>
   );
