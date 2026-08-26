@@ -12,6 +12,7 @@ import {
 const CODE = 'ABCD';
 
 const snapshotClasico = () => ({
+  gameId: '11111111-2222-3333-4444-555555555555',
   players: [
     { id: 'p0', nombre: 'Ana', puntaje: 2 },
     { id: 'p1', nombre: 'Beto', puntaje: 1 },
@@ -30,6 +31,7 @@ const snapshotClasico = () => ({
 });
 
 const snapshotTablero = () => ({
+  gameId: '66666666-7777-8888-9999-000000000000',
   players: [
     { id: 'p0', nombre: 'Ana', puntaje: 3, color: '#f5550e', position: 3 },
     { id: 'p1', nombre: 'Beto', puntaje: 1, color: '#0d5189', position: 0 },
@@ -113,6 +115,12 @@ describe('parseRoomMessage — rechaza lo hostil', () => {
   it('descarta nombres desmedidos (defacement / layout bomb)', () => {
     const s = snapshotClasico();
     s.players[0].nombre = 'Z'.repeat(50_000);
+    expect(parseRoomMessage({ type: 'state', code: CODE, state: s })).toBeNull();
+  });
+
+  it('descarta un snapshot sin gameId (no se puede identificar la partida)', () => {
+    const s = snapshotClasico() as Record<string, unknown>;
+    delete s.gameId;
     expect(parseRoomMessage({ type: 'state', code: CODE, state: s })).toBeNull();
   });
 

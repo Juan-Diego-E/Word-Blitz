@@ -74,6 +74,8 @@ export type RoundPhase =
 
 /** Snapshot serializable de la partida: persistencia + sync a la TV. */
 export interface GameSnapshot {
+  /** UUID estable de la partida: es el external_id en Cerebro. */
+  gameId: string;
   players: Player[];
   turnIndex: number;
   cardOwnerIndex: number;
@@ -129,6 +131,8 @@ export type BoardPhase =
 
 /** Snapshot serializable para persistencia y TV. */
 export interface BoardSnapshot {
+  /** UUID estable de la partida: es el external_id en Cerebro. */
+  gameId: string;
   players: BoardPlayer[];
   turnIndex: number;
   boardLetters: string[];

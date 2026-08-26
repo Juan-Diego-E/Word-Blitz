@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Route, Routes } from 'react-router';
-import { hydrateCustomCategorias } from './lib/content';
+import { hydrateContenido } from './lib/content';
+import { iniciarSync } from './lib/sync';
 import { useSettingsStore } from './store/settingsStore';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { Home } from './views/Home';
@@ -17,7 +18,9 @@ export function App() {
   const reducirMovimiento = useSettingsStore((s) => s.reducirMovimiento);
 
   useEffect(() => {
-    void hydrateCustomCategorias();
+    // Contenido primero (local y, si esta, el de Cerebro); despues el sync.
+    void hydrateContenido();
+    iniciarSync();
   }, []);
 
   useEffect(() => {

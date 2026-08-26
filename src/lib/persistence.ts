@@ -85,21 +85,50 @@ export const clearBoardSnapshot = (): Promise<unknown> =>
 
 // --- Preferencias (localStorage) ---
 const PREFS_KEY = 'wb-prefs';
+const INSTALL_KEY = 'wb-instalacion';
 
 export interface Prefs {
   sonido: boolean;
   vibracion: boolean;
   reducirMovimiento: boolean | null; // null = seguir al sistema
+  /**
+   * Subir el historial de partidas a Cerebro. Arranca APAGADO a propósito:
+   * el array de jugadores lleva los nombres que la gente escribió, y hoy esos
+   * nombres no salen del dispositivo. Encenderlo es un cambio de
+   * comportamiento del producto, así que lo decide la persona, no el deploy.
+   * Vive solo acá: no existe como campo en la colección `preferencias`.
+   */
+  sincronizarPartidas: boolean;
 }
+
+const DEFAULTS: Prefs = {
+  sonido: true,
+  vibracion: true,
+  reducirMovimiento: null,
+  sincronizarPartidas: false,
+};
 
 export function loadPrefs(): Prefs {
   try {
     const raw = localStorage.getItem(PREFS_KEY);
-    if (raw) return { sonido: true, vibracion: true, reducirMovimiento: null, ...JSON.parse(raw) };
+    if (raw) {
+      const guardado = JSON.parse(raw) as Partial<Prefs>;
+      return {
+        ...DEFAULTS,
+        // Solo se aceptan claves conocidas y del tipo correcto: lo que hay en
+        // localStorage lo puede editar cualquiera desde DevTools.
+        sonido: typeof guardado.sonido === 'boolean' ? guardado.sonido : DEFAULTS.sonido,
+        vibracion:
+          typeof guardado.vibracion === 'boolean' ? guardado.vibracion : DEFAULTS.vibracion,
+        reducirMovimiento:
+          typeof guardado.reducirMovimiento === 'boolean' ? guardado.reducirMovimiento : null,
+        sincronizarPartidas: guardado.sincronizarPartidas === true,
+      };
+    }
   } catch {
     /* noop */
   }
-  return { sonido: true, vibracion: true, reducirMovimiento: null };
+  return { ...DEFAULTS };
 }
 
 export function savePrefs(p: Prefs) {
@@ -107,5 +136,23 @@ export function savePrefs(p: Prefs) {
     localStorage.setItem(PREFS_KEY, JSON.stringify(p));
   } catch {
     /* noop */
+  }
+}
+
+/**
+ * ID de esta instalación: es el external_id con el que se guardan las
+ * preferencias en Cerebro. No identifica a una persona, solo a un navegador,
+ * y se genera al primer uso.
+ */
+export function getInstalacionId(): string {
+  try {
+    const guardado = localStorage.getItem(INSTALL_KEY);
+    if (guardado) return guardado;
+    const nuevo = crypto.randomUUID();
+    localStorage.setItem(INSTALL_KEY, nuevo);
+    return nuevo;
+  } catch {
+    // Modo privado sin storage: un id efímero es mejor que romper.
+    return crypto.randomUUID();
   }
 }

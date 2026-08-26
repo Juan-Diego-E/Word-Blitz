@@ -22,6 +22,7 @@ import {
 } from '../types';
 
 interface BoardGameState {
+  gameId: string;
   players: BoardPlayer[];
   turnIndex: number;
   boardLetters: string[];
@@ -60,6 +61,7 @@ function nextCell(pos: number, total: number) {
 }
 
 export const useBoardGameStore = create<BoardGameState>((set, get) => ({
+  gameId: '',
   players: [],
   turnIndex: 0,
   boardLetters: [],
@@ -75,6 +77,8 @@ export const useBoardGameStore = create<BoardGameState>((set, get) => ({
   startGame: (nombres, layoutId, timerSeconds) => {
     const letters = getBoardLetters(layoutId);
     set({
+      // UUID por partida: es el external_id en Cerebro.
+      gameId: crypto.randomUUID(),
       players: nombres.map((nombre, i) => ({
         id: `p${i}`,
         nombre,
@@ -158,6 +162,7 @@ export const useBoardGameStore = create<BoardGameState>((set, get) => ({
   restore: (snap) =>
     set({
       ...snap,
+      gameId: snap.gameId || crypto.randomUUID(),
       currentCategory: snap.currentCategory
         ? { ...(snap.currentCategory as Categoria) }
         : null,
@@ -172,6 +177,7 @@ export const useBoardGameStore = create<BoardGameState>((set, get) => ({
   snapshot: () => {
     const s = get();
     return {
+      gameId: s.gameId,
       players: s.players,
       turnIndex: s.turnIndex,
       boardLetters: s.boardLetters,

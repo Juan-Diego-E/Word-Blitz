@@ -67,9 +67,13 @@ export const layoutsBase: BoardLayoutDef[] = [
   },
 ];
 
-/** Devuelve las letras para el layout indicado, aleatorizando si corresponde. */
-export function buildBoardLetters(id: string): string[] {
-  const layout = layoutsBase.find((l) => l.id === id) ?? layoutsBase[0];
+/**
+ * Devuelve las letras para el layout indicado, aleatorizando si corresponde.
+ * Recibe la lista de layouts para poder trabajar con los que vienen de
+ * Cerebro; sin argumento cae a los que trae el repo.
+ */
+export function buildBoardLetters(id: string, layouts: BoardLayoutDef[] = layoutsBase): string[] {
+  const layout = layouts.find((l) => l.id === id) ?? layouts[0] ?? layoutsBase[0];
   if (layout.letras) return [...layout.letras];
   // Aleatorio: mezcla del abecedario, con repeticiones si `tamano` > 26.
   const size = layout.tamano ?? 24;

@@ -11,6 +11,7 @@ import { clearGameSnapshot, saveGameSnapshot } from '../lib/persistence';
 import type { Categoria, GameSnapshot, Player, RoundPhase } from '../types';
 
 interface GameState {
+  gameId: string;
   players: Player[];
   turnIndex: number;
   cardOwnerIndex: number;
@@ -45,6 +46,7 @@ function nextIndex(i: number, n: number) {
 }
 
 export const useGameStore = create<GameState>((set, get) => ({
+  gameId: '',
   players: [],
   turnIndex: 0,
   cardOwnerIndex: 0,
@@ -61,6 +63,9 @@ export const useGameStore = create<GameState>((set, get) => ({
 
   startGame: (nombres, timerSeconds, letterLimit) =>
     set({
+      // UUID por partida: es el external_id en Cerebro. Sin esto, cada
+      // partida pisaria a la anterior y no habria historial.
+      gameId: crypto.randomUUID(),
       players: nombres.map((nombre, i) => ({ id: `p${i}`, nombre, puntaje: 0 })),
       turnIndex: 0,
       cardOwnerIndex: 0,
@@ -149,6 +154,9 @@ export const useGameStore = create<GameState>((set, get) => ({
   restore: (snap) =>
     set({
       ...snap,
+      // Las partidas guardadas antes de que existiera gameId no lo traen:
+      // se les asigna uno en vez de descartarlas.
+      gameId: snap.gameId || crypto.randomUUID(),
       currentCategory: snap.currentCategory
         ? { ...(snap.currentCategory as Categoria) }
         : null,
@@ -162,6 +170,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   snapshot: () => {
     const s = get();
     return {
+      gameId: s.gameId,
       players: s.players,
       turnIndex: s.turnIndex,
       cardOwnerIndex: s.cardOwnerIndex,

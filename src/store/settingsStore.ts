@@ -5,6 +5,7 @@ interface SettingsState extends Prefs {
   setSonido(v: boolean): void;
   setVibracion(v: boolean): void;
   setReducirMovimiento(v: boolean | null): void;
+  setSincronizarPartidas(v: boolean): void;
   /** true si hay que reducir animaciones (override del usuario o sistema). */
   motionReduced(): boolean;
 }
@@ -16,6 +17,7 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
   setSonido: (sonido) => set({ sonido }),
   setVibracion: (vibracion) => set({ vibracion }),
   setReducirMovimiento: (reducirMovimiento) => set({ reducirMovimiento }),
+  setSincronizarPartidas: (sincronizarPartidas) => set({ sincronizarPartidas }),
   motionReduced: () => {
     const o = get().reducirMovimiento;
     if (o != null) return o;
@@ -24,5 +26,10 @@ export const useSettingsStore = create<SettingsState>((set, get) => ({
 }));
 
 useSettingsStore.subscribe((s) =>
-  savePrefs({ sonido: s.sonido, vibracion: s.vibracion, reducirMovimiento: s.reducirMovimiento }),
+  savePrefs({
+    sonido: s.sonido,
+    vibracion: s.vibracion,
+    reducirMovimiento: s.reducirMovimiento,
+    sincronizarPartidas: s.sincronizarPartidas,
+  }),
 );

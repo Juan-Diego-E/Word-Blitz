@@ -75,6 +75,8 @@ function isPlayerBase(v: unknown): v is Record<string, unknown> {
 /** Snapshot del Modo Clásico. */
 export function isGameSnapshot(v: unknown): v is GameSnapshot {
   if (!isObj(v)) return false;
+  // UUID de la partida: es el external_id en Cerebro y viaja en el snapshot.
+  if (!isSafeText(v.gameId, 64)) return false;
   if (!Array.isArray(v.players) || v.players.length > MAX_PLAYERS) return false;
   if (!v.players.every(isPlayerBase)) return false;
 
@@ -100,6 +102,7 @@ export function isGameSnapshot(v: unknown): v is GameSnapshot {
 /** Snapshot del Modo 1000 Nombres. */
 export function isBoardSnapshot(v: unknown): v is BoardSnapshot {
   if (!isObj(v)) return false;
+  if (!isSafeText(v.gameId, 64)) return false;
   if (!Array.isArray(v.boardLetters)) return false;
   if (v.boardLetters.length < 4 || v.boardLetters.length > MAX_BOARD_CELLS) return false;
   if (!v.boardLetters.every((l) => isSafeText(l, 2))) return false;
