@@ -36,9 +36,15 @@ const ALLOW: Record<string, readonly string[]> = {
 /** Cerebro corta en 100 KB por registro; cortamos antes para no gastar la llamada. */
 const MAX_BODY_BYTES = 100 * 1024;
 
-export type Veredicto =
-  | { ok: true; ruta: string }
-  | { ok: false; status: number; error: string };
+export interface Veredicto {
+  ok: boolean;
+  /** Status a devolver cuando `ok` es false. */
+  status: number;
+  /** Mensaje para el cliente cuando `ok` es false. */
+  error?: string;
+  /** Ruta ya codificada para pegarle a Cerebro, cuando `ok` es true. */
+  ruta?: string;
+}
 
 /**
  * Decide si una ruta+metodo pueden pasar. Pura y exportada a proposito: es la
@@ -51,12 +57,13 @@ export function evaluarRuta(segments: string[], method: string): Veredicto {
 
   const allowed = collection ? ALLOW[collection] : undefined;
   if (!allowed) return { ok: false, status: 403, error: 'Coleccion no permitida' };
-  if (!allowed.includes(m)) return { ok: false, status: 405, error: `${m} no permitido aca` };
+  if (!allowed.includes(m)) return { ok: false, status: 405, error: m + ' no permitido aca' };
   // Como maximo /{coleccion}/{external_id}.
   if (rest.length > 1) return { ok: false, status: 400, error: 'Ruta invalida' };
 
   return {
     ok: true,
+    status: 200,
     ruta: [collection, ...rest].map(encodeURIComponent).join('/'),
   };
 }
@@ -73,7 +80,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const veredicto = evaluarRuta(segments, method);
   if (!veredicto.ok) {
-    return res.status(veredicto.status).json({ error: veredicto.error });
+    return res.status(veredicto.status).json({ error: veredicto.error ?? 'Rechazado' });
   }
 
   let body: string | undefined;
@@ -85,7 +92,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   const qs = req.url?.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
-  const target = `${CEREBRO_URL}/api/apps/${APP_SLUG}/${veredicto.ruta}${qs}`;
+  const target = `${CEREBRO_URL}/api/apps/${APP_SLUG}/${veredicto.ruta ?? ''}${qs}`;
 
   try {
     const upstream = await fetch(target, {
