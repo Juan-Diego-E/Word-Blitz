@@ -1,20 +1,36 @@
 /* Design tokens — paleta de BRAND.md */
 :root {
-  /* Color */
+  /* Color — paleta de BRAND.md.
+     Los tokens de TEXTO están calibrados para pasar WCAG AA sobre el fondo
+     del juego (ver global.css). Antes fallaban todos: el gradiente tenía su
+     punto más claro justo donde vive el contenido, y el blanco puro daba
+     2,6:1. Si cambiás el fondo, hay que volver a medir estos valores. */
   --color-tangelo: #f5550e;
   --color-tangelo-soft: #f5550e33;
+  /* Variante clara del acento para TEXTO: el tangelo puro da 2,4:1 sobre
+     el azul del centro. Esta da 3,6:1, suficiente para texto grande
+     (código de sala, títulos). Para texto chico, usar blanco. */
+  --color-tangelo-text: #ffa274;
   --color-blue-air: #76a7be;
   --color-blue-yinmn: #0d5189;
   --color-slate: #243d3d;
   --color-oxford: #0c1a37;
   --color-green: #00aa00;
   --color-green-soft: #00aa0040;
+  /* Verde legible sobre fondo oscuro (el #00aa00 puro queda apagado). */
+  --color-green-text: #4ade80;
   --color-red: #ff2b2b;
   --color-red-soft: #ff2b2b40;
   --color-white: #ffffff;
-  --color-white-70: #ffffff70;
-  --color-white-44: #ffffff44;
-  --color-white-22: #ffffff22;
+  /* Texto secundario — alpha .85 → ~5,8:1 sobre el fondo. */
+  --color-white-70: #ffffffd9;
+  /* Texto terciario (hints, reglas) — alpha .74 → ~4,6:1. La jerarquía
+     entre este y el anterior se apoya también en tamaño y peso, no solo
+     en opacidad: bajar más el alpha rompería contraste. */
+  --color-white-44: #ffffffbd;
+  /* Los dos siguientes son DECORATIVOS (bordes y fills de vidrio).
+     No usarlos para texto: no llegan a contraste de lectura. */
+  --color-white-22: #ffffff2e;
   --color-white-12: #ffffff1f;
   --color-black-70: #00000070;
 

@@ -16,8 +16,16 @@ body {
   margin: 0;
   font-family: var(--font-family);
   color: var(--color-white);
-  /* Gradiente original del proyecto (conservado a pedido del dueño) */
-  background: radial-gradient(circle, var(--color-blue-air), var(--color-blue-yinmn) 90.8%);
+  /* Gradiente del proyecto, con la lógica del radial INVERTIDA.
+     Antes el centro era blue-air (#76a7be, el punto más claro) y ahí es
+     justo donde vive el contenido: el blanco puro daba 2,6:1 y ningún
+     token de texto pasaba WCAG. Ahora el centro es blue-yinmn (8:1 con
+     blanco) y cae hacia oxford en los bordes (17:1).
+     El blue-air se conserva como halo atmosférico arriba, lejos del
+     texto, para no perder el aire de la marca. */
+  background:
+    radial-gradient(ellipse 90% 55% at 50% -10%, #76a7be24, transparent 70%),
+    radial-gradient(circle at 50% 42%, var(--color-blue-yinmn), var(--color-oxford) 82%);
   background-attachment: fixed;
   /* overflow: hidden bloquearía el scroll en pantallas largas (config);
      con overflow-x alcanza para evitar el scroll horizontal. */
@@ -31,7 +39,13 @@ body {
   inset: 0;
   z-index: -99;
   background: url('../assets/tic-tac-toe.webp') repeat 0 0;
-  mix-blend-mode: color-burn;
+  /* Era `color-burn`, que funcionaba sobre el fondo claro anterior. Con el
+     fondo oscuro nuevo esa fórmula — 1 − (1−fondo)/fuente — se satura a
+     negro para casi cualquier fuente, dejando manchas en vez de textura.
+     `soft-light` aclara suavemente sobre fondo oscuro, que es el efecto
+     equivalente al original. */
+  mix-blend-mode: soft-light;
+  opacity: 0.6;
   animation: bg-animation 10s linear infinite;
 }
 

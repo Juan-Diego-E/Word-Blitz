@@ -74,7 +74,7 @@
 .board-track__cell--start {
   background: linear-gradient(160deg, #00aa0055, #00aa0022);
   border-color: var(--color-green);
-  color: var(--color-green);
+  color: var(--color-green-text);
 }
 
 .board-track__cell--meta {

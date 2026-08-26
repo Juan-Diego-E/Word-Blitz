@@ -72,7 +72,7 @@
 }
 
 .card__face--front { transform: rotateY(180deg); }
-.card__icon { font-size: 3rem; color: var(--color-tangelo); }
+.card__icon { font-size: 3rem; color: var(--color-tangelo-text); }
 .card--tv .card__icon { font-size: clamp(3.5rem, 6vw, 5.5rem); }
 .card__category {
   font-size: var(--fs-xl);
