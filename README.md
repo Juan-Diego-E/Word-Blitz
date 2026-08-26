@@ -139,6 +139,17 @@ justamente el comportamiento esperado).
   que Cerebro existe; borrando este archivo y su import en `App.tsx` la
   integración desaparece sin tocar el juego.
 
+### Dos trampas de Vercel que ya están resueltas
+
+1. **El fallback SPA se traga `/api/`.** El rewrite catch-all de `vercel.json`
+   lleva un lookahead negativo (`/((?!api/).*)`). Sin él, pegarle al proxy
+   devuelve el `index.html` con 200 y la función nunca corre. Los archivos
+   estáticos sí se resuelven antes del rewrite; las funciones no.
+2. **Las rutas de dos segmentos dan 404.** La catch-all `[...path]` solo
+   resuelve un nivel en este proyecto, así que todas las rutas del proxy son
+   `/api/cerebro/{coleccion}` y el id de un registro puntual viaja como
+   `?external_id=`. El proxy lo traduce a la forma que espera Cerebro.
+
 ### IDs estables
 
 Cada partida genera un `gameId` (`crypto.randomUUID()`) al empezar, que es su
