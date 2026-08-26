@@ -8,6 +8,11 @@
 // La whitelist NO es decorativa: sin ella, cualquiera que descubra
 // /api/cerebro/ puede usar la key para lo que quiera. Solo estan las
 // colecciones y los metodos que la app realmente ejerce.
+//
+// FORMA DE LAS RUTAS: siempre UN solo segmento, /api/cerebro/{coleccion}.
+// Para operar sobre un registro puntual, el id va como query (?external_id=).
+// Verificado en produccion que las rutas de dos segmentos devuelven 404 en
+// este proyecto, asi que no se depende de ellas.
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 
 const CEREBRO_URL = process.env.CEREBRO_URL;
@@ -33,6 +38,9 @@ const ALLOW: Record<string, readonly string[]> = {
   preferencias: ['GET', 'POST'],
 };
 
+/** Query params que se dejan pasar a Cerebro. El resto se descarta. */
+const QUERY_PERMITIDA = /^(limit|offset|where\[[a-z_]{1,40}\])$/;
+
 /** Cerebro corta en 100 KB por registro; cortamos antes para no gastar la llamada. */
 const MAX_BODY_BYTES = 100 * 1024;
 
@@ -47,25 +55,47 @@ export interface Veredicto {
 }
 
 /**
- * Decide si una ruta+metodo pueden pasar. Pura y exportada a proposito: es la
- * parte que hace que el proxy proteja algo, asi que tiene tests propios
- * (src/__tests__/proxyCerebro.test.ts).
+ * Decide si una ruta+metodo pueden pasar, y arma la ruta upstream.
+ * Pura y exportada a proposito: es la parte que hace que el proxy proteja
+ * algo, asi que tiene tests propios (src/__tests__/proxyCerebro.test.ts).
  */
-export function evaluarRuta(segments: string[], method: string): Veredicto {
-  const [collection, ...rest] = segments;
+export function evaluarRuta(
+  segments: string[],
+  method: string,
+  externalId?: string,
+): Veredicto {
   const m = method.toUpperCase();
 
-  const allowed = collection ? ALLOW[collection] : undefined;
+  // Exactamente /api/cerebro/{coleccion}.
+  if (segments.length !== 1) {
+    return { ok: false, status: 400, error: 'Ruta invalida' };
+  }
+  const collection = segments[0];
+
+  const allowed = ALLOW[collection];
   if (!allowed) return { ok: false, status: 403, error: 'Coleccion no permitida' };
   if (!allowed.includes(m)) return { ok: false, status: 405, error: m + ' no permitido aca' };
-  // Como maximo /{coleccion}/{external_id}.
-  if (rest.length > 1) return { ok: false, status: 400, error: 'Ruta invalida' };
 
-  return {
-    ok: true,
-    status: 200,
-    ruta: [collection, ...rest].map(encodeURIComponent).join('/'),
-  };
+  // El id se codifica: aunque venga con barras o '..', no puede escaparse
+  // del prefijo /api/apps/{app}/.
+  const ruta = externalId
+    ? collection + '/' + encodeURIComponent(externalId)
+    : collection;
+
+  return { ok: true, status: 200, ruta };
+}
+
+/** Reconstruye la query dejando solo los params que Cerebro entiende. */
+export function filtrarQuery(query: Record<string, unknown>): string {
+  const out: string[] = [];
+  for (const [k, v] of Object.entries(query)) {
+    if (k === 'path' || k === 'external_id') continue; // internos del proxy
+    if (!QUERY_PERMITIDA.test(k)) continue;
+    const valor = Array.isArray(v) ? v[0] : v;
+    if (typeof valor !== 'string' && typeof valor !== 'number') continue;
+    out.push(encodeURIComponent(k) + '=' + encodeURIComponent(String(valor)));
+  }
+  return out.length ? '?' + out.join('&') : '';
 }
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
@@ -77,8 +107,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
   const segments = ([] as string[]).concat((req.query.path as string[]) ?? []);
   const method = (req.method ?? 'GET').toUpperCase();
+  const rawId = req.query.external_id;
+  const externalId = Array.isArray(rawId) ? rawId[0] : rawId;
 
-  const veredicto = evaluarRuta(segments, method);
+  const veredicto = evaluarRuta(segments, method, externalId);
   if (!veredicto.ok) {
     return res.status(veredicto.status).json({ error: veredicto.error ?? 'Rechazado' });
   }
@@ -91,14 +123,15 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     }
   }
 
-  const qs = req.url?.includes('?') ? req.url.slice(req.url.indexOf('?')) : '';
-  const target = `${CEREBRO_URL}/api/apps/${APP_SLUG}/${veredicto.ruta ?? ''}${qs}`;
+  const target =
+    CEREBRO_URL + '/api/apps/' + APP_SLUG + '/' + (veredicto.ruta ?? '') +
+    filtrarQuery(req.query as Record<string, unknown>);
 
   try {
     const upstream = await fetch(target, {
       method,
       headers: {
-        Authorization: `Bearer ${CEREBRO_API_KEY}`,
+        Authorization: 'Bearer ' + CEREBRO_API_KEY,
         'Content-Type': 'application/json',
       },
       body,

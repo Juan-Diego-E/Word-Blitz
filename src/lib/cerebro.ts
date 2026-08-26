@@ -130,8 +130,15 @@ async function listar<T>(coleccion: Coleccion): Promise<RegistroCerebro<T>[]> {
   return out;
 }
 
+/**
+ * Trae un registro puntual. El id va como query y no como segmento de ruta:
+ * las rutas de dos segmentos devuelven 404 en este deploy (la catch-all de
+ * Vercel solo resuelve un nivel), así que el proxy las traduce.
+ */
 async function obtener<T>(coleccion: Coleccion, externalId: string): Promise<T | null> {
-  const r = await pedir<RegistroCerebro<T>>(`${coleccion}/${encodeURIComponent(externalId)}`);
+  const r = await pedir<RegistroCerebro<T>>(
+    `${coleccion}?external_id=${encodeURIComponent(externalId)}`,
+  );
   return r.ok ? r.data.data : null;
 }
 
