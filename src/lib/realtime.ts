@@ -5,6 +5,7 @@
 // El canal solo transporta estado efímero de juego: sin datos personales.
 
 import type { RoomMessage } from '../types';
+import { ROOM_CODE_ALPHABET, parseRoomMessage } from './validation';
 
 export interface RoomTransport {
   send(msg: RoomMessage): void;
@@ -14,9 +15,16 @@ export interface RoomTransport {
 
 const PARTYKIT_HOST: string | undefined = import.meta.env.VITE_PARTYKIT_HOST;
 
+/** Corta payloads absurdos antes de parsearlos (defensa ante flood). */
+const MAX_MESSAGE_BYTES = 16 * 1024;
+
 export function generateRoomCode(): string {
-  const abc = 'ABCDEFGHJKLMNPQRSTUVWXYZ'; // sin I/O para evitar confusión visual
-  return Array.from({ length: 4 }, () => abc[Math.floor(Math.random() * abc.length)]).join('');
+  // `crypto.getRandomValues` en vez de Math.random: el código es lo único
+  // que separa una sala de otra, así que debe ser impredecible.
+  const abc = ROOM_CODE_ALPHABET; // sin I/O para evitar confusión visual
+  const bytes = new Uint32Array(4);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes, (b) => abc[b % abc.length]).join('');
 }
 
 export function joinUrl(code: string): string {
@@ -26,7 +34,13 @@ export function joinUrl(code: string): string {
 function createBroadcastTransport(code: string): RoomTransport {
   const ch = new BroadcastChannel(`word-blitz-${code}`);
   const subs = new Set<(m: RoomMessage) => void>();
-  ch.onmessage = (e) => subs.forEach((cb) => cb(e.data as RoomMessage));
+  ch.onmessage = (e) => {
+    // Aun en BroadcastChannel validamos: otra pestaña del mismo origen
+    // (o un bookmarklet) puede postear cualquier cosa al canal.
+    const msg = parseRoomMessage(e.data);
+    if (!msg) return;
+    subs.forEach((cb) => cb(msg));
+  };
   return {
     send: (msg) => ch.postMessage(msg),
     onMessage: (cb) => {
@@ -43,7 +57,12 @@ async function createPartyTransport(code: string): Promise<RoomTransport> {
   const subs = new Set<(m: RoomMessage) => void>();
   socket.addEventListener('message', (e) => {
     try {
-      const msg = JSON.parse(e.data as string) as RoomMessage;
+      const data = e.data as string;
+      // El relay no autentica: cualquiera en la sala puede mandar lo que
+      // quiera. Descartamos por tamaño y después por forma.
+      if (typeof data !== 'string' || data.length > MAX_MESSAGE_BYTES) return;
+      const msg = parseRoomMessage(JSON.parse(data));
+      if (!msg) return;
       subs.forEach((cb) => cb(msg));
     } catch {
       /* mensaje inválido: ignorar */

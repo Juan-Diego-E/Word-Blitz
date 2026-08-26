@@ -3,6 +3,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router';
 import { getBoardLayouts, getGameDefaults } from '../lib/content';
+import { normalizeRoomCode } from '../lib/validation';
 import { useBoardGameStore } from '../store/boardGameStore';
 import { useSessionStore } from '../store/sessionStore';
 import { usePageTitle } from '../hooks/usePageTitle';
@@ -26,7 +27,7 @@ export function BoardConfig() {
   const [codigoSala, setCodigoSala] = useState(params.get('sala')?.toUpperCase() ?? '');
 
   useEffect(() => {
-    const sala = params.get('sala');
+    const sala = normalizeRoomCode(params.get('sala') ?? '');
     if (sala && session.status === 'idle') void session.openRoom(sala, 'host');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -42,7 +43,8 @@ export function BoardConfig() {
   };
 
   const conectarTv = () => {
-    if (codigoSala.trim().length === 4) void session.openRoom(codigoSala.trim(), 'host');
+    const code = normalizeRoomCode(codigoSala);
+    if (code) void session.openRoom(code, 'host');
   };
 
   const jugar = (e: FormEvent) => {

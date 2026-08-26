@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Route, Routes } from 'react-router';
 import { hydrateCustomCategorias } from './lib/content';
 import { useSettingsStore } from './store/settingsStore';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { Home } from './views/Home';
 import { SelectMode } from './views/SelectMode';
 import { ClassicConfig } from './views/ClassicConfig';
@@ -27,17 +28,19 @@ export function App() {
   return (
     <>
       <div className="bg-lights" aria-hidden="true" />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/jugar" element={<SelectMode />} />
-        <Route path="/clasico" element={<ClassicConfig />} />
-        <Route path="/partida" element={<Game />} />
-        <Route path="/1000-nombres" element={<BoardConfig />} />
-        <Route path="/1000-nombres/partida" element={<BoardGame />} />
-        <Route path="/tv" element={<TvScreen />} />
-        <Route path="/unirse/:code" element={<JoinRedirect />} />
-        <Route path="/:slug" element={<ComingSoon />} />
-      </Routes>
+      <ErrorBoundary>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/jugar" element={<SelectMode />} />
+          <Route path="/clasico" element={<ClassicConfig />} />
+          <Route path="/partida" element={<Game />} />
+          <Route path="/1000-nombres" element={<BoardConfig />} />
+          <Route path="/1000-nombres/partida" element={<BoardGame />} />
+          <Route path="/tv" element={<TvScreen />} />
+          <Route path="/unirse/:code" element={<JoinRedirect />} />
+          <Route path="/:slug" element={<ComingSoon />} />
+        </Routes>
+      </ErrorBoundary>
     </>
   );
 }

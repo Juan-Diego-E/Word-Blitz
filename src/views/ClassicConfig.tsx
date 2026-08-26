@@ -2,6 +2,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router';
 import { getGameDefaults } from '../lib/content';
+import { normalizeRoomCode } from '../lib/validation';
 import { useGameStore } from '../store/gameStore';
 import { useSessionStore } from '../store/sessionStore';
 import { usePageTitle } from '../hooks/usePageTitle';
@@ -24,7 +25,7 @@ export function ClassicConfig() {
 
   // Si vinieron del QR de la TV, conectar directo.
   useEffect(() => {
-    const sala = params.get('sala');
+    const sala = normalizeRoomCode(params.get('sala') ?? '');
     if (sala && session.status === 'idle') void session.openRoom(sala, 'host');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -40,7 +41,8 @@ export function ClassicConfig() {
   };
 
   const conectarTv = () => {
-    if (codigoSala.trim().length === 4) void session.openRoom(codigoSala.trim(), 'host');
+    const code = normalizeRoomCode(codigoSala);
+    if (code) void session.openRoom(code, 'host');
   };
 
   const jugar = (e: FormEvent) => {

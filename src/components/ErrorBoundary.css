@@ -1,0 +1,22 @@
+.error-boundary {
+  justify-content: center;
+  text-align: center;
+  gap: var(--sp-4);
+}
+.error-boundary__title {
+  margin: 0;
+  font-size: var(--fs-2xl);
+  text-wrap: balance;
+}
+.error-boundary__text {
+  margin: 0;
+  max-width: 40ch;
+  color: var(--color-white-70);
+  text-wrap: balance;
+}
+.error-boundary__actions {
+  display: flex;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  justify-content: center;
+}
