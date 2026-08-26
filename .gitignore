@@ -23,5 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# Vercel (contiene projectId/orgId — no debe commitearse)
+# Vercel: .vercel guarda projectId/orgId y .env* los tokens que genera el CLI
 .vercel
+.env*
