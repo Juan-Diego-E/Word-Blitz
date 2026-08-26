@@ -1,6 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "//": "Fallback SPA para el ruteo client-side. El lookahead negativo es imprescindible: sin el, el catch-all se traga /api/ y la funcion serverless del proxy nunca corre (verificado en produccion: devolvia el index.html con 200). Los assets estaticos si se resuelven antes del rewrite, las funciones no.",
+      "source": "/((?!api/).*)",
+      "destination": "/index.html"
+    }
   ]
 }
