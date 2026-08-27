@@ -11,6 +11,15 @@ export const modosBase: Modo[] = [
     reglas: { usaTimer: true, usaLetra: true, puntosPorAcierto: 1, rebote: true },
   },
   {
+    id: 'modo-orbita',
+    slug: 'orbita',
+    nombre: 'Órbita',
+    descripcion: 'Cartas del cosmos: descubrí, respondé Verdadero o Falso y coleccioná astros.',
+    habilitado: true,
+    icono: 'orbit',
+    reglas: { usaTimer: true, cartas: true, tema: 'cosmos' },
+  },
+  {
     id: 'modo-1000-nombres',
     slug: '1000-nombres',
     nombre: '1000 Nombres',

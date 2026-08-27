@@ -14,8 +14,9 @@ import { categoriasBase } from '../data/categorias';
 import { letrasBase } from '../data/letras';
 import { modosBase } from '../data/modos';
 import { layoutsBase, buildBoardLetters } from '../data/boards';
+import { orbitaCards } from '../data/orbita';
 import { appMeta, gameDefaults } from '../data/defaults';
-import type { BoardLayoutDef, Categoria, Dificultad, Idioma, Letra, Modo } from '../types';
+import type { BoardLayoutDef, Categoria, Dificultad, Idioma, Letra, Modo, OrbitaCard } from '../types';
 import { traerCategorias, traerLayouts, traerLetras, traerModos } from './cerebro';
 import { getCategoriasCustom, saveCategoriaCustom } from './persistence';
 
@@ -38,6 +39,7 @@ const layouts = (): BoardLayoutDef[] => layoutsRemotos ?? layoutsBase;
 export const getModos = (): Modo[] => modosRemotos ?? modosBase;
 export const getBoardLayouts = (): BoardLayoutDef[] => layouts();
 export const getBoardLetters = (id: string): string[] => buildBoardLetters(id, layouts());
+export const getOrbitaCards = (): OrbitaCard[] => orbitaCards;
 
 /**
  * Carga el contenido: primero lo local (rápido y siempre disponible), después

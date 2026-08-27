@@ -1,0 +1,179 @@
+/* Astros dibujados con CSS. El contenedor centra; `.celestial__body` es la
+   esfera. Casos especiales (Saturno con anillo, cometa con cola, meteoro,
+   galaxia) usan ::before/::after. */
+.celestial {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: grid;
+  place-items: center;
+  overflow: visible;
+}
+.celestial__body {
+  position: relative;
+  width: 62%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  display: block;
+}
+
+/* --- Sol --- */
+.celestial--sol .celestial__body {
+  width: 66%;
+  background: radial-gradient(circle at 38% 34%, #FFF1C2, #FFC24D 46%, #E8892A 78%);
+  box-shadow: 0 0 42px #FFC24Daa, 0 0 16px #FFE6A6;
+}
+
+/* --- Mercurio --- */
+.celestial--mercurio .celestial__body {
+  width: 40%;
+  background:
+    radial-gradient(circle at 60% 42%, #7d7669 0 7%, transparent 8%),
+    radial-gradient(circle at 40% 62%, #6f685c 0 9%, transparent 10%),
+    radial-gradient(circle at 44% 40%, #C9BFAE, #8C8375 72%);
+  box-shadow: 0 0 16px #C9BFAE55, inset -5px -5px 12px #4c463c;
+}
+
+/* --- Venus --- */
+.celestial--venus .celestial__body {
+  width: 52%;
+  background:
+    radial-gradient(circle at 36% 32%, #FFF3C9, transparent 40%),
+    radial-gradient(circle at 55% 60%, #E8A94E, transparent 50%),
+    radial-gradient(circle at 45% 45%, #F6D68B, #D98E3A 80%);
+  box-shadow: 0 0 26px #F6D68B88, inset -6px -6px 14px #7a4a12;
+}
+
+/* --- Tierra --- */
+.celestial--tierra .celestial__body {
+  width: 54%;
+  background:
+    radial-gradient(circle at 30% 28%, #8FE9FF, transparent 22%),
+    radial-gradient(circle at 66% 60%, #34D8A6 0 14%, transparent 15%),
+    radial-gradient(circle at 40% 70%, #2BB98C 0 12%, transparent 13%),
+    radial-gradient(circle at 72% 32%, #2BB98C 0 9%, transparent 10%),
+    radial-gradient(circle at 44% 44%, #2C82E8, #1E5FBF 80%);
+  box-shadow: 0 0 26px #34D8A688, inset -6px -6px 14px #0a2a55;
+}
+
+/* --- Luna --- */
+.celestial--luna .celestial__body {
+  width: 48%;
+  background:
+    radial-gradient(circle at 62% 40%, #6b7495 0 6%, transparent 7%),
+    radial-gradient(circle at 38% 60%, #626b8c 0 8%, transparent 9%),
+    radial-gradient(circle at 55% 68%, #6b7495 0 5%, transparent 6%),
+    radial-gradient(circle at 44% 40%, #E7ECFF, #AEB6D8 70%, #7E86A8);
+  box-shadow: 0 0 22px #C3CBF066, inset -5px -5px 12px #4a4f6b;
+}
+
+/* --- Marte --- */
+.celestial--marte .celestial__body {
+  width: 48%;
+  background:
+    radial-gradient(circle at 60% 40%, #8a2d1c 0 8%, transparent 9%),
+    radial-gradient(circle at 40% 64%, #a8442b 0 10%, transparent 11%),
+    radial-gradient(circle at 44% 42%, #E8734A, #B23A1E 78%);
+  box-shadow: 0 0 24px #E8734A88, inset -6px -6px 14px #5c1a0d;
+}
+
+/* --- Júpiter (bandas) --- */
+.celestial--jupiter .celestial__body {
+  width: 62%;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg,
+      #E8C79A 0 14%, #C89A6A 14% 24%, #E8C79A 24% 34%,
+      #B9855A 34% 44%, #E3BE8E 44% 54%, #C89A6A 54% 66%,
+      #E8C79A 66% 78%, #B9855A 78% 100%);
+  box-shadow: 0 0 28px #E3BE8E77, inset -7px -7px 16px #5c3d20;
+}
+.celestial--jupiter .celestial__body::after {
+  content: ""; position: absolute; left: 24%; top: 46%;
+  width: 22%; height: 12%; border-radius: 50%;
+  background: radial-gradient(circle, #D6553A, #9c3722);
+}
+
+/* --- Saturno (anillo) --- */
+.celestial--saturno .celestial__body {
+  width: 46%;
+  background:
+    linear-gradient(180deg, #EAD6A6 0 40%, #C8A874 40% 60%, #E0C692 60% 100%);
+  box-shadow: 0 0 24px #EAD6A677, inset -6px -6px 14px #6b4f22;
+}
+.celestial--saturno .celestial__body::before {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 210%; height: 62%;
+  transform: translate(-50%, -50%) rotate(-18deg);
+  border-radius: 50%;
+  border: 6px solid #d9c48f;
+  border-top-color: #f0e3c0; border-bottom-color: #b79a63;
+  background: transparent;
+  box-shadow: 0 0 8px #EAD6A644;
+}
+.celestial--saturno .celestial__body::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 100%; height: 100%; border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: inherit; /* la esfera tapa el frente del anillo */
+}
+
+/* --- Neptuno --- */
+.celestial--neptuno .celestial__body {
+  width: 52%;
+  background:
+    radial-gradient(circle at 34% 30%, #9DD6FF, transparent 34%),
+    radial-gradient(circle at 60% 66%, #1C3FA0 0 16%, transparent 17%),
+    radial-gradient(circle at 46% 46%, #3E6FE0, #16357F 82%);
+  box-shadow: 0 0 26px #3E6FE099, inset -6px -6px 14px #0a1c4d;
+}
+
+/* --- Cometa (cola) --- */
+.celestial--cometa .celestial__body {
+  width: 32%;
+  margin-left: -20%;
+  background: radial-gradient(circle at 40% 40%, #E6FaFF, #4CC5F5 55%, #2A93C8);
+  box-shadow: 0 0 22px #4CC5F5cc;
+}
+.celestial--cometa .celestial__body::after {
+  content: ""; position: absolute; left: 60%; top: 50%; transform: translateY(-50%);
+  width: 320%; height: 40%;
+  background: linear-gradient(90deg, #4CC5F5dd, #4CC5F530 55%, transparent);
+  border-radius: 50%; filter: blur(2px);
+}
+
+/* --- Meteoro / estrella fugaz (estela diagonal) --- */
+.celestial--meteoro .celestial__body {
+  width: 16%;
+  background: radial-gradient(circle, #FFFFFF, #CFE9FF 60%, #8Fb8e6);
+  box-shadow: 0 0 18px #ffffffdd, 0 0 6px #fff;
+  transform: translate(28%, -22%);
+}
+.celestial--meteoro .celestial__body::after {
+  content: ""; position: absolute; right: 45%; top: 50%; transform: rotate(28deg);
+  transform-origin: right center;
+  width: 360%; height: 26%;
+  background: linear-gradient(90deg, transparent, #cfe9ffcc 70%, #ffffff);
+  border-radius: 50%; filter: blur(1.2px);
+}
+
+/* --- Galaxia (espiral) --- */
+.celestial--galaxia .celestial__body {
+  width: 70%;
+  background:
+    radial-gradient(circle at 50% 50%, #FFF6D8 0 6%, transparent 12%),
+    conic-gradient(from 0deg at 50% 50%,
+      #B57BFF33, #4CC5F566, #B57BFF22, #FFC24D55, #B57BFF33);
+  box-shadow: 0 0 34px #B57BFF66;
+  filter: blur(0.3px);
+}
+.celestial--galaxia .celestial__body::before {
+  content: ""; position: absolute; inset: 14%; border-radius: 50%;
+  background: conic-gradient(from 90deg at 50% 50%, transparent, #ffffff22, transparent 60%);
+}
+
+/* Órbita ambiental: un anillo tenue detrás de planetas (opcional, sutil). */
+.celestial--ring::after {
+  content: ""; position: absolute; inset: 8%; border-radius: 50%;
+  border: 1px solid #ffffff14;
+}

@@ -34,6 +34,15 @@
   --color-white-12: #ffffff1f;
   --color-black-70: #00000070;
 
+  /* --- Paleta del Modo Órbita (cosmos). Los cuatro colores de tipo son la
+     taxonomía: estrella, planeta, satélite, cuerpo menor. Ver design doc. --- */
+  --orbita-estrella: #FFC24D;
+  --orbita-planeta: #34D8A6;
+  --orbita-satelite: #C3CBF0;
+  --orbita-menor: #4CC5F5;
+  --orbita-rareza: #B57BFF;
+  --orbita-ink-2: #AEB9E4;
+
   /* Tipografía */
   --font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --fs-xs: 0.75rem;

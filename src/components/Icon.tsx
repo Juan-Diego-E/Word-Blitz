@@ -3,7 +3,7 @@
 import {
   AlarmClock, Armchair, BookUser, Briefcase, Building2, Bus, CalendarDays,
   Check, CircleHelp, Clapperboard, CookingPot, CupSoda, Dumbbell, Flag, Flower2,
-  Ghost, Globe, Guitar, Hand, Infinity as InfinityIcon, Languages, Layers,
+  Ghost, Globe, Guitar, Hand, Infinity as InfinityIcon, Languages, Layers, Orbit,
   MessageCircle, Music, Palette, PawPrint, Salad, Settings, Shirt, Smartphone,
   Star, Tag, Timer, Trophy, Tv, Umbrella, User, Utensils, Wrench, X,
   type LucideIcon,
@@ -23,6 +23,7 @@ const icons: Record<string, LucideIcon> = {
   'cup-soda': CupSoda,
   dumbbell: Dumbbell,
   flag: Flag,
+  orbit: Orbit,
   'flower-2': Flower2,
   ghost: Ghost,
   globe: Globe,

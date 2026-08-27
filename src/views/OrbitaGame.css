@@ -1,0 +1,200 @@
+/* Vista del Modo Órbita. Clave cósmica: acentos cian/violeta/dorado sobre el
+   fondo espacial que ya aplica el tema global. Tipografía Fredoka en títulos. */
+.orbita-game {
+  gap: var(--sp-4);
+  max-width: 560px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* --- Header --- */
+.orbita-game__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  width: 100%;
+}
+.orbita-game__turn {
+  font-size: var(--fs-lg);
+  color: var(--color-white-70);
+}
+.orbita-game__turn strong { color: var(--color-white); font-family: 'Fredoka', var(--font-family); }
+.orbita-game__header-right { display: flex; align-items: center; gap: var(--sp-2); }
+.orbita-game__icon-btn {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #ffffff14;
+  border: 1px solid var(--orbita-menor);
+  color: var(--color-white);
+}
+.orbita-game__icon-btn:hover { background: #ffffff22; }
+
+.orbita-game__goal {
+  margin: 0;
+  text-align: center;
+  color: var(--color-white-70);
+  font-size: var(--fs-sm);
+}
+.orbita-game__goal strong { color: var(--orbita-menor); }
+
+/* --- Stage --- */
+.orbita-game__stage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-4);
+  width: 100%;
+}
+
+.orbita-game__hint {
+  margin: 0;
+  color: var(--color-white-44);
+  font-size: var(--fs-sm);
+  text-align: center;
+}
+
+/* --- Reto V/F --- */
+.orbita-game__challenge {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  align-items: center;
+  animation: orbita-rise 0.3s ease;
+}
+.orbita-game__statement {
+  margin: 0;
+  text-align: center;
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  color: var(--color-white);
+  max-width: 30ch;
+  text-wrap: balance;
+}
+.orbita-game__vf {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-3);
+  width: 100%;
+  max-width: 360px;
+}
+.vf {
+  padding: var(--sp-4);
+  border-radius: var(--radius-md);
+  font-family: 'Fredoka', var(--font-family);
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  color: #fff;
+  border: 2px solid transparent;
+  transition: transform 0.12s ease, box-shadow 0.15s ease;
+}
+.vf:active { transform: scale(0.96); }
+.vf--true {
+  background: linear-gradient(160deg, #34D8A6, #1a9c76);
+  box-shadow: 0 8px 24px #34D8A644;
+}
+.vf--false {
+  background: linear-gradient(160deg, #FF6B7A, #c73b48);
+  box-shadow: 0 8px 24px #ff6b7a44;
+}
+
+/* --- Feedback --- */
+.orbita-game__result {
+  width: 100%;
+  max-width: 420px;
+  padding: var(--sp-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  text-align: center;
+  animation: orbita-rise 0.3s ease;
+  border: 1px solid var(--color-white-22);
+}
+.orbita-game__result--correct { border-color: var(--orbita-planeta); box-shadow: 0 0 0 1px #34D8A644; }
+.orbita-game__result--wrong { border-color: #FF6B7A; box-shadow: 0 0 0 1px #ff6b7a33; }
+.orbita-game__verdict { margin: 0; font-family: 'Fredoka', var(--font-family); font-size: var(--fs-lg); }
+.orbita-game__result--correct .orbita-game__verdict { color: var(--orbita-planeta); }
+.orbita-game__result--wrong .orbita-game__verdict { color: #ff9aa4; }
+.orbita-game__fact { margin: 0; color: var(--color-white-70); font-size: var(--fs-sm); text-wrap: pretty; }
+
+@keyframes orbita-rise { from { opacity: 0; transform: translateY(10px); } }
+
+/* --- Marcador --- */
+.orbita-score {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  background: #0a1130aa;
+  border: 1px solid var(--color-white-12);
+  border-radius: var(--radius-lg);
+  padding: var(--sp-3) var(--sp-4);
+}
+.orbita-score__row {
+  display: grid;
+  grid-template-columns: minmax(60px, auto) 1fr auto;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-1) 0;
+}
+.orbita-score__row--current {
+  background: #4CC5F512;
+  border-radius: var(--radius-md);
+  padding: var(--sp-1) var(--sp-2);
+  margin: 0 calc(var(--sp-2) * -1);
+}
+.orbita-score__name { font-weight: 600; color: var(--color-white); font-size: var(--fs-sm); }
+.orbita-score__slots { display: flex; gap: 4px; flex-wrap: wrap; }
+.orbita-score__slot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #ffffff10;
+  border: 1px dashed var(--color-white-22);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.orbita-score__slot--estrella { border-color: var(--orbita-estrella); border-style: solid; }
+.orbita-score__slot--planeta { border-color: var(--orbita-planeta); border-style: solid; }
+.orbita-score__slot--satelite { border-color: var(--orbita-satelite); border-style: solid; }
+.orbita-score__slot--menor { border-color: var(--orbita-menor); border-style: solid; }
+.orbita-score__mini { width: 88%; }
+.orbita-score__count {
+  font-family: 'Space Mono', var(--font-family);
+  font-weight: 700;
+  color: var(--orbita-menor);
+  min-width: 1.4rem;
+  text-align: right;
+}
+
+/* --- Fin --- */
+.orbita-game--over { justify-content: center; text-align: center; }
+.orbita-game__over-title {
+  margin: 0;
+  font-family: 'Fredoka', var(--font-family);
+  font-size: var(--fs-2xl);
+  text-wrap: balance;
+}
+.orbita-game__over-trophy { width: 1em; height: 1em; vertical-align: -0.12em; color: var(--orbita-estrella); }
+.orbita-game__over-sub { margin: 0; color: var(--color-white-70); }
+.orbita-game__over-actions { display: flex; gap: var(--sp-3); flex-wrap: wrap; justify-content: center; }
+.orbita-game--over .btn-primary {
+  background: linear-gradient(90deg, var(--orbita-menor), var(--orbita-rareza));
+  box-shadow: 0 8px 26px #4CC5F544;
+}
+
+/* Landscape: carta al lado del reto para no scrollear. */
+@media (orientation: landscape) and (max-height: 620px) and (min-width: 720px) {
+  .orbita-game__stage {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: var(--sp-5);
+  }
+  .orbita-game__stage .ocard { width: min(34vh, 240px); }
+}

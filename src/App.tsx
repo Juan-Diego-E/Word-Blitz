@@ -11,6 +11,8 @@ import { ClassicConfig } from './views/ClassicConfig';
 import { Game } from './views/Game';
 import { BoardConfig } from './views/BoardConfig';
 import { BoardGame } from './views/BoardGame';
+import { OrbitaConfig } from './views/OrbitaConfig';
+import { OrbitaGame } from './views/OrbitaGame';
 import { TvScreen } from './views/TvScreen';
 import { JoinRedirect } from './views/JoinRedirect';
 import { ComingSoon } from './views/ComingSoon';
@@ -34,6 +36,7 @@ export function App() {
   return (
     <>
       <div className="bg-lights" aria-hidden="true" />
+      <div className="orbita-veil" aria-hidden="true" />
       <ErrorBoundary>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -42,6 +45,8 @@ export function App() {
           <Route path="/partida" element={<Game />} />
           <Route path="/1000-nombres" element={<BoardConfig />} />
           <Route path="/1000-nombres/partida" element={<BoardGame />} />
+          <Route path="/orbita" element={<OrbitaConfig />} />
+          <Route path="/orbita/partida" element={<OrbitaGame />} />
           <Route path="/ajustes" element={<Settings />} />
           <Route path="/tv" element={<TvScreen />} />
           <Route path="/unirse/:code" element={<JoinRedirect />} />

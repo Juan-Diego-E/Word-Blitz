@@ -27,6 +27,7 @@ export interface Letra {
 export type ModoSlug =
   | 'clasico'
   | '1000-nombres'
+  | 'orbita'
   | 'palabra-diaria'
   | 'infinito'
   | 'multijugador'
@@ -156,3 +157,64 @@ export type RoomMessage =
   | { type: 'state'; code: string; state: GameSnapshot }
   | { type: 'board-state'; code: string; state: BoardSnapshot }
   | { type: 'bye'; code: string; from: RoomRole };
+
+// ---- Modo Órbita (cartas del cosmos) ----
+
+/** Tipo de objeto celeste = categoría; su color viene de la paleta Órbita. */
+export type OrbitaTipo = 'estrella' | 'planeta' | 'satelite' | 'menor';
+export type OrbitaRareza = 'comun' | 'rara' | 'epica' | 'legendaria';
+
+/** Afirmación Verdadero/Falso que la carta plantea al voltearse. */
+export interface OrbitaAfirmacionDef {
+  texto: string;
+  esVerdad: boolean;
+}
+
+export interface OrbitaAtributo {
+  label: string;   // "Tamaño", "Distancia", "Temp"
+  valor: string;   // "109×", "1 UA", "15°"
+}
+
+/** Una carta del mazo. `variante` mapea a una ilustración CSS. */
+export interface OrbitaCard {
+  id: string;
+  nombre: string;
+  tipo: OrbitaTipo;
+  tipoLabel: string;      // "Estrella · centro del sistema"
+  rareza: OrbitaRareza;
+  variante: string;       // clave de CelestialBody (sol, tierra, ...)
+  atributos: [OrbitaAtributo, OrbitaAtributo, OrbitaAtributo];
+  afirmaciones: OrbitaAfirmacionDef[];
+  curiosidad: string;     // dato que se revela al resolver
+}
+
+export interface OrbitaPlayer extends Player {
+  /** Cartas coleccionadas (ids), en orden de captura. */
+  coleccion: string[];
+}
+
+export type OrbitaPhase =
+  | 'idle'      // carta boca abajo, esperando "Descubrí"
+  | 'revealed'  // afirmación visible, timer corriendo, V/F disponible
+  | 'correct'   // resolvió bien (transición breve)
+  | 'wrong'     // resolvió mal o se acabó el tiempo (transición breve)
+  | 'finished';
+
+/** Snapshot serializable del Modo Órbita. */
+export interface OrbitaSnapshot {
+  gameId: string;
+  players: OrbitaPlayer[];
+  turnIndex: number;
+  /** Ids del mazo restante, en orden. */
+  mazo: string[];
+  /** Carta actual sobre la mesa (id). */
+  cartaActual: string | null;
+  /** Índice de la afirmación elegida para la carta actual. */
+  afirmacionIndex: number;
+  phase: OrbitaPhase;
+  timerSeconds: number;
+  metaCartas: number;   // cuántas cartas para ganar (o mazo agotado)
+  deadline: number | null;
+  startedAt: number;
+  winnerId: string | null;
+}

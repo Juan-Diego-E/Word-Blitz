@@ -1,0 +1,31 @@
+/* Config de Órbita. Reutiliza `.config-form` del Clásico y le da acento
+   cósmico. La tipografía Fredoka refuerza el cambio de mundo. */
+@import '../views/ClassicConfig.css';
+
+.orbita-config__title {
+  margin: 0;
+  font-family: 'Fredoka', var(--font-family);
+  font-size: var(--fs-2xl);
+  text-align: center;
+  text-wrap: balance;
+  background: linear-gradient(90deg, var(--orbita-estrella), var(--orbita-menor));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.orbita-config__intro {
+  margin: 0;
+  max-width: 46ch;
+  text-align: center;
+  color: var(--color-white-70);
+  text-wrap: pretty;
+}
+
+/* Acentos del formulario en clave Órbita. */
+.orbita-config .config-form__section legend { color: var(--orbita-menor); }
+.orbita-config .btn-primary {
+  background: linear-gradient(90deg, var(--orbita-menor), var(--orbita-rareza));
+  box-shadow: 0 8px 26px #4CC5F544;
+}
+.orbita-config .btn-primary:hover { box-shadow: 0 10px 32px #B57BFF55; }
+.orbita-config__go { font-family: 'Fredoka', var(--font-family); font-size: var(--fs-lg); }

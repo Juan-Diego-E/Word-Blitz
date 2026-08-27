@@ -31,7 +31,44 @@ body {
      con overflow-x alcanza para evitar el scroll horizontal. */
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  /* La app se transforma suavemente al entrar/salir del Modo Órbita. */
+  transition: background 700ms ease;
 }
+
+/* ============================================================
+   TEMA ÓRBITA — al entrar al modo, `data-modo="orbita"` en <html>
+   morfea el fondo de toda la app al cosmos. La transición vive en
+   `body { transition: background }`. Un segundo velo (`.orbita-veil`)
+   cruza con fade para reforzar el cambio.
+   ============================================================ */
+:root[data-modo='orbita'] body {
+  background:
+    radial-gradient(1100px 700px at 12% -8%, #FFC24D18, transparent 60%),
+    radial-gradient(1000px 800px at 92% 108%, #4CC5F51c, transparent 62%),
+    radial-gradient(900px 900px at 80% 4%, #B57BFF14, transparent 55%),
+    linear-gradient(180deg, #0C1230, #070B1E);
+}
+.orbita-veil {
+  position: fixed;
+  inset: 0;
+  z-index: -98;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 700ms ease;
+  background:
+    radial-gradient(2px 2px at 20% 30%, #ffffffcc, transparent),
+    radial-gradient(1.5px 1.5px at 70% 20%, #ffffffaa, transparent),
+    radial-gradient(1.5px 1.5px at 40% 70%, #ffffff99, transparent),
+    radial-gradient(2px 2px at 85% 60%, #ffffffbb, transparent),
+    radial-gradient(1px 1px at 55% 45%, #ffffff88, transparent),
+    radial-gradient(1.5px 1.5px at 10% 80%, #ffffff99, transparent),
+    radial-gradient(1px 1px at 90% 85%, #ffffff77, transparent),
+    radial-gradient(2px 2px at 30% 12%, #ffffffaa, transparent);
+  background-repeat: no-repeat;
+}
+:root[data-modo='orbita'] .orbita-veil { opacity: 1; }
+/* El patrón tic-tac-toe se desvanece bajo el cosmos. */
+:root[data-modo='orbita'] .bg-lights { opacity: 0; }
 
 /* ---- Fondo animado: patrón tic-tac-toe local (asset propio, sin CDN) ---- */
 .bg-lights {
@@ -47,6 +84,7 @@ body {
   mix-blend-mode: soft-light;
   opacity: 0.6;
   animation: bg-animation 10s linear infinite;
+  transition: opacity 700ms ease;
 }
 
 @keyframes bg-animation {
