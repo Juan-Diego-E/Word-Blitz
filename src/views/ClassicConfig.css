@@ -103,3 +103,12 @@
   font-size: var(--fs-sm);
 }
 .config-form__submit { font-size: var(--fs-lg); }
+
+/* Subtítulo de las pantallas de configuración. El título de la pantalla vive
+   en la TopBar; este es el encabezado con voz de producto. */
+.config-heading {
+  margin: 0;
+  font-size: var(--fs-xl);
+  text-align: center;
+  text-wrap: balance;
+}

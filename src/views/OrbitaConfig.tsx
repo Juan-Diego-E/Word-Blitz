@@ -2,7 +2,8 @@
 // Al montarse aplica el tema "orbita": la app entera se transforma al cosmos
 // con una transición suave (ver global.css + useModoTheme).
 import { useState, type FormEvent } from 'react';
-import { Link, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
+import { TopBar } from '../components/TopBar';
 import { getGameDefaults } from '../lib/content';
 import { useOrbitaStore } from '../store/orbitaStore';
 import { useModoTheme } from '../hooks/useModoTheme';
@@ -48,7 +49,8 @@ export function OrbitaConfig() {
 
   return (
     <main className="view orbita-config">
-      <h1 className="orbita-config__title">Descubridores del cosmos</h1>
+      <TopBar volverA="/jugar" titulo="Órbita" />
+      <h2 className="orbita-config__title">Descubridores del cosmos</h2>
       <p className="orbita-config__intro">
         Volteá cartas, respondé Verdadero o Falso sobre cada astro y coleccionalo si acertás.
         Gana quien primero junte {meta} cartas.
@@ -131,8 +133,6 @@ export function OrbitaConfig() {
           Despegar 🚀
         </button>
       </form>
-
-      <Link to="/jugar" className="btn-ghost">Volver</Link>
     </main>
   );
 }

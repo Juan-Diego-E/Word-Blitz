@@ -179,9 +179,22 @@ select {
 .btn-secondary:hover { background: var(--color-white-22); }
 
 .btn-ghost {
+  /* Antes era un enlace suelto de 23px de alto: la mitad del mínimo táctil.
+     Ahora ocupa 44px reales sin cambiar su aspecto de enlace. */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap-min);
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--radius-pill);
   color: var(--color-white-70);
   text-decoration: underline;
   text-underline-offset: 4px;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+.btn-ghost:hover {
+  color: var(--color-white);
+  background: var(--color-white-12);
 }
 
 /* ---- Utilitarios ---- */

@@ -1,8 +1,8 @@
 // Pantalla de ajustes. Expone las preferencias que ya se persistían pero no
 // tenían dónde tocarse: sonido, vibración, reducir movimiento y la
 // sincronización de partidas con Cerebro.
-import { Link } from 'react-router';
 import { Toggle } from '../components/Toggle';
+import { TopBar } from '../components/TopBar';
 import { play } from '../lib/sound';
 import { usePageTitle } from '../hooks/usePageTitle';
 import { useSettingsStore } from '../store/settingsStore';
@@ -24,7 +24,7 @@ export function Settings() {
 
   return (
     <main className="view settings">
-      <h1>Ajustes</h1>
+      <TopBar volverA="/" titulo="Ajustes" />
 
       <section className="settings__group glass">
         <h2 className="settings__group-title">Sonido y tacto</h2>
@@ -97,10 +97,6 @@ export function Settings() {
           onChange={s.setSincronizarPartidas}
         />
       </section>
-
-      <Link to="/" className="btn-ghost">
-        Volver
-      </Link>
     </main>
   );
 }

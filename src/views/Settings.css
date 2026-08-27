@@ -62,7 +62,7 @@
 }
 .settings__segment {
   flex: 1;
-  min-height: 38px;
+  min-height: var(--tap-min);
   padding: var(--sp-2) var(--sp-2);
   border-radius: var(--radius-pill);
   font-size: var(--fs-sm);

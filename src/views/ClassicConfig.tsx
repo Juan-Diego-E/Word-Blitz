@@ -1,6 +1,7 @@
 // Config del Modo Clásico: jugadores, timer, límite de letras y conexión a la TV.
 import { useEffect, useState, type FormEvent } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
+import { TopBar } from '../components/TopBar';
 import { getGameDefaults } from '../lib/content';
 import { normalizeRoomCode } from '../lib/validation';
 import { useGameStore } from '../store/gameStore';
@@ -62,7 +63,8 @@ export function ClassicConfig() {
 
   return (
     <main className="view classic-config">
-      <h1>Armemos la partida</h1>
+      <TopBar volverA="/jugar" titulo="Modo Clásico" />
+      <h2 className="config-heading">Armemos la partida</h2>
 
       <form className="config-form glass" onSubmit={jugar} noValidate>
         <fieldset className="config-form__section">
@@ -183,8 +185,6 @@ export function ClassicConfig() {
           ¡A jugar!
         </button>
       </form>
-
-      <Link to="/jugar" className="btn-ghost">Volver</Link>
     </main>
   );
 }

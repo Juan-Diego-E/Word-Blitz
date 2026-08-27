@@ -1,7 +1,8 @@
 // Config del Modo 1000 Nombres: jugadores (con color de peón),
 // layout del tablero, timer y conexión a la TV.
 import { useEffect, useState, type FormEvent } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router';
+import { useNavigate, useSearchParams } from 'react-router';
+import { TopBar } from '../components/TopBar';
 import { getBoardLayouts, getGameDefaults } from '../lib/content';
 import { normalizeRoomCode } from '../lib/validation';
 import { useBoardGameStore } from '../store/boardGameStore';
@@ -64,7 +65,8 @@ export function BoardConfig() {
 
   return (
     <main className="view board-config">
-      <h1>Armá la carrera del tablero</h1>
+      <TopBar volverA="/jugar" titulo="1000 Nombres" />
+      <h2 className="config-heading">Armá la carrera del tablero</h2>
 
       <form className="config-form glass" onSubmit={jugar} noValidate>
         <fieldset className="config-form__section">
@@ -204,8 +206,6 @@ export function BoardConfig() {
           ¡A jugar!
         </button>
       </form>
-
-      <Link to="/jugar" className="btn-ghost">Volver</Link>
     </main>
   );
 }

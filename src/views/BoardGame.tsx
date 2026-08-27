@@ -4,7 +4,7 @@
 // el orden se invierte por CSS (info arriba, tablero al medio, podio abajo).
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { AlarmClock, Settings, Trophy, Tv } from 'lucide-react';
+import { AlarmClock, Settings, Trophy, Tv, X } from 'lucide-react';
 import { BoardTrack } from '../components/BoardTrack';
 import { Card } from '../components/Card';
 import { Confetti } from '../components/Confetti';
@@ -188,6 +188,21 @@ export function BoardGame() {
               aria-label="Ajustes de la partida"
             >
               <Settings aria-hidden="true" />
+            </button>
+            {/* Salida directa, igual que en los otros modos. */}
+            <button
+              type="button"
+              className="board-game__settings-btn"
+              onClick={() => {
+                if (confirm('¿Salir de la partida? Se va a perder el progreso.')) {
+                  g.resetGame();
+                  session.leaveRoom();
+                  navigate('/');
+                }
+              }}
+              aria-label="Salir de la partida"
+            >
+              <X aria-hidden="true" />
             </button>
           </div>
         </aside>

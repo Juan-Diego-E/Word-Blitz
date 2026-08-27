@@ -2,7 +2,7 @@
 // regresiva + ajustes, jugador en turno, carta, SÍ/NO y ranking temporal.
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router';
-import { AlarmClock, Settings, Trophy, Tv } from 'lucide-react';
+import { AlarmClock, Settings, Trophy, Tv, X } from 'lucide-react';
 import { Card } from '../components/Card';
 import { Confetti } from '../components/Confetti';
 import { JudgementButtons } from '../components/JudgementButtons';
@@ -124,6 +124,22 @@ export function Game() {
             aria-label="Ajustes de la partida"
           >
             <Settings aria-hidden="true" />
+          </button>
+          {/* Salida directa: antes había que entrar a Ajustes → "Terminar
+              partida" para irse. El Modo Órbita ya tenía esta X; unificamos. */}
+          <button
+            type="button"
+            className="game__settings-btn"
+            onClick={() => {
+              if (confirm('¿Salir de la partida? Se va a perder el progreso.')) {
+                g.resetGame();
+                session.leaveRoom();
+                navigate('/');
+              }
+            }}
+            aria-label="Salir de la partida"
+          >
+            <X aria-hidden="true" />
           </button>
         </div>
       </header>
