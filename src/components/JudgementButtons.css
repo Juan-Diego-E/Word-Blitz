@@ -21,7 +21,12 @@
   box-shadow: var(--sh-2);
   transition: transform var(--release), opacity 0.2s ease;
 }
-.judgement__btn:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: var(--sh-0); }
+.judgement__btn:disabled {
+  cursor: not-allowed;
+  background: var(--wb-well);
+  color: var(--wb-ink-3);
+  box-shadow: var(--sh-0);
+}
 .judgement__btn:not(:disabled):active {
   transform: translateY(2px) scale(0.977);
   transition: transform var(--press);

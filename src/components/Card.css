@@ -53,7 +53,9 @@
    con el viewport: la misma carta vive en el celu y en la TV. */
 .card__face--back { container-type: inline-size; }
 .card__hint {
-  color: var(--wb-ink-2);
+  /* Tinta primaria: --wb-ink-2 sobre --wb-3 da 4,40:1 en nocturno, y esta
+     es la unica instruccion de la pantalla. */
+  color: var(--wb-ink);
   font-size: var(--fs-sm);
 }
 

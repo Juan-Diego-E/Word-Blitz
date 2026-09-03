@@ -76,19 +76,29 @@
   padding: var(--sp-2) var(--sp-4);
   border-radius: var(--radius-md);
   background: var(--grad-accent);
-  border: 1px solid var(--color-tangelo);
-  box-shadow: 0 6px 20px #f5550e40;
+  /* Tinta clara sobre el acento: es la unica pieza donde la polaridad se
+     invierte, igual que el CTA. La etiqueta heredaba --wb-ink-2, que esta
+     calibrado contra el CAMPO y no contra el relleno del acento. */
+  color: var(--wb-on-accent);
+  border: none;
+  box-shadow: var(--sh-2), var(--glow-accent);
 }
 .board-game__letter-label {
+  /* Sin opacity: al 75% sobre el relleno del acento daba 3,51:1. La
+     jerarquia contra el valor la hacen el tamano, la caja alta y el
+     tracking, que es como se hace cuando bajar el alfa cuesta contraste. */
   font-size: var(--fs-xs);
-  color: var(--color-white-70);
+  color: inherit;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
 }
 .board-game__letter-value {
+  font-family: var(--font-display);
   font-size: var(--fs-2xl);
   font-weight: 700;
   line-height: 1;
+  color: inherit;
 }
 
 .board-game__progress {

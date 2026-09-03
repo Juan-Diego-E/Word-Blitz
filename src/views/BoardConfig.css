@@ -43,6 +43,9 @@
   background: var(--wb-accent-soft);
   box-shadow: var(--sh-2);
 }
+/* Sobre el tinte del acento, el texto secundario cae a 4,09:1 en nocturno.
+   La tarjeta elegida sube toda su tinta un escalon. */
+.board-config__layout--selected .board-config__layout-desc { color: var(--wb-ink); }
 .board-config__layout-name {
   font-weight: 700;
   font-size: var(--fs-md);
