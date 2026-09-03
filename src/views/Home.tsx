@@ -7,7 +7,7 @@ import { useGameStore } from '../store/gameStore';
 import { useBoardGameStore } from '../store/boardGameStore';
 import { usePageTitle } from '../hooks/usePageTitle';
 import type { BoardSnapshot, GameSnapshot } from '../types';
-import logo from '../assets/logo.png';
+import { Wordmark } from '../components/Wordmark';
 import './Home.css';
 
 export function Home() {
@@ -42,7 +42,7 @@ export function Home() {
   return (
     <main className="view home">
       <h1 className="home__logo">
-        <img src={logo} alt="Word Blitz" width={640} height={640} />
+        <Wordmark />
       </h1>
       <p className="home__tagline">{meta.tagline}</p>
 

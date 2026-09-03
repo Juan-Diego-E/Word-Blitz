@@ -1,7 +1,7 @@
 // Carta que voltea: reverso con logo → categoría al frente.
 import type { Categoria } from '../types';
 import { Icon } from './Icon';
-import logo from '../assets/logo.png';
+import { Wordmark } from './Wordmark';
 import './Card.css';
 
 interface Props {
@@ -18,7 +18,7 @@ export function Card({ category, flipped, onFlip, disabled, size = 'control' }: 
   const inner = (
     <div className={`card__inner ${flipped ? 'card__inner--flipped' : ''}`}>
       <div className="card__face card__face--back" aria-hidden={flipped}>
-        <img src={logo} alt="" className="card__logo" width={140} height={140} />
+        <Wordmark className="card__logo" title="" />
         {onFlip && <span className="card__hint">Tocá para voltear</span>}
       </div>
       <div className="card__face card__face--front" aria-hidden={!flipped}>

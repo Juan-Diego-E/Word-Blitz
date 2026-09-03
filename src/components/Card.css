@@ -44,10 +44,10 @@
   border: 1px solid var(--hairline);
   box-shadow: var(--sh-3);
 }
-.card__logo {
-  width: 62%;
-  height: auto;
-}
+.card__logo { font-size: clamp(1.3rem, 13cqw, 3rem); }
+/* La cara mide su propio ancho para que el logo escale con la carta y no
+   con el viewport: la misma carta vive en el celu y en la TV. */
+.card__face--back { container-type: inline-size; }
 .card__hint {
   color: var(--wb-ink-2);
   font-size: var(--fs-sm);

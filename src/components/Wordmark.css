@@ -1,0 +1,27 @@
+.wordmark {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  /* line-height ajustado: las dos líneas tienen que leerse como un bloque. */
+  line-height: 0.84;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--wb-ink);
+  user-select: none;
+}
+.wordmark__line { display: inline-flex; align-items: baseline; }
+.wordmark__line--accent { color: var(--wb-accent-text); }
+
+/* El rayo ocupa el lugar de la I: mismo alto que una mayúscula, alineado a
+   la línea de base, y con el ámbar que ya usa el cronómetro. Es el único
+   sitio donde el ámbar aparece fuera del tiempo, y funciona porque es la
+   misma idea: energía. */
+.wordmark__bolt {
+  width: 0.36em;
+  height: 0.8em;
+  margin-inline: 0.02em;
+  align-self: baseline;
+  transform: translateY(0.06em);
+  fill: var(--wb-amber);
+}

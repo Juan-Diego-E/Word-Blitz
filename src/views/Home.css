@@ -4,12 +4,7 @@
 }
 .home__logo {
   margin: 0;
-  line-height: 0;
-}
-.home__logo img {
-  width: clamp(200px, 55vw, 340px);
-  height: auto;
-  filter: drop-shadow(0 14px 40px var(--occl));
+  font-size: clamp(3.2rem, 15vw, 5.5rem);
 }
 .home__tagline {
   max-width: 34ch;

@@ -7,9 +7,12 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.ico', 'favicon-32.png', 'apple-touch-icon.png', 'og-image.png'],
+      // og-image.png no entra: solo la piden los crawlers cuando alguien
+      // comparte el link, y precachearla costaba 199KB en la primera carga
+      // de una app que se abre en la sobremesa.
+      includeAssets: ['favicon-32.png', 'apple-touch-icon.png'],
       workbox: {
-        // Cachear también Google Fonts para que Poppins funcione offline.
+        // Cachear también Google Fonts para que Outfit y Fredoka funcionen offline.
         runtimeCaching: [
           {
             urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
