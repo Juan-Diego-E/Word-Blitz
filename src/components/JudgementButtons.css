@@ -10,7 +10,10 @@
   align-items: center;
   justify-content: center;
   gap: var(--sp-2);
-  padding: var(--sp-4);
+  /* 64px de alto y 16px de separación: es el par que se toca sin mirar,
+     mientras la atención está en la mesa y no en la pantalla. */
+  min-height: 64px;
+  padding: var(--sp-3) var(--sp-4);
   border-radius: var(--radius-md);
   font-size: var(--fs-lg);
   font-weight: 700;

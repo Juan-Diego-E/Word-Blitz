@@ -9,6 +9,7 @@ import { JudgementButtons } from '../components/JudgementButtons';
 import { Toggle } from '../components/Toggle';
 import { PlayerTurnBanner } from '../components/PlayerTurnBanner';
 import { Podium } from '../components/Podium';
+import { RankingBar } from '../components/RankingBar';
 import { RouletteLetters } from '../components/RouletteLetters';
 import { TimerRing } from '../components/TimerRing';
 import { useTimer } from '../hooks/useTimer';
@@ -161,14 +162,18 @@ export function Game() {
         )}
       </div>
 
-      <JudgementButtons onJudge={g.judge} disabled={g.phase !== 'revealed'} />
-      {g.phase === 'revealed' && (
-        <p className="game__rule-hint">
-          Si no acierta, la carta rebota al siguiente con la misma letra.
-        </p>
-      )}
+      {/* La regla se muestra siempre, no solo en `revealed`: es la firma del
+          modo, y mostrarla condicionalmente movía toda la columna al voltear
+          la carta. En una vista de altura fija, un salto de layout se paga. */}
+      <p className="game__rule-hint">
+        Si no acierta, la carta rebota al siguiente con la misma letra.
+      </p>
 
-      <Podium players={g.players} currentPlayerId={current.id} title="Ranking" />
+      <RankingBar players={g.players} currentPlayerId={current.id} />
+
+      {/* Último en el orden y anclado abajo: es la acción, y es lo que el
+          pulgar alcanza sin recolocar la mano. */}
+      <JudgementButtons onJudge={g.judge} disabled={g.phase !== 'revealed'} />
 
       <dialog ref={settingsRef} className="game__settings glass" onClose={() => setShowSettings(false)}>
         <h2>Ajustes</h2>

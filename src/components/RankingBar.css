@@ -1,0 +1,91 @@
+.ranking-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  width: 100%;
+  max-width: 480px;
+  min-height: 0;
+  padding: 0;
+  text-align: left;
+}
+.ranking-bar__list {
+  display: flex;
+  gap: var(--sp-2);
+  flex: 1;
+  min-width: 0;
+}
+/* En vertical solo entran los tres primeros; el resto se cuenta en "+N".
+   En horizontal hay columna propia y se muestran todos. */
+.ranking-bar__item:nth-child(n + 4) { display: none; }
+
+.ranking-bar__item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  flex: 1;
+  min-width: 0;
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: var(--radius-pill);
+  background: var(--color-white-12);
+  border: 1px solid transparent;
+  font-size: var(--fs-sm);
+}
+.ranking-bar__item--current {
+  background: var(--color-tangelo-soft);
+  border-color: var(--color-tangelo);
+}
+.ranking-bar__pos {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 50%;
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  background: var(--color-white-22);
+}
+.ranking-bar__pos--1 { background: #f0b429; color: #3a2b00; }
+.ranking-bar__pos--2 { background: #c8d2dc; color: #29323c; }
+.ranking-bar__pos--3 { background: #c98a52; color: #3d2410; }
+.ranking-bar__name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ranking-bar__score {
+  flex: none;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.ranking-bar__more {
+  flex: none;
+  padding: var(--sp-1) var(--sp-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-white-12);
+  font-size: var(--fs-xs);
+  color: var(--color-white-70);
+}
+
+.ranking-sheet {
+  border: var(--glass-border);
+  color: var(--color-white);
+  padding: var(--sp-4);
+  width: min(420px, calc(100% - 2 * var(--sp-4)));
+  max-height: calc(100dvh - 2 * var(--sp-4));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+/* El `display` va sobre [open] a propósito: declararlo en `.ranking-sheet`
+   pisa el `dialog:not([open]) { display: none }` del user-agent y la hoja
+   queda visible siempre, con el diálogo cerrado. */
+.ranking-sheet[open] {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  align-items: stretch;
+}
+.ranking-sheet::backdrop { background: #0c1a37cc; }
+.ranking-sheet .podium { box-shadow: none; }
