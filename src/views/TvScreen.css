@@ -10,7 +10,14 @@
   height: auto;
   filter: drop-shadow(0 14px 40px #0c1a3766);
 }
+/* Opaca, y sin la clase .glass: es la pieza que lleva el código de sala, el
+   único dato que un invitado necesita leer desde el sillón. Sobre vidrio +
+   arcoíris el código medía 2,75:1 en su mejor momento. */
 .tv__join {
+  background: linear-gradient(160deg, #12294f, #0c1a37);
+  border: var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
   display: flex;
   flex-direction: column;
   align-items: center;

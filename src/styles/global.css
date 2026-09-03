@@ -101,30 +101,30 @@ body {
   box-shadow: var(--shadow-soft);
 }
 
-/* Borde cónico arcoíris animado (conservado del look original).
-   Dos capas: ::after = anillo nítido, ::before = halo difuminado. */
+/* Halo del borde destacado.
+   ANTES era un conic-gradient arcoíris animado (--angle girando 10s) que
+   vivía en z-index:-1 y se leía A TRAVÉS del backdrop-filter de la pieza:
+   el fondo del texto cambiaba de color con el tiempo. Medido sobre el
+   render, el contraste del código de sala nunca superaba 2,75:1 y el de la
+   categoría oscilaba entre 3,10 y 5,46 a lo largo del ciclo.
+   No hay par de colores que arregle un fondo animado: el halo pasa a ser
+   estático y de marca, y la pieza que lleva texto se vuelve opaca. */
 .glow-border { position: relative; }
-.glow-border::before,
 .glow-border::after {
   content: '';
   position: absolute;
   inset: -4px;
   z-index: -1;
   border-radius: calc(var(--radius-lg) + 4px);
-  background: conic-gradient(
-    from var(--angle),
-    #ff4545, #00ff99, #006aff, #ff0095, #ff4545
-  );
-  opacity: 0.4;
-  animation: spin-angle 10s linear infinite;
+  background: linear-gradient(150deg, var(--color-tangelo), var(--color-blue-yinmn));
+  opacity: 0.55;
+  filter: blur(0.75rem);
 }
-.glow-border::before {
-  filter: blur(1rem);
-  opacity: 0.5;
-}
-@keyframes spin-angle {
-  to { --angle: 360deg; }
-}
+
+/* Los CTA son <Link> con clase .btn: sin este reset, el botón principal de
+   la Home se renderiza subrayado. El subrayado se declara explícitamente
+   donde sí comunica "esto es un enlace de texto" (.btn-ghost). */
+a { text-decoration: none; }
 
 /* ---- Base de controles ---- */
 button {
@@ -165,7 +165,10 @@ select {
 
 .btn-primary {
   background: var(--color-tangelo);
-  color: #fff;
+  /* Blanco sobre tangelo daba 3,39:1 — el único par de la paleta que había
+     quedado sin recalibrar, y está en el CTA de Home, "¡A jugar!",
+     "Revancha" y "Seguir jugando". Tinta oscura: 5,69:1. */
+  color: #1a0a02;
   box-shadow: 0 8px 26px #f5550e55;
 }
 .btn-primary:hover { box-shadow: 0 10px 32px #f5550e77; }

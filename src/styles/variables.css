@@ -76,9 +76,3 @@
   --tap-min: 44px;
 }
 
-/* Ángulo animable del borde cónico (conservado del look original) */
-@property --angle {
-  syntax: '<angle>';
-  initial-value: 0deg;
-  inherits: false;
-}

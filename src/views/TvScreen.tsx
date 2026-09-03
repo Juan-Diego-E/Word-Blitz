@@ -52,7 +52,7 @@ export function TvScreen() {
         <h1 className="tv__logo">
           <img src={logo} alt="Word Blitz" width={640} height={640} />
         </h1>
-        <div className="tv__join glass glow-border">
+        <div className="tv__join glow-border">
           <p className="tv__join-label">Código de sala</p>
           <p className="tv__code">{code}</p>
           {qr && <img src={qr} alt={`Código QR para unirse a la sala ${code}`} className="tv__qr" width={220} height={220} />}

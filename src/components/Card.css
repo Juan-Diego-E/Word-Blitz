@@ -5,24 +5,18 @@
   position: relative;
 }
 
-/* Borde cónico arcoíris original de la carta */
-.card::before,
+/* Halo de la carta. El arcoíris cónico animado que vivía acá se filtraba
+   hacia adentro a través del backdrop-filter de la cara frontal: el nombre
+   de la categoría quedaba sobre un fondo que giraba. Ver global.css. */
 .card::after {
   content: '';
   position: absolute;
   inset: -4px;
   z-index: -1;
   border-radius: calc(var(--radius-lg) + 4px);
-  background: conic-gradient(
-    from var(--angle),
-    #ff4545, #00ff99, #006aff, #ff0095, #ff4545
-  );
-  opacity: 0.4;
-  animation: spin-angle 10s linear infinite;
-}
-.card::before {
-  filter: blur(1rem);
+  background: linear-gradient(150deg, var(--color-tangelo), var(--color-blue-yinmn));
   opacity: 0.5;
+  filter: blur(0.75rem);
 }
 
 .card:not(:disabled):hover .card__face--back {
@@ -52,14 +46,15 @@
   border-radius: var(--radius-lg);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  background: var(--glass-bg);
+  /* Opaca a propósito: la cara de la carta lleva texto, así que no puede
+     dejar pasar lo que haya detrás. */
+  background: linear-gradient(160deg, #16305c, #0e1e3f);
   border: var(--glass-border);
-  backdrop-filter: var(--glass-blur);
   box-shadow: var(--shadow-soft);
 }
 
 .card__face--back {
-  background: linear-gradient(160deg, #0d518955, #0c1a3799), var(--glass-bg);
+  background: linear-gradient(160deg, #10406e, #0c1a37);
 }
 .card__logo {
   width: 62%;
