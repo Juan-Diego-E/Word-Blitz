@@ -13,6 +13,10 @@
   transform: translateY(2px) scale(0.985);
   transition: transform var(--press);
 }
+/* El beat del rechazo: la carta baja un nivel de elevación. La jerarquía la
+   lleva la luz, así que "perdiste el turno" se ve sin necesidad de color. */
+.card--sunk { transform: translateY(6px) scale(0.97); transition: transform 260ms ease; }
+.card--sunk .card__face { box-shadow: var(--sh-1); }
 .card--control { width: min(78vw, 300px); aspect-ratio: 3 / 4; }
 .card--tv { width: clamp(280px, 30vw, 460px); aspect-ratio: 3 / 4; }
 

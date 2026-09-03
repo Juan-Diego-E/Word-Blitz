@@ -31,7 +31,10 @@
 
 .topbar__title {
   margin: 0;
-  font-size: var(--fs-md);
+  font-family: var(--font-display);
+  /* El titulo de la barra es un <h1>: sin esto hereda el 2em del user agent,
+     y las vistas ademas le ponian --fs-2xl encima. */
+  font-size: var(--fs-sm);
   font-weight: 600;
   text-align: center;
   color: var(--color-white-70);
@@ -65,8 +68,10 @@
 }
 .topbar__icon-btn:hover { background: var(--color-white-22); }
 
-/* En pantallas muy angostas, el texto "Volver" cede y queda solo la flecha. */
-@media (max-width: 380px) {
+/* El texto "Volver" cede antes de que el título se corte: medido en 390px,
+   "1000 Nombres" se renderizaba como "1000 No...". La flecha sola sigue
+   teniendo su área táctil y su etiqueta accesible. */
+@media (max-width: 460px) {
   .topbar__back-text { display: none; }
   .topbar__back { padding: var(--sp-2); }
 }

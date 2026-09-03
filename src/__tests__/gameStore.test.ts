@@ -41,11 +41,25 @@ describe('gameStore — loop del Modo Clásico', () => {
     expect(g().cardsResolved).toBe(1);
   });
 
+  it('NO: entra en el beat antes de rebotar, sin tocar el turno ni el reloj', () => {
+    startRevealedRound();
+    const letra = g().activeLetter;
+    g().judge(false);
+    // El rechazo es una decisión humana: la mesa necesita verla antes de que
+    // arranque el reloj del siguiente. Hasta que la vista llama a passTurn,
+    // no cambió nada más que la fase.
+    expect(g().phase).toBe('rejected');
+    expect(g().turnIndex).toBe(0);
+    expect(g().deadline).toBeNull();
+    expect(g().activeLetter).toBe(letra);
+  });
+
   it('NO: rebota la MISMA categoría+letra al siguiente jugador', () => {
     startRevealedRound();
     const letra = g().activeLetter;
     const cat = g().currentCategory?.id;
     g().judge(false);
+    g().passTurn();
     expect(g().turnIndex).toBe(1);
     expect(g().phase).toBe('revealed');
     expect(g().activeLetter).toBe(letra);
@@ -56,9 +70,13 @@ describe('gameStore — loop del Modo Clásico', () => {
   it('si fallan todos, la carta se quema: se resuelve sin puntos y sigue el turno', () => {
     startRevealedRound();
     const letra = g().activeLetter!;
-    g().judge(false); // Ana → Beto
-    g().judge(false); // Beto → Caro
-    g().judge(false); // Caro → volvería a Ana (dueña) ⇒ quemada
+    const rechazar = () => {
+      g().judge(false);
+      g().passTurn();
+    };
+    rechazar(); // Ana → Beto
+    rechazar(); // Beto → Caro
+    rechazar(); // Caro → volvería a Ana (dueña) ⇒ quemada
     expect(g().phase).toBe('idle');
     expect(g().cardsResolved).toBe(1);
     expect(g().usedLetters).toContain(letra);

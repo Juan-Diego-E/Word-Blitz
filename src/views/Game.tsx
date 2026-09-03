@@ -42,10 +42,14 @@ export function Game() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [g.inProgress, g.players.length]);
 
-  // "¡Tiempo!" breve y rebote automático al siguiente jugador.
+  // Beat antes del rebote. El "¡Tiempo!" ya tenía el suyo; el "No vale" no
+  // tenía ninguno, y es una decisión humana y a veces polémica: la mesa
+  // necesita el momento para registrarla. 900ms alcanza para que la carta se
+  // hunda, entre el nombre del siguiente y recién ahí arranque el reloj.
   useEffect(() => {
-    if (g.phase !== 'timeout') return;
-    const t = window.setTimeout(() => useGameStore.getState().passTurn(), 1600);
+    if (g.phase !== 'timeout' && g.phase !== 'rejected') return;
+    const ms = g.phase === 'timeout' ? 1600 : 900;
+    const t = window.setTimeout(() => useGameStore.getState().passTurn(), ms);
     return () => window.clearTimeout(t);
   }, [g.phase]);
 
@@ -59,7 +63,8 @@ export function Game() {
   if (g.players.length === 0) return null;
 
   const current = g.players[g.turnIndex];
-  const flipped = g.phase === 'revealed' || g.phase === 'timeout';
+  const enBeat = g.phase === 'timeout' || g.phase === 'rejected';
+  const flipped = g.phase === 'revealed' || enBeat;
   const nextPlayer = g.players[(g.turnIndex + 1) % g.players.length];
   const cardsLabel =
     g.letterLimit != null ? `Carta ${Math.min(g.cardsResolved + 1, g.letterLimit)} de ${g.letterLimit}` : `Carta ${g.cardsResolved + 1}`;
@@ -153,11 +158,24 @@ export function Game() {
           flipped={flipped}
           onFlip={g.drawCard}
           disabled={g.phase === 'spinning'}
+          sunk={g.phase === 'rejected'}
         />
-        {g.phase === 'timeout' && (
-          <p className="game__timeout surface" role="status">
-            <AlarmClock aria-hidden="true" className="game__timeout-icon" /> ¡Tiempo! Le toca a{' '}
-            <strong>{nextPlayer.nombre}</strong> con la misma carta.
+        {enBeat && (
+          <p
+            className={`game__timeout surface game__timeout--${g.phase}`}
+            role="status"
+          >
+            {g.phase === 'timeout' ? (
+              <>
+                <AlarmClock aria-hidden="true" className="game__timeout-icon" /> ¡Tiempo! Le
+                toca a <strong>{nextPlayer.nombre}</strong> con la misma carta.
+              </>
+            ) : (
+              <>
+                <X aria-hidden="true" className="game__timeout-icon" /> No vale. Le toca a{' '}
+                <strong>{nextPlayer.nombre}</strong> con la misma carta.
+              </>
+            )}
           </p>
         )}
       </div>

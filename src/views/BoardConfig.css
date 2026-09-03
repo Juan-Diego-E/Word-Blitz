@@ -2,11 +2,6 @@
    (importada global desde ClassicConfig.css) y agrega su propio afinado. */
 @import '../views/ClassicConfig.css';
 
-.board-config h1 {
-  margin: 0;
-  font-size: var(--fs-2xl);
-  text-align: center;
-}
 
 .board-config__pawn {
   flex: none;

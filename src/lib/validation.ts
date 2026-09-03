@@ -50,7 +50,9 @@ const isIntInRange = (v: unknown, min: number, max: number): v is number =>
 const isSafeText = (v: unknown, max = MAX_TEXT_LEN): v is string =>
   typeof v === 'string' && v.length > 0 && v.length <= max;
 
-const ROUND_PHASES: RoundPhase[] = ['idle', 'spinning', 'revealed', 'timeout', 'finished'];
+const ROUND_PHASES: RoundPhase[] = [
+  'idle', 'spinning', 'revealed', 'timeout', 'rejected', 'finished',
+];
 const BOARD_PHASES: BoardPhase[] = ['idle', 'spinning', 'revealed', 'timeout', 'finished'];
 
 function isCategoryRef(v: unknown): boolean {

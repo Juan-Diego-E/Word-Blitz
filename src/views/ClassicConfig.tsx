@@ -11,6 +11,14 @@ import './ClassicConfig.css';
 
 const defaults = getGameDefaults();
 
+const LIMITES: { valor: number | null; texto: string }[] = [
+  { valor: 5, texto: '5' },
+  { valor: 10, texto: '10' },
+  { valor: 15, texto: '15' },
+  { valor: 20, texto: '20' },
+  { valor: null, texto: 'Sin límite' },
+];
+
 export function ClassicConfig() {
   usePageTitle('Modo Clásico');
   const navigate = useNavigate();
@@ -120,20 +128,31 @@ export function ClassicConfig() {
               <button type="button" onClick={() => setTimer((t) => Math.min(defaults.maxTimerSeconds, t + 5))} aria-label="Más tiempo">+</button>
             </div>
           </div>
-          <div className="config-form__row">
-            <label htmlFor="limite">Cartas por partida</label>
-            <select
-              id="limite"
-              value={limite ?? 'sin'}
-              onChange={(e) => setLimite(e.target.value === 'sin' ? null : Number(e.target.value))}
-            >
-              <option value={5}>5 cartas</option>
-              <option value={10}>10 cartas</option>
-              <option value={15}>15 cartas</option>
-              <option value={20}>20 cartas</option>
-              <option value="sin">Sin límite</option>
-            </select>
-          </div>
+          {/* Chips y no <select>: son cinco opciones fijas, se ven todas sin
+              abrir nada, y al lado ya había un stepper propio para los
+              segundos. Dos controles vecinos que hacen lo mismo -elegir un
+              valor de una lista corta- no pueden hablar dos idiomas.
+              Los radios son nativos: el teclado y el lector de pantalla
+              vienen de fábrica. */}
+          <fieldset className="config-form__chips-group">
+            <legend>Cartas por partida</legend>
+            <div className="chips">
+              {LIMITES.map(({ valor, texto }) => (
+                <label
+                  key={texto}
+                  className={'chip' + (limite === valor ? ' chip--on' : '')}
+                >
+                  <input
+                    type="radio"
+                    name="limite"
+                    checked={limite === valor}
+                    onChange={() => setLimite(valor)}
+                  />
+                  {texto}
+                </label>
+              ))}
+            </div>
+          </fieldset>
         </fieldset>
 
         <fieldset className="config-form__section">

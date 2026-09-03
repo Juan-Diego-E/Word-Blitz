@@ -180,10 +180,10 @@
   padding: var(--sp-3) var(--sp-4);
   border-color: var(--color-red);
   text-align: center;
-  animation: timeout-in 0.3s ease;
+  animation: board-timeout-in 0.3s ease;
   max-width: 480px;
 }
-@keyframes timeout-in {
+@keyframes board-timeout-in {
   from { opacity: 0; transform: translateY(8px); }
 }
 .board-game__timeout-icon {

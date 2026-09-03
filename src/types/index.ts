@@ -73,6 +73,7 @@ export type RoundPhase =
   | 'spinning'  // ruleta girando / carta volteando
   | 'revealed'  // categoría visible, temporizador corriendo
   | 'timeout'   // se acabó el tiempo (transición breve)
+  | 'rejected'  // el moderador dijo que no (beat breve antes del rebote)
   | 'finished'; // partida terminada
 
 /** Snapshot serializable de la partida: persistencia + sync a la TV. */

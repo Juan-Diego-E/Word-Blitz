@@ -1,8 +1,3 @@
-.classic-config h1 {
-  margin: 0;
-  font-size: var(--fs-2xl);
-  text-align: center;
-}
 .config-form {
   display: flex;
   flex-direction: column;
@@ -80,6 +75,53 @@
   transition: transform var(--release);
 }
 .stepper button:active { transform: translateY(2px) scale(0.94); transition: transform var(--press); }
+/* Chips de opción única. Mismo idioma que el stepper de al lado: los dos
+   eligen un valor de una lista corta, y ninguno de los dos abre nada. */
+.config-form__chips-group {
+  border: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.config-form__chips-group legend { padding: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap-min);
+  padding: var(--sp-2) var(--sp-4);
+  border-radius: var(--radius-pill);
+  background: var(--wb-1);
+  box-shadow: var(--sh-1);
+  border: 1px solid transparent;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform var(--release), background 0.15s ease;
+}
+.chip:active { transform: translateY(2px) scale(0.96); transition: transform var(--press); }
+/* El radio real queda invisible pero presente: el teclado y el lector de
+   pantalla salen de fábrica, y el foco se dibuja sobre el chip. */
+.chip input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+.chip:has(input:focus-visible) {
+  outline: 3px solid var(--wb-amber);
+  outline-offset: 3px;
+}
+.chip--on {
+  background: var(--grad-accent);
+  color: var(--wb-on-accent);
+  border-color: var(--wb-accent);
+  box-shadow: var(--sh-2), var(--glow-accent);
+}
+
 .config-form__code {
   max-width: 140px;
   text-align: center;

@@ -3,11 +3,6 @@
   margin: 0 auto;
   width: 100%;
 }
-.settings h1 {
-  margin: 0;
-  font-size: var(--fs-2xl);
-  text-align: center;
-}
 
 .settings__group {
   width: 100%;

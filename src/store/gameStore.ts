@@ -112,7 +112,17 @@ export const useGameStore = create<GameState>((set, get) => ({
       );
       resolveCard(set, { ...s, players }, s.turnIndex);
     } else {
-      bounce(set, s);
+      // El rechazo NO rebota en el mismo frame. Antes `judge(false)` llamaba
+      // a `bounce()` de una: cambiaba el turno y reiniciaba el deadline sin
+      // que pasara nada en pantalla, asi que la carta simplemente pasaba a
+      // otro nombre. El timeout, que es un evento MENOS interesante, si
+      // tenia su momento de 1600ms.
+      //
+      // La REGLA de rebote no cambia: `bounce()` es el mismo y sigue
+      // decidiendo lo mismo. Lo unico que cambia es cuando se dispara — la
+      // vista lo llama via `passTurn()` despues del beat, exactamente como
+      // ya hacia con el timeout.
+      set({ phase: 'rejected', deadline: null });
     }
   },
 
@@ -122,10 +132,10 @@ export const useGameStore = create<GameState>((set, get) => ({
     set({ phase: 'timeout', deadline: null });
   },
 
-  // Después del "¡Tiempo!" (o de un NO): rebote al siguiente jugador.
+  // Después del "¡Tiempo!" o del "No vale": rebote al siguiente jugador.
   passTurn: () => {
     const s = get();
-    if (s.phase !== 'timeout') return;
+    if (s.phase !== 'timeout' && s.phase !== 'rejected') return;
     bounce(set, s);
   },
 
@@ -161,7 +171,13 @@ export const useGameStore = create<GameState>((set, get) => ({
         ? { ...(snap.currentCategory as Categoria) }
         : null,
       // Nunca restaurar con un timer corriendo a mitad: volver a estado estable.
-      phase: snap.phase === 'revealed' || snap.phase === 'spinning' || snap.phase === 'timeout' ? 'idle' : snap.phase,
+      phase:
+        snap.phase === 'revealed' ||
+        snap.phase === 'spinning' ||
+        snap.phase === 'timeout' ||
+        snap.phase === 'rejected'
+          ? 'idle'
+          : snap.phase,
       activeLetter: snap.phase === 'finished' ? snap.activeLetter : null,
       deadline: null,
       inProgress: snap.phase !== 'finished',

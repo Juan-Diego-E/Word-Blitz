@@ -11,10 +11,12 @@ interface Props {
   /** Voltear (solo vista control, fase idle). */
   onFlip?: () => void;
   disabled?: boolean;
+  /** Baja un nivel de elevación: el beat del rechazo. */
+  sunk?: boolean;
   size?: 'control' | 'tv';
 }
 
-export function Card({ category, flipped, onFlip, disabled, size = 'control' }: Props) {
+export function Card({ category, flipped, onFlip, disabled, sunk, size = 'control' }: Props) {
   const inner = (
     <div className={`card__inner ${flipped ? 'card__inner--flipped' : ''}`}>
       <div className="card__face card__face--back" aria-hidden={flipped}>
@@ -37,7 +39,7 @@ export function Card({ category, flipped, onFlip, disabled, size = 'control' }: 
     return (
       <button
         type="button"
-        className={`card card--${size}`}
+        className={`card card--${size} ${sunk ? 'card--sunk' : ''}`}
         onClick={onFlip}
         disabled={disabled || flipped}
         aria-label={flipped && category ? `Categoría: ${category.nombre}` : 'Voltear la carta'}
@@ -48,7 +50,7 @@ export function Card({ category, flipped, onFlip, disabled, size = 'control' }: 
   }
   return (
     <div
-      className={`card card--${size}`}
+      className={`card card--${size} ${sunk ? 'card--sunk' : ''}`}
       role="img"
       aria-label={flipped && category ? `Categoría: ${category.nombre}` : 'Carta boca abajo'}
     >

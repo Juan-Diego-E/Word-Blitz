@@ -15,7 +15,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import QRCode from 'qrcode';
-import { AlarmClock, Trophy } from 'lucide-react';
+import { AlarmClock, Trophy, X } from 'lucide-react';
 import { BoardTrack } from '../components/BoardTrack';
 import { Card } from '../components/Card';
 import { Confetti } from '../components/Confetti';
@@ -151,7 +151,7 @@ export function TvScreen() {
 
   // A partir de acá, sabemos que hay estado del Clásico.
   const current = st!.players[st!.turnIndex];
-  const flipped = st!.phase === 'revealed' || st!.phase === 'timeout';
+  const flipped = st!.phase === 'revealed' || st!.phase === 'timeout' || st!.phase === 'rejected';
 
   if (st!.phase === 'finished') {
     const winner = [...st!.players].sort((a, b) => b.puntaje - a.puntaje)[0];
@@ -167,8 +167,14 @@ export function TvScreen() {
   }
 
   const total = st!.timerSeconds;
-  const frac = seconds == null ? 1 : Math.max(0, Math.min(1, seconds / total));
-  const urgente = seconds != null && seconds <= 5;
+  const frac =
+    st!.phase === 'revealed' && seconds != null
+      ? Math.max(0, Math.min(1, seconds / total))
+      : 0;
+  const urgente =
+    (seconds != null && seconds <= 5) ||
+    st!.phase === 'timeout' ||
+    st!.phase === 'rejected';
   const progreso =
     st!.letterLimit != null
       ? `Carta ${Math.min(st!.cardsResolved + 1, st!.letterLimit)} de ${st!.letterLimit}`
@@ -206,6 +212,10 @@ export function TvScreen() {
           {st!.phase === 'timeout' ? (
             <>
               <AlarmClock aria-hidden="true" className="tv__timeout-icon" /> ¡Tiempo!
+            </>
+          ) : st!.phase === 'rejected' ? (
+            <>
+              <X aria-hidden="true" className="tv__timeout-icon" /> No vale
             </>
           ) : (
             <>
