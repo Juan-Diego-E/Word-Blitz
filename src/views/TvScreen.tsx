@@ -1,10 +1,21 @@
 // Vista pública de solo lectura para la pantalla grande. Muestra código + QR
 // hasta que el control se conecta; después renderiza el tablero sincronizado.
+//
+// UNA PANTALLA GRANDE NO ES UNA CHICA ESTIRADA. La versión anterior centraba
+// la misma columna del celular en 1920px: la sala en espera ocupaba ~650px de
+// ancho (el 66% del lienzo era fondo vacío) y los `clamp()` frenaban la
+// tipografía justo donde hacía falta — medido a 1920, `.tv__room`,
+// `.tv__idle-hint` y `.tv__fallback` renderizaban a 16px, y las filas del
+// podio topaban en 28,8px.
+//
+// Acá la composición se piensa para 16:9: bloque dramático a la izquierda,
+// marcador permanente a la derecha, el tiempo como barra ancha. Todo se mide
+// en unidades de contenedor (ver TvScreen.css), incluidas las sombras: un
+// blur de 32px es invisible en 65 pulgadas.
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router';
 import QRCode from 'qrcode';
 import { AlarmClock, Trophy } from 'lucide-react';
-import logo from '../assets/logo.png';
 import { BoardTrack } from '../components/BoardTrack';
 import { Card } from '../components/Card';
 import { Confetti } from '../components/Confetti';
@@ -16,6 +27,7 @@ import { useTimer } from '../hooks/useTimer';
 import { usePageTitle } from '../hooks/usePageTitle';
 import { generateRoomCode, joinUrl } from '../lib/realtime';
 import { useSessionStore } from '../store/sessionStore';
+import { Wordmark } from '../components/Wordmark';
 import './TvScreen.css';
 
 export function TvScreen() {
@@ -27,9 +39,11 @@ export function TvScreen() {
   useEffect(() => {
     void session.openRoom(code, 'tv');
     void QRCode.toDataURL(joinUrl(code), {
-      width: 360,
+      // 720 y no 360: el QR se dibuja a un cuarto del alto de la pantalla,
+      // que en un televisor 4K son bastantes más píxeles que 360.
+      width: 720,
       margin: 1,
-      color: { dark: '#0c1a37', light: '#ffffff' },
+      color: { dark: '#0f1b33', light: '#ffffff' },
     }).then(setQr);
     return () => useSessionStore.getState().leaveRoom();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -49,16 +63,23 @@ export function TvScreen() {
   if (!hasClassic && !hasBoard) {
     return (
       <main className="view tv tv--waiting">
-        <h1 className="tv__logo">
-          <img src={logo} alt="Word Blitz" width={640} height={640} />
-        </h1>
-        <div className="tv__join glow-border">
-          <p className="tv__join-label">Código de sala</p>
-          <p className="tv__code">{code}</p>
-          {qr && <img src={qr} alt={`Código QR para unirse a la sala ${code}`} className="tv__qr" width={220} height={220} />}
-          <p className="tv__join-hint">
-            Escaneá el QR con el celu, o entrá a la app y cargá el código en el Modo Clásico.
-          </p>
+        <Wordmark className="tv__wordmark tv__wordmark--hero" title="Word Blitz" />
+        <div className="tv__join">
+          <div className="tv__join-text">
+            <p className="tv__join-label">Código de sala</p>
+            <p className="tv__code">{code}</p>
+            <p className="tv__join-hint">
+              Escaneá el QR con el celu, o entrá a la app y cargá el código en
+              el Modo Clásico.
+            </p>
+          </div>
+          {qr && (
+            <img
+              src={qr}
+              alt={`Código QR para unirse a la sala ${code}`}
+              className="tv__qr"
+            />
+          )}
         </div>
         <p className="tv__fallback">
           ¿Sin segundo dispositivo? <Link to="/jugar">Jugá pase-y-pasa en esta pantalla</Link>.
@@ -90,9 +111,9 @@ export function TvScreen() {
     }
 
     return (
-      <main className="view tv">
+      <main className="view tv tv--board">
         <header className="tv__header">
-          <img src={logo} alt="Word Blitz" className="tv__brand" width={640} height={640} />
+          <Wordmark className="tv__wordmark" title="Word Blitz" />
           <span className="tv__room">Sala {session.code}</span>
         </header>
 
@@ -145,36 +166,80 @@ export function TvScreen() {
     );
   }
 
+  const total = st!.timerSeconds;
+  const frac = seconds == null ? 1 : Math.max(0, Math.min(1, seconds / total));
+  const urgente = seconds != null && seconds <= 5;
+  const progreso =
+    st!.letterLimit != null
+      ? `Carta ${Math.min(st!.cardsResolved + 1, st!.letterLimit)} de ${st!.letterLimit}`
+      : `Carta ${st!.cardsResolved + 1}`;
+
   return (
-    <main className="view tv">
+    <main className="view tv tv--play">
       <header className="tv__header">
-        <img src={logo} alt="Word Blitz" className="tv__brand" width={640} height={640} />
+        <Wordmark className="tv__wordmark" title="Word Blitz" />
         <span className="tv__room">Sala {session.code}</span>
       </header>
 
-      <PlayerTurnBanner nombre={current.nombre} size="tv" />
-
-      <div className="tv__board">
-        <RouletteLetters letter={st!.activeLetter} spinning={st!.phase === 'spinning'} size="tv" />
-        <Card category={st!.currentCategory} flipped={flipped} size="tv" />
-        <div className="tv__side">
-          <TimerRing
-            seconds={st!.phase === 'revealed' ? seconds : null}
-            totalSeconds={st!.timerSeconds}
-            size="tv"
-          />
-          {st!.phase === 'timeout' && (
-            <p className="tv__timeout" role="status">
-              <AlarmClock aria-hidden="true" className="tv__timeout-icon" /> ¡Tiempo!
-            </p>
-          )}
-          {st!.phase === 'idle' && (
-            <p className="tv__idle-hint">Esperando la próxima carta…</p>
-          )}
+      {/* Bloque dramático: la letra y la categoría son lo que la mesa mira. */}
+      <section className="tv__stage">
+        <RouletteLetters
+          letter={st!.activeLetter}
+          spinning={st!.phase === 'spinning'}
+          size="tv"
+        />
+        <div className="tv__cat">
+          <p className="tv__cat-label">Categoría</p>
+          <p className="tv__cat-name" aria-live="polite">
+            {flipped && st!.currentCategory ? st!.currentCategory.nombre : 'Carta boca abajo'}
+          </p>
+          <p className="tv__cat-hint">
+            Si no acierta, rebota al siguiente con la misma letra.
+          </p>
         </div>
-      </div>
+      </section>
 
-      <Podium players={st!.players} currentPlayerId={current.id} size="tv" title="Ranking" />
+      {/* El tiempo como barra ancha: a tres metros, un anillo de 160px se lee
+          peor que una barra que cruza media pantalla. */}
+      <section className={`tv__meter ${urgente ? 'tv__meter--urgent' : ''}`}>
+        <p className="tv__turn">
+          {st!.phase === 'timeout' ? (
+            <>
+              <AlarmClock aria-hidden="true" className="tv__timeout-icon" /> ¡Tiempo!
+            </>
+          ) : (
+            <>
+              Le toca a <strong>{current.nombre}</strong>
+            </>
+          )}
+        </p>
+        <div
+          className="tv__bar"
+          role="timer"
+          aria-live={urgente ? 'assertive' : 'off'}
+          aria-label={seconds == null ? 'Temporizador detenido' : `${seconds} segundos restantes`}
+        >
+          <span className="tv__bar-fill" style={{ transform: `scaleX(${frac})` }} />
+        </div>
+        <p className="tv__secs">
+          {seconds ?? '–'}
+          <small>seg</small>
+        </p>
+        <p className="tv__progress">{progreso}</p>
+      </section>
+
+      {/* Marcador permanente: en una mesa de cinco, saber quién va ganando es
+          la mitad de la conversación. */}
+      <aside className="tv__score">
+        <Podium players={st!.players} currentPlayerId={current.id} size="tv" title="Ranking" />
+      </aside>
+
+      {st!.usedLetters.length > 0 && (
+        <footer className="tv__played">
+          <span className="tv__played-label">Jugadas</span>
+          <span className="tv__played-list">{st!.usedLetters.join(' · ')}</span>
+        </footer>
+      )}
     </main>
   );
 }

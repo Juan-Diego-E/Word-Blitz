@@ -1,91 +1,289 @@
-.tv { gap: var(--sp-6); }
+/* ============================================================
+   LA PANTALLA GRANDE
+   ============================================================
+   Dos decisiones estructurales, y el resto sale de ellas.
 
-.tv--waiting { justify-content: center; text-align: center; }
-.tv__logo {
-  margin: 0;
-  line-height: 0;
+   1. `.tv` es un contenedor de tamaño (`container-type: size`), así que TODO
+      lo de adentro se mide contra el lienzo y no contra un `clamp()` con
+      techo en px. Medido antes a 1920: `.tv__room`, `.tv__idle-hint` y
+      `.tv__fallback` renderizaban a 16px y las filas del podio topaban en
+      28,8px — texto de celular a tres metros de distancia.
+
+   2. El área segura es del 5% del lado. Va en vw/vh y no en cq a propósito:
+      un elemento no puede consultarse a sí mismo, y además la guía de TV
+      habla de la PANTALLA, que es exactamente lo que vw/vh miden. A
+      1920x1080 son 96px a los lados y 54 arriba y abajo, que es lo que el
+      overscan de muchos televisores se come.
+
+   La escala y las sombras se declaran acá arriba pero se USAN en los hijos:
+   los custom properties se sustituyen en el punto de uso, así que los cq de
+   adentro resuelven contra `.tv`, que es el contenedor. Las sombras también
+   van en cqw: un blur de 32px es invisible en 65 pulgadas.
+   ============================================================ */
+.tv {
+  height: 100dvh;
+  min-height: 100dvh;
+  container-type: size;
+  padding: 5vh 5vw;
+  gap: 0;
+  overflow: hidden;
+
+  /* Piso de 1,45cqw ≈ 25px a 1920. Nada de la vista baja de ahí. */
+  --tv-xs: max(1.05rem, 1.45cqw);
+  --tv-sm: max(1.25rem, 1.9cqw);
+  --tv-md: max(1.6rem, 2.6cqw);
+  --tv-lg: max(2.2rem, 4cqw);
+  --tv-xl: max(3rem, 7cqw);
+  --tv-hero: max(4rem, 10cqw);
+
+  --sh-container:
+    0 1cqw 2.4cqw -1.3cqw var(--occl),
+    0 0.06cqw 0.14cqw 0 var(--occl);
+  --sh-1:
+    0 0.55cqw 1.25cqw -0.8cqw var(--occl),
+    0 0.06cqw 0.18cqw -0.06cqw var(--occl),
+    inset 0 -0.4cqw 0.8cqw -0.45cqw var(--mass),
+    inset 0 0.4cqw 0.8cqw -0.45cqw var(--spec);
+  --sh-2:
+    0 1.15cqw 2.3cqw -0.9cqw var(--occl),
+    0 0.12cqw 0.35cqw -0.12cqw var(--occl),
+    inset 0 -0.63cqw 1.15cqw -0.45cqw var(--mass),
+    inset 0 0.63cqw 1.15cqw -0.45cqw var(--spec);
+  --sh-3:
+    0 1.85cqw 3.6cqw -1.15cqw var(--occl),
+    0 0.17cqw 0.46cqw -0.17cqw var(--occl),
+    inset 0 -0.8cqw 1.5cqw -0.58cqw var(--mass),
+    inset 0 0.8cqw 1.5cqw -0.58cqw var(--spec);
 }
-.tv__logo img {
-  width: clamp(220px, 26vw, 380px);
-  height: auto;
-  filter: drop-shadow(0 14px 40px var(--occl));
+
+/* ---- Encabezado, común a todas las fases ---- */
+.tv__header {
+  grid-area: head;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
 }
-/* Opaca, y sin la clase .glass: es la pieza que lleva el código de sala, el
-   único dato que un invitado necesita leer desde el sillón. Sobre vidrio +
-   arcoíris el código medía 2,75:1 en su mejor momento. */
-.tv__join {
-  background: var(--wb-2);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--sh-2);
+.tv__wordmark { font-size: var(--tv-md); }
+.tv__wordmark--hero { font-size: var(--tv-hero); }
+.tv__room {
+  padding: 0.5cqh 1.6cqw;
+  border-radius: var(--radius-pill);
+  background: var(--wb-1);
+  box-shadow: var(--sh-1);
+  color: var(--wb-accent-text);
+  font-size: var(--tv-sm);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+}
+
+/* ============================================================
+   SALA EN ESPERA
+   Antes: una columna de ~650px centrada en 1920 — el 66% del lienzo era
+   fondo vacío. Ahora el código y el QR reparten el ancho, y el QR se mide
+   contra el alto de la pantalla para poder escanearlo desde el sillón.
+   ============================================================ */
+.tv--waiting {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  gap: var(--sp-3);
-  padding: var(--sp-6) var(--sp-8);
+  gap: 4cqh;
+  text-align: left;
 }
+.tv__join {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) auto;
+  align-items: center;
+  gap: 5cqw;
+  width: 100%;
+  padding: 4cqh 5cqw;
+  border-radius: var(--radius-lg);
+  background: var(--wb-2);
+  box-shadow: var(--sh-2);
+}
+.tv__join-text { display: flex; flex-direction: column; gap: 1.5cqh; }
 .tv__join-label {
   margin: 0;
-  color: var(--color-white-70);
-  font-size: clamp(1rem, 1.8vw, 1.5rem);
+  color: var(--wb-ink-2);
+  font-size: var(--tv-sm);
   text-transform: uppercase;
   letter-spacing: 0.2em;
 }
 .tv__code {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(3.5rem, 10vw, 7rem);
+  font-size: var(--tv-hero);
   font-weight: 700;
-  letter-spacing: 0.25em;
+  letter-spacing: 0.18em;
   color: var(--wb-accent-text);
   line-height: 1;
 }
-.tv__qr {
-  border-radius: var(--radius-md);
-  background: #fff;
-  padding: var(--sp-2);
-}
 .tv__join-hint {
   margin: 0;
-  max-width: 42ch;
-  color: var(--color-white-70);
-  font-size: clamp(0.95rem, 1.6vw, 1.3rem);
-  text-wrap: balance;
+  max-width: 26ch;
+  color: var(--wb-ink-2);
+  font-size: var(--tv-sm);
+  text-wrap: pretty;
 }
-.tv__fallback { color: var(--wb-ink-2); }
+/* Mínimo 30% del alto de la pantalla: un QR de 220px fijos en 65 pulgadas
+   es un cuadrado gris. */
+.tv__qr {
+  width: clamp(180px, 34cqh, 560px);
+  height: auto;
+  border-radius: var(--radius-md);
+  background: #fff;
+  padding: 1cqh;
+  box-shadow: var(--sh-1);
+}
+.tv__fallback { margin: 0; color: var(--wb-ink-2); font-size: var(--tv-sm); }
 .tv__fallback a { color: var(--wb-accent-text); text-decoration: underline; }
 
-.tv__header {
-  display: flex;
-  justify-content: space-between;
+/* ============================================================
+   PARTIDA EN CURSO — composición 16:9
+   Bloque dramático a la izquierda, marcador permanente a la derecha, el
+   tiempo como barra ancha. Una pantalla grande tiene presupuesto propio:
+   la densidad de información es parecida a la del celular, pero repartida.
+   ============================================================ */
+.tv--play {
+  display: grid;
+  grid-template-columns: minmax(0, 1.9fr) minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  grid-template-areas:
+    'head   head'
+    'stage  score'
+    'meter  score'
+    'played played';
+  column-gap: 4vw;
+  row-gap: 3vh;
   align-items: center;
-  width: 100%;
-  max-width: 1400px;
-}
-.tv__brand { width: 84px; height: auto; }
-.tv__room {
-  padding: var(--sp-1) var(--sp-4);
-  border-radius: var(--radius-pill);
-  background: var(--wb-1);
-  box-shadow: var(--sh-1);
-  color: var(--wb-accent-text);
-  letter-spacing: 0.15em;
 }
 
-.tv__board {
-  display: grid;
-  grid-template-columns: auto auto auto;
+.tv__stage {
+  grid-area: stage;
+  display: flex;
   align-items: center;
-  justify-content: center;
-  gap: clamp(var(--sp-5), 4vw, var(--sp-8));
+  gap: 3cqw;
+  min-width: 0;
+  align-self: center;
+}
+.tv__cat { min-width: 0; display: flex; flex-direction: column; gap: 0.8cqh; }
+.tv__cat-label {
+  margin: 0;
+  color: var(--wb-ink-2);
+  font-size: var(--tv-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+.tv__cat-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--tv-xl);
+  font-weight: 700;
+  line-height: 0.98;
+  text-wrap: balance;
+}
+.tv__cat-hint { margin: 0; color: var(--wb-ink-3); font-size: var(--tv-xs); }
+
+.tv__meter {
+  grid-area: meter;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    'turn secs'
+    'bar  secs'
+    'prog secs';
+  column-gap: 3cqw;
+  row-gap: 1cqh;
+  align-items: center;
   width: 100%;
 }
-.tv__side {
+.tv__turn { grid-area: turn; margin: 0; font-size: var(--tv-md); color: var(--wb-ink-2); }
+.tv__turn strong { color: var(--wb-ink); }
+/* La barra cruza media pantalla: a tres metros se lee mejor que un anillo,
+   porque el dato es "cuánto queda" y no "qué número es". */
+.tv__bar {
+  grid-area: bar;
+  height: 2.4cqh;
+  border-radius: var(--radius-pill);
+  background: var(--wb-well);
+  box-shadow: var(--sh-0);
+  overflow: hidden;
+}
+.tv__bar-fill {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  transform-origin: left center;
+  background: var(--wb-amber);
+  transition: transform 0.25s linear, background 0.3s ease;
+}
+.tv__meter--urgent .tv__bar-fill { background: var(--wb-no); }
+.tv__secs {
+  grid-area: secs;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--tv-lg);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  text-align: right;
+}
+.tv__meter--urgent .tv__secs { color: var(--wb-no-text); }
+.tv__secs small {
+  display: block;
+  font-size: var(--tv-xs);
+  font-weight: 400;
+  color: var(--wb-ink-2);
+  letter-spacing: 0.1em;
+}
+.tv__progress { grid-area: prog; margin: 0; font-size: var(--tv-xs); color: var(--wb-ink-3); }
+
+.tv__score { grid-area: score; align-self: stretch; display: flex; min-height: 0; }
+.tv__score .podium { align-self: center; width: 100%; }
+
+.tv__played {
+  grid-area: played;
+  display: flex;
+  align-items: baseline;
+  gap: 1.5cqw;
+  width: 100%;
+  color: var(--wb-ink-3);
+  font-size: var(--tv-xs);
+}
+.tv__played-label { text-transform: uppercase; letter-spacing: 0.18em; }
+.tv__played-list { font-weight: 600; letter-spacing: 0.08em; color: var(--wb-ink-2); }
+
+/* ---- Tipografía del podio dentro de la TV ---- */
+.tv .podium--tv { padding: 2cqh 1.6cqw; }
+.tv .podium--tv .podium__title { font-size: var(--tv-sm); }
+.tv .podium--tv .podium__row { font-size: var(--tv-md); padding: 1.1cqh 1.2cqw; }
+.tv .podium--tv .podium__row { column-gap: 1cqw; }
+
+/* ---- Medallón de letra en la TV ---- */
+.tv .roulette--tv {
+  width: max(150px, 17cqw);
+  height: max(150px, 17cqw);
+  flex: none;
+}
+.tv .roulette--tv .roulette__letter { font-size: var(--tv-xl); }
+
+/* ============================================================
+   MODO 1000 NOMBRES y FIN DE PARTIDA — flujo en columna.
+   El tablero ya es responsivo por aspect-ratio; acá solo hereda el área
+   segura y la escala de contenedor.
+   ============================================================ */
+.tv--board,
+.tv--over {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--sp-3);
+  justify-content: center;
+  gap: 2.5cqh;
 }
+.tv--board .tv__header { flex: none; width: 100%; }
+
 .tv__timeout-icon,
 .tv__over-trophy {
   width: 1em;
@@ -95,29 +293,21 @@
 .tv__over-trophy { color: #f0b429; }
 .tv__timeout {
   margin: 0;
-  font-size: clamp(1.4rem, 3vw, 2.4rem);
+  font-size: var(--tv-md);
   font-weight: 700;
   color: var(--wb-no-text);
 }
-.tv__idle-hint { margin: 0; color: var(--wb-ink-3); }
+.tv__idle-hint { margin: 0; color: var(--wb-ink-3); font-size: var(--tv-sm); }
 
-.tv .podium--tv { max-width: 900px; }
-
-.tv--over { justify-content: center; }
 .tv__over-title {
   margin: 0;
-  font-size: clamp(2.5rem, 7vw, 5rem);
+  font-size: var(--tv-xl);
   text-align: center;
   text-wrap: balance;
 }
-.tv--over .podium { max-width: 700px; }
+.tv--over .podium { max-width: 70cqw; }
 
-@media (max-width: 900px) {
-  .tv__board { grid-template-columns: 1fr; justify-items: center; }
-}
-
-/* Contenido central del tablero en la TV: letra objetivo + carta + timer.
-   Se adapta a la altura del hueco central del tablero. */
+/* Contenido central del tablero en la TV: letra objetivo + carta + timer. */
 .tv__board-inner {
   display: flex;
   flex-direction: column;
@@ -138,23 +328,31 @@
   flex: 1 1 auto;
   min-height: 0;
 }
-.tv__board-inner .timer-ring {
-  flex: 0 0 auto;
-}
+.tv__board-inner .timer-ring { flex: 0 0 auto; }
 .tv__board-letter {
   flex: 0 0 auto;
-  font-size: clamp(1.5rem, 3.6vw, 3rem);
-  font-weight: 700;
   font-family: var(--font-display);
+  font-size: var(--tv-md);
+  font-weight: 700;
   color: var(--wb-on-accent);
   background: var(--grad-accent);
-  border: none;
   padding: 0.05em 0.5em;
   border-radius: var(--radius-md);
   box-shadow: var(--sh-2), var(--glow-accent);
   line-height: 1;
 }
 
-/* En TV vertical (portrait) el 3-cols del board original ya colapsa a 1;
-   además, en el modo tablero el `BoardTrack` ya es responsivo por
-   aspect-ratio y max-height. */
+/* ============================================================
+   PANTALLAS ANGOSTAS (alguien abre /tv en el celular para probar).
+   No es el caso de uso, pero tampoco puede romperse.
+   ============================================================ */
+@media (max-width: 900px), (orientation: portrait) {
+  .tv { padding: var(--sp-4); }
+  .tv--play {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'head' 'stage' 'meter' 'score' 'played';
+    grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+  }
+  .tv--waiting .tv__join { grid-template-columns: minmax(0, 1fr); justify-items: center; }
+  .tv__stage { flex-direction: column; text-align: center; }
+}
