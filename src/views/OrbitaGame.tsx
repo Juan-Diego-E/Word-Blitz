@@ -179,7 +179,7 @@ export function OrbitaGame() {
         {/* Feedback tras responder */}
         {resuelto && card && afirmacion && (
           <div
-            className={`orbita-game__result orbita-game__result--${g.phase} glass`}
+            className={`orbita-game__result orbita-game__result--${g.phase} surface`}
             role="status"
           >
             <p className="orbita-game__verdict">

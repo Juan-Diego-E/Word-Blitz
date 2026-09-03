@@ -27,7 +27,7 @@ export function SelectMode() {
       <ul className="select-mode__grid">
         {jugables.map((m) => (
           <li key={m.id}>
-            <Link to={`/${m.slug}`} className="mode-card glass mode-card--enabled">
+            <Link to={`/${m.slug}`} className="mode-card surface mode-card--enabled">
               <Icon name={m.icono} className="mode-card__icon" size={32} />
               <span className="mode-card__name">{m.nombre}</span>
               <span className="mode-card__desc">{m.descripcion}</span>

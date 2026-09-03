@@ -2,11 +2,11 @@
   margin: 0;
   padding: var(--sp-2) var(--sp-5);
   border-radius: var(--radius-pill);
-  background: var(--color-white-12);
-  border: 1px solid var(--color-white-22);
-  backdrop-filter: var(--glass-blur);
+  background: var(--wb-1);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--sh-1);
   font-size: var(--fs-md);
-  color: var(--color-white-70);
+  color: var(--wb-ink-2);
 }
-.turn-banner strong { color: var(--color-white); }
+.turn-banner strong { color: var(--wb-ink); }
 .turn-banner--tv { font-size: clamp(1.4rem, 3vw, 2.4rem); padding: var(--sp-3) var(--sp-6); }

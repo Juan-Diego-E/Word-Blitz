@@ -56,11 +56,13 @@ function observarPreferencias() {
   useSettingsStore.subscribe((s) => {
     window.clearTimeout(timer);
     timer = window.setTimeout(() => {
+      // Solo los tres campos que la colección `preferencias` tiene. El tipo
+      // del parámetro lo hace explícito: `sincronizarPartidas` y `tema` son
+      // decisiones locales y no salen del dispositivo.
       void subirPreferencias(getInstalacionId(), {
         sonido: s.sonido,
         vibracion: s.vibracion,
         reducirMovimiento: s.reducirMovimiento,
-        sincronizarPartidas: s.sincronizarPartidas,
       });
     }, 800);
   });
@@ -79,8 +81,10 @@ async function restaurarPreferencias() {
     sonido: remotas.sonido ?? actual.sonido,
     vibracion: remotas.vibracion ?? actual.vibracion,
     reducirMovimiento: remotas.reducirMovimiento ?? actual.reducirMovimiento,
-    // Nunca viene de Cerebro: es una decisión de este dispositivo.
+    // Ninguno de estos dos viene de Cerebro: son decisiones de este
+    // dispositivo y no existen como campos en la colección `preferencias`.
     sincronizarPartidas: actual.sincronizarPartidas,
+    tema: actual.tema,
   });
 }
 

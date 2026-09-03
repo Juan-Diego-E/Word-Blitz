@@ -2,10 +2,9 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: var(--glass-bg);
-  border: var(--glass-border);
-  backdrop-filter: var(--glass-blur);
-  box-shadow: var(--shadow-soft);
+  background: var(--wb-2);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--sh-2);
   position: relative;
 }
 
@@ -13,6 +12,7 @@
 .roulette--tv { width: clamp(140px, 18vw, 240px); height: clamp(140px, 18vw, 240px); }
 
 .roulette__letter {
+  font-family: var(--font-display);
   font-weight: 700;
   line-height: 1;
   font-size: 2.2rem;
@@ -20,15 +20,16 @@
 .roulette--tv .roulette__letter { font-size: clamp(4rem, 9vw, 7.5rem); }
 
 .roulette--spinning .roulette__letter {
-  color: var(--color-blue-air);
+  color: var(--wb-ink-3);
 }
 
+/* El medallon comparte el acento con el CTA y con nada mas. */
 .roulette--settled {
-  border-color: var(--color-tangelo);
-  box-shadow: 0 0 0 3px var(--color-tangelo-soft), 0 0 34px #f5550e66;
+  border-color: var(--wb-accent);
+  box-shadow: var(--sh-2), 0 0 0 3px var(--wb-accent-soft), var(--glow-accent);
 }
 .roulette--settled .roulette__letter {
-  color: var(--color-tangelo-text);
+  color: var(--wb-accent-text);
   animation: letter-pop 0.35s ease;
 }
 

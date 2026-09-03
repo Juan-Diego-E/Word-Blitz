@@ -38,8 +38,9 @@
   width: 52px;
   height: 30px;
   border-radius: var(--radius-pill);
-  background: var(--color-white-22);
-  border: 1px solid var(--color-white-22);
+  background: var(--wb-well);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--sh-0);
   transition: background 0.2s ease;
 }
 .toggle__thumb {
@@ -49,19 +50,19 @@
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: var(--color-white);
-  box-shadow: 0 2px 6px #00000055;
+  background: var(--wb-2);
+  box-shadow: var(--sh-1);
   transition: transform 0.2s cubic-bezier(0.2, 0.7, 0.3, 1.2);
 }
 
 .toggle__input:checked + .toggle__track {
-  background: var(--color-tangelo);
-  border-color: var(--color-tangelo);
+  background: var(--grad-accent);
+  border-color: var(--wb-accent);
 }
 .toggle__input:checked + .toggle__track .toggle__thumb {
   transform: translateX(22px);
 }
 .toggle__input:focus-visible + .toggle__track {
-  outline: 3px solid var(--color-tangelo);
-  outline-offset: 2px;
+  outline: 3px solid var(--wb-amber);
+  outline-offset: 3px;
 }

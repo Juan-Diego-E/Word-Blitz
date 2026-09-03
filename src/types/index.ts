@@ -3,6 +3,8 @@
 export type Dificultad = 'facil' | 'intermedio' | 'dificil';
 export type Idioma = 'es' | 'en' | 'fr';
 export type OrigenCategoria = 'base' | 'custom';
+/** Tema visual. Diurno es el default: el clay nace claro. */
+export type TemaId = 'claro' | 'oscuro';
 
 export interface Categoria {
   id: string;
@@ -156,7 +158,15 @@ export type RoomMessage =
   | { type: 'hello-tv'; code: string }
   | { type: 'state'; code: string; state: GameSnapshot }
   | { type: 'board-state'; code: string; state: BoardSnapshot }
-  | { type: 'bye'; code: string; from: RoomRole };
+  | { type: 'bye'; code: string; from: RoomRole }
+  /**
+   * El tema viaja como mensaje propio y NO dentro de GameSnapshot: el
+   * snapshot se persiste en IndexedDB y (con opt-in) se sube a Cerebro, y
+   * una preferencia de pantalla no tiene por qué entrar en el historial de
+   * partidas. La TV corre en otro navegador, así que sin esto el moderador
+   * cambia el tema en el celu y la tele no se entera.
+   */
+  | { type: 'theme'; code: string; tema: TemaId };
 
 // ---- Modo Órbita (cartas del cosmos) ----
 

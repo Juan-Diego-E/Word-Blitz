@@ -1,50 +1,120 @@
-/* Design tokens — paleta de BRAND.md */
+/* ============================================================
+   DESIGN TOKENS — sistema Clay, dos temas.
+   ============================================================
+   El material anterior era vidrio: superficies translúcidas con
+   backdrop-filter sobre un gradiente cónico animado. Ese material tenía un
+   defecto que no es de gusto sino de función: el fondo de un texto sobre
+   vidrio no es un color, es una función del tiempo. Medido sobre el render,
+   el nombre de la categoría oscilaba entre 3,10:1 y 5,46:1 a lo largo del
+   ciclo de 10s, y el código de sala de la TV nunca superaba 2,75:1. Ningún
+   token arregla eso.
+
+   Clay es opaco por definición: la profundidad la hace la luz, no la
+   transparencia. Y el claymorphism nace CLARO — su receta (sombra
+   proyectada de color, masa interior abajo, reflejo blanco arriba) asume
+   una superficie clara sobre un papel apenas más oscuro. Por eso el tema
+   por defecto es el diurno y el nocturno es el que lleva corrección: sobre
+   fondo oscuro el reflejo blanco lee como gris sucio, y una sombra "más
+   oscura que el fondo" casi no existe, así que ese trabajo lo hace un rim
+   light de 1px.
+
+   REGLA DEL ACENTO: el acento es siempre el contrario del campo. Celeste
+   profundo con tinta clara en diurno; celeste brillante con tinta oscura en
+   nocturno. Es el único par de la paleta cuya polaridad se invierte con el
+   tema, y es a propósito.
+   ============================================================ */
+
 :root {
-  /* Color — paleta de BRAND.md.
-     Los tokens de TEXTO están calibrados para pasar WCAG AA sobre el fondo
-     del juego (ver global.css). Antes fallaban todos: el gradiente tenía su
-     punto más claro justo donde vive el contenido, y el blanco puro daba
-     2,6:1. Si cambiás el fondo, hay que volver a medir estos valores. */
-  --color-tangelo: #f5550e;
-  --color-tangelo-soft: #f5550e33;
-  /* Variante clara del acento para TEXTO: el tangelo puro da 2,4:1 sobre
-     el azul del centro. Esta da 3,6:1, suficiente para texto grande
-     (código de sala, títulos). Para texto chico, usar blanco. */
-  --color-tangelo-text: #ffa274;
-  --color-blue-air: #76a7be;
-  --color-blue-yinmn: #0d5189;
-  --color-slate: #243d3d;
-  --color-oxford: #0c1a37;
-  --color-green: #00aa00;
-  --color-green-soft: #00aa0040;
-  /* Verde legible sobre fondo oscuro (el #00aa00 puro queda apagado). */
-  --color-green-text: #4ade80;
-  --color-red: #ff2b2b;
-  --color-red-soft: #ff2b2b40;
-  --color-white: #ffffff;
-  /* Texto secundario — alpha .85 → ~5,8:1 sobre el fondo. */
-  --color-white-70: #ffffffd9;
-  /* Texto terciario (hints, reglas) — alpha .74 → ~4,6:1. La jerarquía
-     entre este y el anterior se apoya también en tamaño y peso, no solo
-     en opacidad: bajar más el alpha rompería contraste. */
-  --color-white-44: #ffffffbd;
-  /* Los dos siguientes son DECORATIVOS (bordes y fills de vidrio).
-     No usarlos para texto: no llegan a contraste de lectura. */
-  --color-white-22: #ffffff2e;
-  --color-white-12: #ffffff1f;
-  --color-black-70: #00000070;
+  color-scheme: light;
 
-  /* --- Paleta del Modo Órbita (cosmos). Los cuatro colores de tipo son la
-     taxonomía: estrella, planeta, satélite, cuerpo menor. Ver design doc. --- */
-  --orbita-estrella: #FFC24D;
-  --orbita-planeta: #34D8A6;
-  --orbita-satelite: #C3CBF0;
-  --orbita-menor: #4CC5F5;
-  --orbita-rareza: #B57BFF;
-  --orbita-ink-2: #AEB9E4;
+  /* ---- Superficies (diurno) ---- */
+  --wb-field: #edeff4;  /* campo: papel frío de croma bajo */
+  --wb-well: #dde1ea;   /* hundido: inputs, tracks, steppers */
+  --wb-1: #f3f5f9;      /* apoyado: filas, chips */
+  --wb-2: #fbfcfe;      /* levantado: tarjetas, botón secundario */
+  --wb-3: #cfd6ec;      /* protagonista: la carta */
+  --wb-edge: #d3dae8;   /* borde suave y fondo de piezas chicas */
 
-  /* Tipografía */
-  --font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* ---- Tinta (diurno). Medidos sobre --wb-field. ---- */
+  --wb-ink: #0f1b33;    /* 14,90:1 */
+  --wb-ink-2: #414f70;  /*  7,29:1 */
+  --wb-ink-3: #525f80;  /*  5,52:1 */
+
+  /* ---- Acento (diurno): celeste profundo, tinta clara ---- */
+  --wb-accent: #07708a;
+  --wb-accent-text: #07708a;              /* 4,94:1 sobre el campo */
+  --wb-accent-soft: #07708a1f;
+  --wb-on-accent: #eafbff;                /* 4,94:1 arriba, 7,54:1 abajo */
+  --grad-accent: linear-gradient(180deg, #08768f, #05586c);
+
+  /* ---- Semánticos: tinta oscura sobre relleno claro, en los dos temas ---- */
+  --wb-yes: #3fce74;
+  --wb-yes-soft: #3fce7433;
+  --wb-yes-text: #14663a;   /* el verde de relleno no sirve para leer en claro */
+  --wb-on-yes: #04240f;     /* 8,14:1 */
+  --wb-no: #f76a56;
+  --wb-no-soft: #f76a5633;
+  --wb-no-text: #9a2b18;
+  --wb-on-no: #2a0606;      /* 6,34:1 */
+  --wb-amber: #e8a21a;
+  --wb-amber-text: #8a5a00; /* 5,15:1 sobre el campo */
+
+  /* ---- Elevación (diurno): la receta canónica, sin trucos ----
+     El reflejo superior es blanco de verdad porque la superficie es clara y
+     la luz cae de arriba. La masa inferior es el tono de la superficie
+     bajado hacia el campo, nunca negro. La oclusión va teñida de azul. */
+  --spec: rgba(255, 255, 255, 0.95);
+  --mass: rgba(70, 100, 150, 0.26);
+  --occl: rgba(52, 78, 124, 0.3);
+  --rim: transparent;
+  --glow-accent: none;
+
+  /* Si se invierten los signos de `y` en los dos inset, la pieza se ve
+     abollada en vez de inflada: la luz pasa a venir de abajo. */
+  --sh-0:
+    inset 0 4px 10px -3px var(--mass),
+    inset 0 -3px 8px -4px var(--spec);
+  --sh-1:
+    0 10px 22px -14px var(--occl),
+    0 1px 3px -1px var(--occl),
+    inset 0 -7px 14px -8px var(--mass),
+    inset 0 7px 14px -8px var(--spec);
+  --sh-2:
+    0 20px 40px -16px var(--occl),
+    0 2px 6px -2px var(--occl),
+    inset 0 -11px 20px -8px var(--mass),
+    inset 0 11px 20px -8px var(--spec);
+  --sh-3:
+    0 32px 62px -20px var(--occl),
+    0 3px 8px -3px var(--occl),
+    inset 0 -14px 26px -10px var(--mass),
+    inset 0 14px 26px -10px var(--spec);
+  /* Contenedores: oclusión sola. Si todo lleva la pila de tres sombras,
+     todo parece apretable. */
+  --sh-container:
+    0 18px 40px -22px var(--occl),
+    0 1px 2px 0 var(--occl);
+
+  --hairline: rgba(31, 52, 88, 0.14);
+
+  /* ---- Paleta del Modo Órbita (cosmos). Los cuatro colores de tipo son la
+     taxonomía: estrella, planeta, satélite, cuerpo menor. ---- */
+  --orbita-estrella: #ffc24d;
+  --orbita-planeta: #34d8a6;
+  --orbita-satelite: #c3cbf0;
+  --orbita-menor: #4cc5f5;
+  --orbita-rareza: #b57bff;
+  --orbita-ink-2: #aeb9e4;
+
+  /* ---- Tipografía ----
+     Fredoka y Space Mono ya se cargaban para el Modo Órbita; Fredoka pasa a
+     ser la voz del display en toda la app: sus terminales redondeadas son el
+     mismo gesto que la superficie moldeada. Poppins —geométrica de
+     terminales rectas— cede la interfaz a Outfit, de x-height más alta.
+     La ESCALA no cambia: los tamaños están calibrados contra el encaje de
+     altura fija de la vista de partida, y moverlos ahí es volver a medir. */
+  --font-family: 'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Fredoka', 'Outfit', system-ui, sans-serif;
   --fs-xs: 0.75rem;
   --fs-sm: 0.875rem;
   --fs-md: 1rem;
@@ -53,7 +123,8 @@
   --fs-2xl: 2.5rem;
   --fs-hero: clamp(3rem, 12vw, 6rem);
 
-  /* Espaciado y radios */
+  /* ---- Espaciado, radios y movimiento ----
+     Nada interactivo por debajo de 16px de radio: el clay se aplana. */
   --sp-1: 0.25rem;
   --sp-2: 0.5rem;
   --sp-3: 0.75rem;
@@ -61,18 +132,138 @@
   --sp-5: 1.5rem;
   --sp-6: 2rem;
   --sp-8: 3rem;
-  --radius-sm: 0.6rem;
+  --radius-sm: 0.75rem;
   --radius-md: 1rem;
-  --radius-lg: 1.6rem;
+  --radius-lg: 2rem;
+  --radius-hero: 2.5rem;
   --radius-pill: 999px;
 
-  /* Glass */
-  --glass-bg: linear-gradient(160deg, #ffffff24, #ffffff0d);
-  --glass-border: 1px solid var(--color-white-22);
-  --glass-blur: blur(14px);
-  --shadow-soft: 0 10px 34px #00000045;
+  /* El overshoot de la subida es lo que lo hace arcilla y no plástico. */
+  --press: 90ms linear;
+  --release: 220ms cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  /* Táctil */
-  --tap-min: 44px;
+  --tap-min: 48px;
 }
 
+/* ============================================================
+   NOCTURNO — mismo objeto, otra física.
+   El Modo Órbita entra acá también: su fondo es el cosmos, así que el
+   material tiene que ser el oscuro sí o sí.
+   ============================================================ */
+:root[data-theme='dark'],
+:root[data-modo='orbita'] {
+  color-scheme: dark;
+
+  --wb-field: #08122b;
+  --wb-well: #101f42;
+  --wb-1: #172c56;
+  --wb-2: #1f3a6d;
+  --wb-3: #2a4c8a;
+  --wb-edge: #2a4570;
+
+  --wb-ink: #f2f6ff;    /* 17,14:1 */
+  --wb-ink-2: #a9bddc;  /*  8,60:1 */
+  --wb-ink-3: #7e96be;  /*  5,25:1 */
+
+  --wb-accent: #35cdee;
+  --wb-accent-text: #5cdcf6;              /* 11,51:1 sobre el campo */
+  --wb-accent-soft: #35cdee2e;
+  --wb-on-accent: #04222b;                /* 9,83:1 arriba, 6,62:1 abajo */
+  --grad-accent: linear-gradient(180deg, #4fd8f5, #17b2d8);
+
+  --wb-yes: #4ade80;
+  --wb-yes-soft: #4ade8033;
+  --wb-yes-text: #4ade80;
+  --wb-on-yes: #06210f;     /* 9,78:1 */
+  --wb-no: #ff8a7a;
+  --wb-no-soft: #ff8a7a33;
+  --wb-no-text: #ff8a7a;
+  --wb-on-no: #2a0606;      /* 8,13:1 */
+  --wb-amber: #ffd166;
+  --wb-amber-text: #ffd166; /* 12,87:1 sobre el campo */
+
+  /* El especular sale del tono de la superficie subido en luminosidad,
+     nunca blanco: blanco al 95% acá da el gris sucio típico del clay mal
+     portado a oscuro. Y como una sombra "más oscura que el fondo" casi no
+     existe, la separación la hace un rim light de 1px. */
+  --spec: rgba(122, 168, 240, 0.42);
+  --mass: rgba(5, 13, 34, 0.78);
+  --occl: rgba(3, 8, 22, 0.85);
+  --rim: rgba(130, 175, 245, 0.13);
+
+  --sh-0:
+    inset 0 4px 10px -3px var(--mass),
+    inset 0 -3px 8px -4px var(--spec);
+  --sh-1:
+    0 10px 24px -14px var(--occl),
+    0 1px 0 0 var(--rim),
+    inset 0 -7px 14px -7px var(--mass),
+    inset 0 7px 14px -7px var(--spec);
+  --sh-2:
+    0 20px 44px -14px var(--occl),
+    0 1px 0 0 var(--rim),
+    inset 0 -11px 20px -7px var(--mass),
+    inset 0 11px 20px -7px var(--spec);
+  --sh-3:
+    0 32px 66px -18px var(--occl),
+    0 1px 0 0 var(--rim),
+    inset 0 -14px 26px -9px var(--mass),
+    inset 0 14px 26px -9px var(--spec);
+  --sh-container:
+    0 20px 44px -24px var(--occl),
+    0 1px 0 0 var(--rim);
+
+  --hairline: rgba(130, 175, 245, 0.13);
+  /* El glow solo existe en nocturno: sobre papel claro es lo que hace que el
+     clay se vea barato. */
+  --glow-accent: 0 12px 30px -12px #35cdee66;
+}
+
+/* ============================================================
+   MODO ALTO CONTRASTE
+   Sube la hairline al valor que sí alcanza 3:1 contra el campo y restituye
+   el límite del objeto para quien no percibe el relieve. En el sistema el
+   relieve nunca es el único canal de estado; acá deja de ser canal del todo.
+   ============================================================ */
+@media (prefers-contrast: more) {
+  :root { --hairline: #7a88a4; }
+  :root[data-theme='dark'],
+  :root[data-modo='orbita'] { --hairline: rgba(130, 175, 245, 0.45); }
+}
+
+/* ============================================================
+   COMPATIBILIDAD — los nombres viejos apuntan al sistema nuevo.
+   Viven acá y no repartidos por los componentes a propósito: el cambio es
+   de material, no de estructura, así que se resuelve en la capa de tokens.
+   Los alias se van a ir muriendo a medida que cada componente adopte los
+   nombres --wb-*.
+   ============================================================ */
+:root {
+  --color-white: var(--wb-ink);
+  --color-white-70: var(--wb-ink-2);
+  --color-white-44: var(--wb-ink-3);
+  --color-white-22: var(--wb-edge);
+  --color-white-12: var(--wb-1);
+  --color-black-70: var(--occl);
+
+  --color-tangelo: var(--wb-accent);
+  --color-tangelo-soft: var(--wb-accent-soft);
+  --color-tangelo-text: var(--wb-accent-text);
+  --color-blue-air: var(--wb-ink-2);
+  --color-blue-yinmn: var(--wb-3);
+  --color-oxford: var(--wb-field);
+  --color-slate: var(--wb-well);
+
+  --color-green: var(--wb-yes);
+  --color-green-soft: var(--wb-yes-soft);
+  --color-green-text: var(--wb-yes-text);
+  --color-red: var(--wb-no);
+  --color-red-soft: var(--wb-no-soft);
+
+  /* `.glass` pasó a llamarse `.surface`; estos alias quedan por si algún CSS
+     suelto todavía los nombra. */
+  --glass-bg: var(--wb-2);
+  --glass-border: 1px solid var(--hairline);
+  --glass-blur: none;
+  --shadow-soft: var(--sh-2);
+}

@@ -12,7 +12,7 @@ interface Props {
 export function Podium({ players, currentPlayerId, size = 'control', title }: Props) {
   const sorted = [...players].sort((a, b) => b.puntaje - a.puntaje);
   return (
-    <section className={`podium podium--${size} glass`} aria-label={title ?? 'Ranking'}>
+    <section className={`podium podium--${size} surface`} aria-label={title ?? 'Ranking'}>
       {title && <h2 className="podium__title">{title}</h2>}
       <ol className="podium__list">
         {sorted.map((p, i) => (

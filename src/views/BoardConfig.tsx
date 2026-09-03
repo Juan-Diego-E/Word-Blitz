@@ -68,7 +68,7 @@ export function BoardConfig() {
       <TopBar volverA="/jugar" titulo="1000 Nombres" />
       <h2 className="config-heading">Armá la carrera del tablero</h2>
 
-      <form className="config-form glass" onSubmit={jugar} noValidate>
+      <form className="config-form surface" onSubmit={jugar} noValidate>
         <fieldset className="config-form__section">
           <legend>Jugadores</legend>
           {nombres.map((n, i) => (

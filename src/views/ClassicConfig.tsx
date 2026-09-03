@@ -66,7 +66,7 @@ export function ClassicConfig() {
       <TopBar volverA="/jugar" titulo="Modo Clásico" />
       <h2 className="config-heading">Armemos la partida</h2>
 
-      <form className="config-form glass" onSubmit={jugar} noValidate>
+      <form className="config-form surface" onSubmit={jugar} noValidate>
         <fieldset className="config-form__section">
           <legend>Jugadores</legend>
           {nombres.map((n, i) => (

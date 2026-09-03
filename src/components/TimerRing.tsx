@@ -23,13 +23,13 @@ export function TimerRing({ seconds, totalSeconds, size = 'control' }: Props) {
       aria-label={seconds == null ? 'Temporizador detenido' : `${seconds} segundos restantes`}
     >
       <svg width={px} height={px} viewBox={`0 0 ${px} ${px}`} aria-hidden="true">
-        <circle cx={px / 2} cy={px / 2} r={r} fill="none" stroke="var(--color-white-22)" strokeWidth={stroke} />
+        <circle cx={px / 2} cy={px / 2} r={r} fill="none" stroke="var(--wb-well)" strokeWidth={stroke} />
         <circle
           cx={px / 2}
           cy={px / 2}
           r={r}
           fill="none"
-          stroke={urgent ? 'var(--color-red)' : 'var(--color-blue-air)'}
+          stroke={urgent ? 'var(--wb-no)' : 'var(--wb-amber)'}
           strokeWidth={stroke}
           strokeLinecap="round"
           strokeDasharray={circ}

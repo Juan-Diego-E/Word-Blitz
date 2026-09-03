@@ -22,11 +22,20 @@
   gap: var(--sp-3);
   padding: var(--sp-2) var(--sp-3);
   border-radius: var(--radius-md);
-  background: var(--color-white-12);
+  background: var(--wb-1);
+  box-shadow: var(--sh-1);
+  border: 1px solid transparent;
+}
+/* El lider sube un nivel de elevacion en vez de cambiar de color: la
+   jerarquia la lleva la luz, y asi el acento queda libre para la unica cosa
+   acentuada de la pantalla. */
+.podium__list .podium__row:first-child {
+  background: var(--wb-2);
+  box-shadow: var(--sh-2);
 }
 .podium__row--current {
-  background: var(--color-tangelo-soft);
-  border: 1px solid var(--color-tangelo);
+  background: var(--wb-accent-soft);
+  border-color: var(--wb-accent);
 }
 .podium__pos {
   display: grid;
@@ -36,8 +45,8 @@
   border-radius: 50%;
   font-size: var(--fs-sm);
   font-weight: 700;
-  background: var(--color-white-22);
-  color: var(--color-white);
+  background: var(--wb-well);
+  color: var(--wb-ink);
 }
 .podium__pos--1 { background: #f0b429; color: #3a2b00; }
 .podium__pos--2 { background: #c8d2dc; color: #29323c; }
@@ -50,6 +59,7 @@
   white-space: nowrap;
 }
 .podium__score {
+  font-family: var(--font-display);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }

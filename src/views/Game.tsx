@@ -155,7 +155,7 @@ export function Game() {
           disabled={g.phase === 'spinning'}
         />
         {g.phase === 'timeout' && (
-          <p className="game__timeout glass" role="status">
+          <p className="game__timeout surface" role="status">
             <AlarmClock aria-hidden="true" className="game__timeout-icon" /> ¡Tiempo! Le toca a{' '}
             <strong>{nextPlayer.nombre}</strong> con la misma carta.
           </p>
@@ -175,7 +175,7 @@ export function Game() {
           pulgar alcanza sin recolocar la mano. */}
       <JudgementButtons onJudge={g.judge} disabled={g.phase !== 'revealed'} />
 
-      <dialog ref={settingsRef} className="game__settings glass" onClose={() => setShowSettings(false)}>
+      <dialog ref={settingsRef} className="game__settings surface" onClose={() => setShowSettings(false)}>
         <h2>Ajustes</h2>
         <div className="game__settings-row">
           <label htmlFor="timer-ingame">Segundos por turno</label>

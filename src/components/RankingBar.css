@@ -26,13 +26,14 @@
   min-width: 0;
   padding: var(--sp-2) var(--sp-3);
   border-radius: var(--radius-pill);
-  background: var(--color-white-12);
+  background: var(--wb-1);
+  box-shadow: var(--sh-1);
   border: 1px solid transparent;
   font-size: var(--fs-sm);
 }
 .ranking-bar__item--current {
-  background: var(--color-tangelo-soft);
-  border-color: var(--color-tangelo);
+  background: var(--wb-accent-soft);
+  border-color: var(--wb-accent);
 }
 .ranking-bar__pos {
   flex: none;
@@ -43,7 +44,8 @@
   border-radius: 50%;
   font-size: var(--fs-xs);
   font-weight: 700;
-  background: var(--color-white-22);
+  background: var(--wb-well);
+  color: var(--wb-ink);
 }
 .ranking-bar__pos--1 { background: #f0b429; color: #3a2b00; }
 .ranking-bar__pos--2 { background: #c8d2dc; color: #29323c; }
@@ -57,6 +59,7 @@
 }
 .ranking-bar__score {
   flex: none;
+  font-family: var(--font-display);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
@@ -64,14 +67,15 @@
   flex: none;
   padding: var(--sp-1) var(--sp-2);
   border-radius: var(--radius-pill);
-  background: var(--color-white-12);
+  background: var(--wb-well);
+  box-shadow: var(--sh-0);
   font-size: var(--fs-xs);
-  color: var(--color-white-70);
+  color: var(--wb-ink-2);
 }
 
 .ranking-sheet {
-  border: var(--glass-border);
-  color: var(--color-white);
+  border: 1px solid var(--hairline);
+  color: var(--wb-ink);
   padding: var(--sp-4);
   width: min(420px, calc(100% - 2 * var(--sp-4)));
   max-height: calc(100dvh - 2 * var(--sp-4));
@@ -87,5 +91,8 @@
   gap: var(--sp-4);
   align-items: stretch;
 }
-.ranking-sheet::backdrop { background: #0c1a37cc; }
+/* El scrim va literal: `::backdrop` vive en el top layer y la herencia de
+   custom properties desde el elemento originante no es fiable en todos los
+   motores. Un atenuado oscuro sirve para los dos temas. */
+.ranking-sheet::backdrop { background: rgba(15, 27, 51, 0.55); }
 .ranking-sheet .podium { box-shadow: none; }

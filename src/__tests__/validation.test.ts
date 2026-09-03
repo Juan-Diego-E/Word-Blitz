@@ -89,6 +89,15 @@ describe('parseRoomMessage — acepta lo legítimo', () => {
     expect(msg?.type).toBe('state');
   });
 
+  it('pasa el tema publicado por el control', () => {
+    expect(parseRoomMessage({ type: 'theme', code: CODE, tema: 'oscuro' })).toEqual({
+      type: 'theme',
+      code: CODE,
+      tema: 'oscuro',
+    });
+    expect(parseRoomMessage({ type: 'theme', code: CODE, tema: 'claro' })).not.toBeNull();
+  });
+
   it('pasa un snapshot real del tablero', () => {
     const msg = parseRoomMessage({ type: 'board-state', code: CODE, state: snapshotTablero() });
     expect(msg).not.toBeNull();
@@ -142,6 +151,12 @@ describe('parseRoomMessage — rechaza lo hostil', () => {
   it('descarta mensajes de otra sala o sin código válido', () => {
     expect(parseRoomMessage({ type: 'hello-tv', code: 'nope' })).toBeNull();
     expect(parseRoomMessage({ type: 'hello-tv' })).toBeNull();
+  });
+
+  it('descarta temas inventados (el atributo va al DOM sin escapar)', () => {
+    for (const tema of ['dark', '', null, 42, { toString: () => 'claro' }, 'claro; drop']) {
+      expect(parseRoomMessage({ type: 'theme', code: CODE, tema })).toBeNull();
+    }
   });
 
   it('descarta tipos desconocidos y primitivos', () => {

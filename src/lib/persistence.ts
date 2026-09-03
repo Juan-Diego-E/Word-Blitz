@@ -1,5 +1,5 @@
 // IndexedDB (categorías custom, partida en curso) + localStorage (preferencias).
-import type { BoardSnapshot, Categoria, GameSnapshot } from '../types';
+import type { BoardSnapshot, Categoria, GameSnapshot, TemaId } from '../types';
 
 const DB_NAME = 'word-blitz';
 // v2 agrega el store `tablero` para el Modo 1000 Nombres.
@@ -99,6 +99,14 @@ export interface Prefs {
    * Vive solo acá: no existe como campo en la colección `preferencias`.
    */
   sincronizarPartidas: boolean;
+  /**
+   * Tema visual. Vive solo acá, como `sincronizarPartidas`: no existe como
+   * campo en la colección `preferencias` de Cerebro y no se manda al proxy,
+   * porque agregar campos a un esquema remoto no es algo que decida el
+   * cliente. Se sincroniza con la TV por el canal de sala, que es donde hace
+   * falta.
+   */
+  tema: TemaId;
 }
 
 const DEFAULTS: Prefs = {
@@ -106,6 +114,7 @@ const DEFAULTS: Prefs = {
   vibracion: true,
   reducirMovimiento: null,
   sincronizarPartidas: false,
+  tema: 'claro',
 };
 
 export function loadPrefs(): Prefs {
@@ -123,6 +132,7 @@ export function loadPrefs(): Prefs {
         reducirMovimiento:
           typeof guardado.reducirMovimiento === 'boolean' ? guardado.reducirMovimiento : null,
         sincronizarPartidas: guardado.sincronizarPartidas === true,
+        tema: guardado.tema === 'oscuro' ? 'oscuro' : DEFAULTS.tema,
       };
     }
   } catch {

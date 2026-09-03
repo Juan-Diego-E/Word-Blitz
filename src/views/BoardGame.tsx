@@ -149,7 +149,7 @@ export function BoardGame() {
           </BoardTrack>
 
           {g.phase === 'timeout' && (
-            <p className="board-game__timeout glass" role="status">
+            <p className="board-game__timeout surface" role="status">
               <AlarmClock aria-hidden="true" className="board-game__timeout-icon" /> ¡Tiempo!{' '}
               <strong>{current.nombre}</strong> se queda en su casilla.
             </p>
@@ -208,7 +208,7 @@ export function BoardGame() {
         </aside>
       </div>
 
-      <dialog ref={settingsRef} className="board-game__settings glass" onClose={() => setShowSettings(false)}>
+      <dialog ref={settingsRef} className="board-game__settings surface" onClose={() => setShowSettings(false)}>
         <h2>Ajustes</h2>
         <div className="board-game__settings-row">
           <label htmlFor="timer-ingame">Segundos por turno</label>

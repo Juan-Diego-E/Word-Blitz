@@ -1,11 +1,13 @@
 // Pantalla de ajustes. Expone las preferencias que ya se persistían pero no
 // tenían dónde tocarse: sonido, vibración, reducir movimiento y la
 // sincronización de partidas con Cerebro.
+import { Moon, Sun } from 'lucide-react';
 import { Toggle } from '../components/Toggle';
 import { TopBar } from '../components/TopBar';
 import { play } from '../lib/sound';
 import { usePageTitle } from '../hooks/usePageTitle';
 import { useSettingsStore } from '../store/settingsStore';
+import type { TemaId } from '../types';
 import './Settings.css';
 
 type MotionOpt = 'auto' | 'reducir' | 'normal';
@@ -26,7 +28,41 @@ export function Settings() {
     <main className="view settings">
       <TopBar volverA="/" titulo="Ajustes" />
 
-      <section className="settings__group glass">
+      <section className="settings__group surface">
+        <h2 className="settings__group-title">Apariencia</h2>
+        <div className="settings__row">
+          <div className="settings__row-text">
+            <span className="settings__row-label">Tema</span>
+            <span className="settings__row-hint">
+              El diurno es el de siempre. Si están jugando de noche con la luz
+              apagada, el nocturno no encandila. La pantalla grande sigue al
+              control: cambiándolo acá cambia también en la TV.
+            </span>
+          </div>
+          <div className="settings__segmented" role="group" aria-label="Tema">
+            {(
+              [
+                ['claro', 'Diurno', Sun],
+                ['oscuro', 'Nocturno', Moon],
+              ] as [TemaId, string, typeof Sun][]
+            ).map(([opt, texto, Ico]) => (
+              <button
+                key={opt}
+                type="button"
+                className={
+                  'settings__segment' + (s.tema === opt ? ' settings__segment--active' : '')
+                }
+                aria-pressed={s.tema === opt}
+                onClick={() => s.setTema(opt)}
+              >
+                <Ico aria-hidden="true" size={16} /> {texto}
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="settings__group surface">
         <h2 className="settings__group-title">Sonido y tacto</h2>
         <Toggle
           id="set-sonido"
@@ -54,7 +90,7 @@ export function Settings() {
         />
       </section>
 
-      <section className="settings__group glass">
+      <section className="settings__group surface">
         <h2 className="settings__group-title">Accesibilidad</h2>
         <div className="settings__row">
           <div className="settings__row-text">
@@ -87,7 +123,7 @@ export function Settings() {
         </div>
       </section>
 
-      <section className="settings__group glass">
+      <section className="settings__group surface">
         <h2 className="settings__group-title">Partidas</h2>
         <Toggle
           id="set-sync"

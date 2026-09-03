@@ -61,7 +61,7 @@ export function RankingBar({ players, currentPlayerId }: Props) {
         )}
       </button>
 
-      <dialog ref={ref} className="ranking-sheet glass" onClose={() => setOpen(false)}>
+      <dialog ref={ref} className="ranking-sheet surface" onClose={() => setOpen(false)}>
         <Podium players={players} currentPlayerId={currentPlayerId} title="Ranking" />
         <button type="button" className="btn btn-secondary" onClick={() => setOpen(false)}>
           Cerrar

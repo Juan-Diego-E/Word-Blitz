@@ -312,10 +312,17 @@ export async function traerPreferencias(instalacionId: string): Promise<Partial<
   };
 }
 
-export async function subirPreferencias(instalacionId: string, prefs: Prefs): Promise<boolean> {
+/**
+ * El parámetro pide exactamente los tres campos que existen en la colección,
+ * no `Prefs` entera: así el tipo dice qué sale del dispositivo. Lo demás
+ * (`sincronizarPartidas`, `tema`) es decisión local y no se sube — agregar
+ * campos a un esquema remoto no es algo que decida el cliente.
+ */
+export async function subirPreferencias(
+  instalacionId: string,
+  prefs: Pick<Prefs, 'sonido' | 'vibracion' | 'reducirMovimiento'>,
+): Promise<boolean> {
   if (!disponible) return false;
-  // Solo los tres campos que existen en la colección. `sincronizarPartidas`
-  // es una decisión local del dispositivo y no se sube.
   return guardar(
     'preferencias',
     instalacionId,

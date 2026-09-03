@@ -5,22 +5,13 @@
   position: relative;
 }
 
-/* Halo de la carta. El arcoíris cónico animado que vivía acá se filtraba
-   hacia adentro a través del backdrop-filter de la cara frontal: el nombre
-   de la categoría quedaba sobre un fondo que giraba. Ver global.css. */
-.card::after {
-  content: '';
-  position: absolute;
-  inset: -4px;
-  z-index: -1;
-  border-radius: calc(var(--radius-lg) + 4px);
-  background: linear-gradient(150deg, var(--color-tangelo), var(--color-blue-yinmn));
-  opacity: 0.5;
-  filter: blur(0.75rem);
-}
-
-.card:not(:disabled):hover .card__face--back {
-  background: var(--color-white-22);
+/* Sin halo: en clay la separación la hace la sombra, no un resplandor
+   detrás. El glow solo tiene sentido en nocturno, y ahí ya lo trae --sh-3. */
+.card { border-radius: var(--radius-hero); }
+.card:not(:disabled) { transition: transform var(--release); }
+.card:not(:disabled):active {
+  transform: translateY(2px) scale(0.985);
+  transition: transform var(--press);
 }
 .card--control { width: min(78vw, 300px); aspect-ratio: 3 / 4; }
 .card--tv { width: clamp(280px, 30vw, 460px); aspect-ratio: 3 / 4; }
@@ -43,33 +34,30 @@
   justify-content: center;
   gap: var(--sp-3);
   padding: var(--sp-5);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius-hero);
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
-  /* Opaca a propósito: la cara de la carta lleva texto, así que no puede
-     dejar pasar lo que haya detrás. */
-  background: linear-gradient(160deg, #16305c, #0e1e3f);
-  border: var(--glass-border);
-  box-shadow: var(--shadow-soft);
-}
-
-.card__face--back {
-  background: linear-gradient(160deg, #10406e, #0c1a37);
+  /* Superficie opaca de nivel 3 (protagonista). Una cara que lleva texto no
+     puede dejar pasar lo que haya detrás: ese era el defecto del vidrio. */
+  background: var(--wb-3);
+  color: var(--wb-ink);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--sh-3);
 }
 .card__logo {
   width: 62%;
   height: auto;
-  filter: drop-shadow(0 6px 18px #0c1a3766);
 }
 .card__hint {
-  color: var(--color-white-70);
+  color: var(--wb-ink-2);
   font-size: var(--fs-sm);
 }
 
 .card__face--front { transform: rotateY(180deg); }
-.card__icon { font-size: 3rem; color: var(--color-tangelo-text); }
+.card__icon { font-size: 3rem; color: var(--wb-accent-text); }
 .card--tv .card__icon { font-size: clamp(3.5rem, 6vw, 5.5rem); }
 .card__category {
+  font-family: var(--font-display);
   font-size: var(--fs-xl);
   font-weight: 700;
   text-align: center;
@@ -77,7 +65,7 @@
 }
 .card--tv .card__category { font-size: clamp(2rem, 4.4vw, 3.6rem); }
 .card__desc {
-  color: var(--color-white-70);
+  color: var(--wb-ink-2);
   font-size: var(--fs-sm);
   text-align: center;
 }

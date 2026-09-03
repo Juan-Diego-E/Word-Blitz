@@ -31,9 +31,10 @@
   width: 100%;
   padding: var(--sp-3);
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-white-22);
-  background: var(--color-white-12);
-  color: var(--color-white);
+  border: 1px solid var(--hairline);
+  background: var(--wb-well);
+  box-shadow: var(--sh-0);
+  color: var(--wb-ink);
   min-height: var(--tap-min);
 }
 .config-form input::placeholder { color: var(--color-white-44); }
@@ -45,8 +46,9 @@
 .config-form__remove {
   flex: none;
   border-radius: var(--radius-md);
-  background: var(--color-red-soft);
-  border: 1px solid var(--color-red);
+  background: var(--wb-no-soft);
+  border: 1px solid var(--wb-no);
+  color: var(--wb-no-text);
 }
 .config-form__row {
   display: flex;
@@ -71,10 +73,13 @@
 .stepper input::-webkit-inner-spin-button { -webkit-appearance: none; }
 .stepper button {
   border-radius: var(--radius-md);
-  background: var(--color-white-12);
-  border: 1px solid var(--color-white-22);
+  background: var(--wb-2);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--sh-1);
   font-size: var(--fs-lg);
+  transition: transform var(--release);
 }
+.stepper button:active { transform: translateY(2px) scale(0.94); transition: transform var(--press); }
 .config-form__code {
   max-width: 140px;
   text-align: center;
@@ -88,14 +93,15 @@
   font-size: var(--fs-sm);
 }
 .config-form__status { margin: 0; font-size: var(--fs-sm); color: var(--color-white-70); }
-.config-form__status--ok { color: #9be89b; }
-.config-form__status--err { color: #ffb3b3; }
+.config-form__status--ok { color: var(--wb-yes-text); }
+.config-form__status--err { color: var(--wb-no-text); }
 .config-form__errors {
   margin: 0;
   padding: var(--sp-3) var(--sp-4);
   border-radius: var(--radius-md);
-  background: var(--color-red-soft);
-  border: 1px solid var(--color-red);
+  background: var(--wb-no-soft);
+  border: 1px solid var(--wb-no);
+  color: var(--wb-no-text);
   list-style: none;
   display: flex;
   flex-direction: column;

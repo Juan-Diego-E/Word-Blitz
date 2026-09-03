@@ -24,9 +24,9 @@
   gap: 4px;
   padding: 10px;
   border-radius: var(--radius-lg);
-  background: linear-gradient(160deg, #0d51894d, #76a7be33);
-  border: 1px solid var(--color-white-22);
-  box-shadow: var(--shadow-soft);
+  background: var(--wb-well);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--sh-0);
   margin-inline: auto;
   min-width: 0;
 }
@@ -72,21 +72,21 @@
 }
 
 .board-track__cell--start {
-  background: linear-gradient(160deg, #00aa0055, #00aa0022);
-  border-color: var(--color-green);
-  color: var(--color-green-text);
+  background: var(--wb-yes-soft);
+  border-color: var(--wb-yes);
+  color: var(--wb-yes-text);
 }
 
 .board-track__cell--meta {
-  background: linear-gradient(160deg, #f5550e66, #f5550e22);
-  border-color: var(--color-tangelo);
-  color: var(--color-white);
-  box-shadow: 0 0 20px #f5550e77;
+  background: var(--grad-accent);
+  border-color: var(--wb-accent);
+  color: var(--wb-on-accent);
+  box-shadow: var(--sh-2), var(--glow-accent);
 }
 
 .board-track__cell--target {
   transform: scale(1.06);
-  box-shadow: 0 0 0 2px var(--color-white), 0 0 22px var(--color-white-44);
+  box-shadow: 0 0 0 3px var(--wb-amber);
   z-index: 2;
 }
 
@@ -107,8 +107,8 @@
   min-width: 8px;
   min-height: 8px;
   border-radius: 50%;
-  border: 2px solid #ffffffcc;
-  box-shadow: 0 2px 6px #00000055, inset 0 -2px 4px #00000033;
+  border: 2px solid var(--wb-field);
+  box-shadow: var(--sh-1);
   transition: transform 0.35s ease;
 }
 .board-track--tv .board-track__pawn {
@@ -117,7 +117,7 @@
   border-width: 3px;
 }
 .board-track__pawn--current {
-  outline: 2px solid #ffffff;
+  outline: 2px solid var(--wb-ink);
   outline-offset: 2px;
   animation: pawn-pulse 1.2s ease-in-out infinite;
 }

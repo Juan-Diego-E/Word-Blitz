@@ -15,38 +15,40 @@ body,
 body {
   margin: 0;
   font-family: var(--font-family);
-  color: var(--color-white);
-  /* Gradiente del proyecto, con la lógica del radial INVERTIDA.
-     Antes el centro era blue-air (#76a7be, el punto más claro) y ahí es
-     justo donde vive el contenido: el blanco puro daba 2,6:1 y ningún
-     token de texto pasaba WCAG. Ahora el centro es blue-yinmn (8:1 con
-     blanco) y cae hacia oxford en los bordes (17:1).
-     El blue-air se conserva como halo atmosférico arriba, lejos del
-     texto, para no perder el aire de la marca. */
-  background:
-    radial-gradient(ellipse 90% 55% at 50% -10%, #76a7be24, transparent 70%),
-    radial-gradient(circle at 50% 42%, var(--color-blue-yinmn), var(--color-oxford) 82%);
-  background-attachment: fixed;
-  /* overflow: hidden bloquearía el scroll en pantallas largas (config);
-     con overflow-x alcanza para evitar el scroll horizontal. */
+  color: var(--wb-ink);
+  /* Campo plano. El gradiente radial anterior existía para dar profundidad a
+     un sistema de superficies translúcidas; con clay la profundidad la hacen
+     las piezas, y un fondo con textura compite con ellas. Tampoco hay
+     `background-attachment: fixed`, que forzaba una capa de composición
+     entera para no moverse. */
+  background: var(--wb-field);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
-  /* La app se transforma suavemente al entrar/salir del Modo Órbita. */
-  transition: background 700ms ease;
+  /* La app se transforma suavemente al entrar/salir del Modo Órbita y al
+     cambiar de tema. */
+  transition: background 700ms ease, color 700ms ease;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 /* ============================================================
-   TEMA ÓRBITA — al entrar al modo, `data-modo="orbita"` en <html>
-   morfea el fondo de toda la app al cosmos. La transición vive en
-   `body { transition: background }`. Un segundo velo (`.orbita-veil`)
-   cruza con fade para reforzar el cambio.
+   TEMA ÓRBITA — al entrar al modo, `data-modo="orbita"` en <html> morfea el
+   fondo de toda la app al cosmos y fuerza el material nocturno (los tokens
+   viven en variables.css). Un velo de estrellas cruza con fade.
    ============================================================ */
 :root[data-modo='orbita'] body {
   background:
-    radial-gradient(1100px 700px at 12% -8%, #FFC24D18, transparent 60%),
-    radial-gradient(1000px 800px at 92% 108%, #4CC5F51c, transparent 62%),
-    radial-gradient(900px 900px at 80% 4%, #B57BFF14, transparent 55%),
-    linear-gradient(180deg, #0C1230, #070B1E);
+    radial-gradient(1100px 700px at 12% -8%, #ffc24d18, transparent 60%),
+    radial-gradient(1000px 800px at 92% 108%, #4cc5f51c, transparent 62%),
+    radial-gradient(900px 900px at 80% 4%, #b57bff14, transparent 55%),
+    linear-gradient(180deg, #0c1230, #070b1e);
 }
 .orbita-veil {
   position: fixed;
@@ -67,48 +69,28 @@ body {
   background-repeat: no-repeat;
 }
 :root[data-modo='orbita'] .orbita-veil { opacity: 1; }
-/* El patrón tic-tac-toe se desvanece bajo el cosmos. */
-:root[data-modo='orbita'] .bg-lights { opacity: 0; }
 
-/* ---- Fondo animado: patrón tic-tac-toe local (asset propio, sin CDN) ---- */
-.bg-lights {
-  position: fixed;
-  inset: 0;
-  z-index: -99;
-  background: url('../assets/tic-tac-toe.webp') repeat 0 0;
-  /* Era `color-burn`, que funcionaba sobre el fondo claro anterior. Con el
-     fondo oscuro nuevo esa fórmula — 1 − (1−fondo)/fuente — se satura a
-     negro para casi cualquier fuente, dejando manchas en vez de textura.
-     `soft-light` aclara suavemente sobre fondo oscuro, que es el efecto
-     equivalente al original. */
-  mix-blend-mode: soft-light;
-  opacity: 0.6;
-  animation: bg-animation 10s linear infinite;
-  transition: opacity 700ms ease;
-}
-
-@keyframes bg-animation {
-  100% { background-position: 50px 50px; }
-}
-
-/* ---- Glass ---- */
-.glass {
-  background: var(--glass-bg);
-  border: var(--glass-border);
+/* ============================================================
+   MATERIAL — cuatro niveles de elevación.
+   La regla que evita el error clásico del clay: solo lo interactivo lleva
+   la pila de tres sombras. Los contenedores llevan oclusión sola; si todo
+   tiene relieve, nada parece apretable.
+   ============================================================ */
+.surface {
+  background: var(--wb-2);
+  border: 1px solid var(--hairline);
   border-radius: var(--radius-lg);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  box-shadow: var(--shadow-soft);
+  box-shadow: var(--sh-container);
 }
 
-/* Halo del borde destacado.
-   ANTES era un conic-gradient arcoíris animado (--angle girando 10s) que
-   vivía en z-index:-1 y se leía A TRAVÉS del backdrop-filter de la pieza:
-   el fondo del texto cambiaba de color con el tiempo. Medido sobre el
-   render, el contraste del código de sala nunca superaba 2,75:1 y el de la
-   categoría oscilaba entre 3,10 y 5,46 a lo largo del ciclo.
-   No hay par de colores que arregle un fondo animado: el halo pasa a ser
-   estático y de marca, y la pieza que lleva texto se vuelve opaca. */
+.e0 { background: var(--wb-well); box-shadow: var(--sh-0); }
+.e1 { background: var(--wb-1); box-shadow: var(--sh-1); }
+.e2 { background: var(--wb-2); box-shadow: var(--sh-2); }
+.e3 { background: var(--wb-3); box-shadow: var(--sh-3); }
+
+/* Halo del borde destacado. Antes era un conic-gradient arcoíris animado que
+   se leía A TRAVÉS del backdrop-filter de la pieza que tenía encima: el fondo
+   del texto cambiaba de color con el tiempo. Ahora es estático y de marca. */
 .glow-border { position: relative; }
 .glow-border::after {
   content: '';
@@ -116,15 +98,21 @@ body {
   inset: -4px;
   z-index: -1;
   border-radius: calc(var(--radius-lg) + 4px);
-  background: linear-gradient(150deg, var(--color-tangelo), var(--color-blue-yinmn));
-  opacity: 0.55;
+  background: var(--grad-accent);
+  opacity: 0.28;
   filter: blur(0.75rem);
 }
 
-/* Los CTA son <Link> con clase .btn: sin este reset, el botón principal de
-   la Home se renderiza subrayado. El subrayado se declara explícitamente
-   donde sí comunica "esto es un enlace de texto" (.btn-ghost). */
-a { text-decoration: none; }
+/* ---- El squish ----
+   La compresión al tocar es la mitad del efecto. Se anima SOLO `transform`:
+   animar `box-shadow` con blurs de 40px repinta cada frame y se lleva puesto
+   al cronómetro, que es lo único de la pantalla que no puede saltear cuadros. */
+.squish { transition: transform var(--release); }
+.squish:not(:disabled):active { transform: translateY(2px) scale(0.977); transition: transform var(--press); }
+
+/* Los link son <Link> con clase .btn: sin este reset el CTA principal se
+   renderiza subrayado. El subrayado queda donde comunica "enlace de texto". */
+a { text-decoration: none; color: inherit; }
 
 /* ---- Base de controles ---- */
 button {
@@ -144,9 +132,11 @@ select {
   font-size: var(--fs-md);
 }
 
+/* El foco NO lo hace el relieve. El error clásico del clay es borrar el
+   outline porque "el inset ya marca el estado": el inset marca la forma. */
 :focus-visible {
-  outline: 3px solid var(--color-tangelo);
-  outline-offset: 2px;
+  outline: 3px solid var(--wb-amber);
+  outline-offset: 3px;
   border-radius: var(--radius-sm);
 }
 
@@ -158,46 +148,47 @@ select {
   padding: var(--sp-3) var(--sp-6);
   border-radius: var(--radius-pill);
   font-weight: 600;
-  letter-spacing: 0.02em;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.2s ease;
+  letter-spacing: 0.01em;
+  transition: transform var(--release), background 0.2s ease;
 }
-.btn:active { transform: scale(0.97); }
+.btn:not(:disabled):active {
+  transform: translateY(2px) scale(0.977);
+  transition: transform var(--press);
+}
 
+/* El CTA es la única pieza donde la firma "relleno claro + tinta oscura" se
+   invierte, y es a propósito: en diurno el acento es lo más oscuro de la
+   pantalla, así que se separa del campo por sí solo (4,57:1) en vez de
+   depender de la sombra para existir. */
 .btn-primary {
-  background: var(--color-tangelo);
-  /* Blanco sobre tangelo daba 3,39:1 — el único par de la paleta que había
-     quedado sin recalibrar, y está en el CTA de Home, "¡A jugar!",
-     "Revancha" y "Seguir jugando". Tinta oscura: 5,69:1. */
-  color: #1a0a02;
-  box-shadow: 0 8px 26px #f5550e55;
+  background: var(--grad-accent);
+  color: var(--wb-on-accent);
+  box-shadow: var(--sh-2), var(--glow-accent);
 }
-.btn-primary:hover { box-shadow: 0 10px 32px #f5550e77; }
 
 .btn-secondary {
-  background: var(--color-white-12);
-  border: 1px solid var(--color-white-22);
-  color: var(--color-white);
-  backdrop-filter: var(--glass-blur);
+  background: var(--wb-2);
+  border: 1px solid var(--hairline);
+  color: var(--wb-ink);
+  box-shadow: var(--sh-1);
 }
-.btn-secondary:hover { background: var(--color-white-22); }
+.btn-secondary:hover { background: var(--wb-1); }
 
 .btn-ghost {
-  /* Antes era un enlace suelto de 23px de alto: la mitad del mínimo táctil.
-     Ahora ocupa 44px reales sin cambiar su aspecto de enlace. */
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-height: var(--tap-min);
   padding: var(--sp-2) var(--sp-4);
   border-radius: var(--radius-pill);
-  color: var(--color-white-70);
+  color: var(--wb-ink-2);
   text-decoration: underline;
   text-underline-offset: 4px;
   transition: color 0.15s ease, background 0.15s ease;
 }
 .btn-ghost:hover {
-  color: var(--color-white);
-  background: var(--color-white-12);
+  color: var(--wb-ink);
+  background: var(--wb-1);
 }
 
 /* ---- Utilitarios ---- */

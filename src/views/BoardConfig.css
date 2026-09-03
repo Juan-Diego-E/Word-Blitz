@@ -13,8 +13,8 @@
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  border: 2px solid #ffffffcc;
-  box-shadow: 0 2px 6px #00000055, inset 0 -2px 4px #00000033;
+  border: 2px solid var(--wb-field);
+  box-shadow: var(--sh-1);
 }
 
 .board-config__layouts {
@@ -30,12 +30,13 @@
   gap: var(--sp-1);
   padding: var(--sp-3);
   border-radius: var(--radius-md);
-  background: var(--color-white-12);
-  border: 1px solid var(--color-white-22);
+  background: var(--wb-1);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--sh-1);
   cursor: pointer;
   transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
 }
-.board-config__layout:hover { background: var(--color-white-22); }
+.board-config__layout:hover { background: var(--wb-2); }
 .board-config__layout input {
   position: absolute;
   opacity: 0;
@@ -43,9 +44,9 @@
   cursor: pointer;
 }
 .board-config__layout--selected {
-  border-color: var(--color-tangelo);
-  background: linear-gradient(160deg, #f5550e33, #f5550e11);
-  transform: translateY(-1px);
+  border-color: var(--wb-accent);
+  background: var(--wb-accent-soft);
+  box-shadow: var(--sh-2);
 }
 .board-config__layout-name {
   font-weight: 700;

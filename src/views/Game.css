@@ -67,8 +67,9 @@
   font-size: var(--fs-xs);
   padding: 2px 10px;
   border-radius: var(--radius-pill);
-  background: var(--color-white-12);
-  border: 1px solid var(--color-white-22);
+  background: var(--wb-1);
+  box-shadow: var(--sh-1);
+  color: var(--wb-accent-text);
   letter-spacing: 0.15em;
 }
 .game__header-right {
@@ -80,9 +81,12 @@
   display: grid;
   place-items: center;
   border-radius: 50%;
-  background: var(--color-white-12);
-  border: 1px solid var(--color-white-22);
+  background: var(--wb-2);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--sh-1);
+  transition: transform var(--release);
 }
+.game__settings-btn:active { transform: translateY(2px) scale(0.94); transition: transform var(--press); }
 
 /* El escenario es el único track elástico. `container-type: size` hace dos
    cosas: da unidades cqw/cqh para medir la carta contra el hueco real, y
@@ -162,8 +166,8 @@
 .game--over .podium { max-width: 480px; }
 
 .game__settings {
-  border: var(--glass-border);
-  color: var(--color-white);
+  border: 1px solid var(--hairline);
+  color: var(--wb-ink);
   padding: var(--sp-5);
   max-width: 380px;
   width: calc(100% - 2 * var(--sp-4));
@@ -173,7 +177,7 @@
   overflow-y: auto;
   overscroll-behavior: contain;
 }
-.game__settings::backdrop { background: #0c1a37cc; backdrop-filter: blur(4px); }
+.game__settings::backdrop { background: rgba(15, 27, 51, 0.55); }
 .game__settings h2 { margin: 0 0 var(--sp-4); }
 .game__settings-row {
   display: flex;
@@ -185,9 +189,10 @@
 .game__settings input {
   padding: var(--sp-2);
   border-radius: var(--radius-md);
-  border: 1px solid var(--color-white-22);
-  background: var(--color-white-12);
-  color: var(--color-white);
+  border: 1px solid var(--hairline);
+  background: var(--wb-well);
+  box-shadow: var(--sh-0);
+  color: var(--wb-ink);
 }
 .game__settings-actions {
   display: flex;

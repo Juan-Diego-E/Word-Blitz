@@ -56,7 +56,7 @@ export function OrbitaConfig() {
         Gana quien primero junte {meta} cartas.
       </p>
 
-      <form className="config-form glass" onSubmit={jugar} noValidate>
+      <form className="config-form surface" onSubmit={jugar} noValidate>
         <fieldset className="config-form__section">
           <legend>Exploradores</legend>
           {nombres.map((n, i) => (

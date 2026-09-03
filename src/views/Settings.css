@@ -57,10 +57,15 @@
   gap: 4px;
   padding: 4px;
   border-radius: var(--radius-pill);
-  background: var(--color-white-12);
-  border: 1px solid var(--color-white-22);
+  background: var(--wb-well);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--sh-0);
 }
 .settings__segment {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-1);
   flex: 1;
   min-height: var(--tap-min);
   padding: var(--sp-2) var(--sp-2);
@@ -71,7 +76,7 @@
   transition: background 0.15s ease, color 0.15s ease;
 }
 .settings__segment--active {
-  background: var(--color-tangelo);
-  color: #fff;
-  box-shadow: 0 4px 14px #f5550e55;
+  background: var(--grad-accent);
+  color: var(--wb-on-accent);
+  box-shadow: var(--sh-1);
 }

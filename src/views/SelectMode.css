@@ -37,7 +37,7 @@
   border-color: var(--color-tangelo);
   box-shadow: 0 14px 34px #f5550e26, var(--shadow-soft);
 }
-.mode-card__icon { color: var(--color-tangelo-text); }
+.mode-card__icon { color: var(--wb-accent-text); }
 .mode-card__name { font-size: var(--fs-lg); font-weight: 700; }
 .mode-card__desc { color: var(--color-white-70); font-size: var(--fs-sm); text-wrap: pretty; }
 

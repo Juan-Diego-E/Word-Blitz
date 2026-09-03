@@ -157,6 +157,10 @@ export function parseRoomMessage(raw: unknown): RoomMessage | null {
       return isBoardSnapshot(raw.state)
         ? { type: 'board-state', code, state: raw.state }
         : null;
+    case 'theme':
+      return raw.tema === 'claro' || raw.tema === 'oscuro'
+        ? { type: 'theme', code, tema: raw.tema }
+        : null;
     default:
       return null;
   }
