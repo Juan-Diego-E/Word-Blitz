@@ -47,4 +47,49 @@ export const categoriasBase: Categoria[] = [
   cat('dibujitos', 'Personaje de dibujitos', 'intermedio', 'tv'),
   cat('cosas-cocina', 'Algo de la cocina', 'facil', 'cooking-pot'),
   cat('adjetivos', 'Forma de describir a alguien', 'dificil', 'message-circle'),
+
+  // --- Segunda tanda ---
+  // Con 28 categorías, una partida de 10 cartas repetía tema seguido y la
+  // mesa empezaba a reconocer el mazo. Estas suman variedad y, sobre todo,
+  // tipos de consigna distintos.
+  cat('partes-casa', 'Parte de la casa', 'facil', 'door-open'),
+  cat('juguetes', 'Juguete', 'facil', 'blocks'),
+  cat('escuela', 'Algo de la escuela', 'facil', 'graduation-cap'),
+  cat('postres', 'Postre o golosina', 'facil', 'cake'),
+  cat('animales-mar', 'Animal del mar', 'facil', 'fish'),
+  cat('insectos', 'Insecto o bicho', 'intermedio', 'bug'),
+  cat('supermercado', 'Algo del supermercado', 'facil', 'shopping-cart'),
+  cat('bano', 'Algo del baño', 'facil', 'bath'),
+  cat('clima', 'Algo del clima', 'facil', 'cloud-sun'),
+  cat('emociones', 'Emoción o sentimiento', 'intermedio', 'heart'),
+  cat('juegos', 'Juego de mesa o de patio', 'intermedio', 'dice-5'),
+  cat('merienda', 'Algo de la merienda', 'facil', 'croissant'),
+  cat('cumpleanos', 'Algo de un cumpleaños', 'facil', 'party-popper'),
+  cat('videojuegos', 'Videojuego', 'intermedio', 'gamepad-2'),
+  cat('apps', 'App o red social', 'intermedio', 'at-sign'),
+  cat('futbol', 'Jugador o equipo de fútbol', 'intermedio', 'goal'),
+  cat('libros', 'Libro o autor', 'dificil', 'book-open'),
+  cat('superheroes', 'Superhéroe o villano', 'intermedio', 'shield'),
+  cat('regalos', 'Regalo que le darías a alguien', 'intermedio', 'gift'),
+  cat('viaje', 'Algo que llevás de viaje', 'intermedio', 'luggage'),
+  cat('partes-auto', 'Parte de un auto', 'intermedio', 'car'),
+  cat('lugares-ciudad', 'Lugar de la ciudad', 'intermedio', 'map-pin'),
+  cat('historia', 'Personaje histórico', 'dificil', 'landmark'),
+  cat('capitales', 'Capital de un país', 'dificil', 'flag'),
+  cat('geografia', 'Río, montaña o mar', 'dificil', 'mountain'),
+  cat('ciencia', 'Algo de la ciencia', 'dificil', 'atom'),
+  cat('mitologia', 'Dios, mito o leyenda', 'dificil', 'sparkles'),
+  cat('marcas-autos', 'Marca de auto', 'dificil', 'car-front'),
+  cat('verbos', 'Algo que se hace (un verbo)', 'dificil', 'zap'),
+
+  // --- Consignas de FORMA: la respuesta no es un tema, es una restricción.
+  // Rompen el automatismo de "categoría -> lista mental" y son las que
+  // suelen hacer discutir, que es la mitad de la gracia. ---
+  cat('cosas-redondas', 'Algo redondo', 'intermedio', 'circle-dot'),
+  cat('cosas-frias', 'Algo frío', 'intermedio', 'snowflake'),
+  cat('cosas-ruidosas', 'Algo que hace ruido', 'intermedio', 'volume-2'),
+  cat('dos-palabras', 'Algo de dos palabras', 'dificil', 'type'),
+  cat('palabras-largas', 'Palabra de más de ocho letras', 'dificil', 'ruler'),
+  cat('cosas-caras', 'Algo carísimo', 'intermedio', 'gem'),
+  cat('excusas', 'Excusa para no ir a algún lado', 'dificil', 'message-circle'),
 ];
