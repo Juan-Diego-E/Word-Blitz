@@ -106,6 +106,27 @@
   --orbita-rareza: #b57bff;
   --orbita-ink-2: #aeb9e4;
 
+  /* ---- Identidad por modo ----
+     Paleta CATEGÓRICA, no semántica: estos siete tonos no significan nada
+     por separado, solo tienen que distinguirse ENTRE SÍ — la misma lógica
+     que los colores de peón del tablero.
+
+     Viven acotados al emblema del modo. La tarjeta sigue siendo superficie
+     clay y el texto sigue siendo tinta, así que el acento único del sistema
+     no se diluye en un arcoíris, que es exactamente lo que le pasaba al
+     borde cónico que sacamos.
+
+     Cada par es relleno + tinta oscura encima, la firma del material, y los
+     mismos valores sirven en los dos temas porque son fills saturados: lo
+     que cambia alrededor, no ellos. */
+  --modo-clasico: #f6874f;   --modo-clasico-2: #e2591f;  --modo-clasico-ink: #3d1404;
+  --modo-orbita: #a78bfa;    --modo-orbita-2: #8154ef;   --modo-orbita-ink: #1b0c3d;
+  --modo-tablero: #4ade9b;   --modo-tablero-2: #12a86c;  --modo-tablero-ink: #04301d;
+  --modo-diaria: #fbc63f;    --modo-diaria-2: #e39a0d;   --modo-diaria-ink: #3b2500;
+  --modo-infinito: #f77fc0;  --modo-infinito-2: #db3c8c;  --modo-infinito-ink: #400a28;
+  --modo-multi: #6fd0ef;     --modo-multi-2: #1f9fc8;    --modo-multi-ink: #042634;
+  --modo-reloj: #fb8f8a;     --modo-reloj-2: #e0483f;    --modo-reloj-ink: #3f0b07;
+
   /* ---- Tipografía ----
      Fredoka y Space Mono ya se cargaban para el Modo Órbita; Fredoka pasa a
      ser la voz del display en toda la app: sus terminales redondeadas son el

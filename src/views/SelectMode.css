@@ -22,30 +22,63 @@
 
 .mode-card {
   position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: var(--sp-2);
   padding: var(--sp-5);
   height: 100%;
   color: inherit;
   text-decoration: none;
-  transition: transform 0.15s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: transform var(--release), box-shadow 0.2s ease;
+}
+/* Un lavado del color del modo en la esquina del emblema. Es lo que hace que
+   la tarjeta se sienta de ese modo sin teñir el texto ni la superficie: el
+   croma vive arriba a la izquierda y se apaga antes de llegar a la tinta. */
+.mode-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    120% 90% at 0% 0%,
+    color-mix(in oklab, var(--m, var(--wb-accent)) 16%, transparent),
+    transparent 62%
+  );
+  opacity: 0.9;
+  transition: opacity 0.25s ease;
 }
 .mode-card--enabled:hover,
 .mode-card--enabled:focus-visible {
-  transform: translateY(-3px);
-  border-color: var(--color-tangelo);
-  box-shadow: 0 14px 34px #f5550e26, var(--shadow-soft);
+  transform: translateY(-4px);
+  box-shadow:
+    0 18px 38px -18px color-mix(in oklab, var(--m, var(--wb-accent)) 55%, transparent),
+    var(--sh-2);
 }
-.mode-card__icon { color: var(--wb-accent-text); }
-.mode-card__name { font-size: var(--fs-lg); font-weight: 700; }
-.mode-card__desc { color: var(--color-white-70); font-size: var(--fs-sm); text-wrap: pretty; }
+.mode-card--enabled:hover::before { opacity: 1; }
+/* La pastilla se inclina y crece un poco: el gesto de "esto está vivo" va en
+   el emblema y no en la tarjeta entera, que tiene que quedarse quieta para
+   que el texto se siga leyendo. */
+.mode-card--enabled:hover .emblem,
+.mode-card--enabled:focus-visible .emblem {
+  transform: rotate(-6deg) scale(1.08);
+}
+.mode-card--enabled:active { transform: translateY(2px) scale(0.985); transition: transform var(--press); }
+
+.mode-card .emblem { margin-bottom: var(--sp-1); }
+.mode-card__name {
+  font-family: var(--font-display);
+  font-size: var(--fs-lg);
+  font-weight: 700;
+}
+.mode-card__desc { color: var(--wb-ink-2); font-size: var(--fs-sm); text-wrap: pretty; }
 
 /* Affordance explícita: la tarjeta lleva a algún lado. */
 .mode-card__go {
   margin-top: auto;
-  padding-top: var(--sp-2);
-  color: var(--color-tangelo-text);
+  padding-top: var(--sp-3);
+  color: var(--wb-accent-text);
   font-weight: 700;
   font-size: var(--fs-sm);
   transition: transform 0.15s ease;
@@ -86,11 +119,16 @@
   display: inline-flex;
   align-items: center;
   gap: var(--sp-2);
-  padding: var(--sp-2) var(--sp-3);
+  padding: var(--sp-1) var(--sp-3) var(--sp-1) var(--sp-1);
   border-radius: var(--radius-pill);
-  background: var(--color-white-12);
-  border: 1px dashed var(--color-white-22);
-  color: var(--color-white-70);
+  background: var(--wb-1);
+  box-shadow: var(--sh-1);
+  color: var(--wb-ink-2);
   font-size: var(--fs-sm);
+  font-weight: 600;
 }
-.soon-chip svg { color: var(--color-white-44); flex: none; }
+/* El emblema del modo que todavía no existe aparece, pero bajo de saturación:
+   se reconoce la forma y el color, y se entiende que no está listo. El dato
+   "no jugable" no lo lleva solo el color -está el título "En camino" y estos
+   modos no son enlaces-, así que bajar el croma acá es seguro. */
+.soon-chip .emblem { filter: saturate(0.45); opacity: 0.85; }

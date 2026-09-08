@@ -1,0 +1,42 @@
+/* ---- Identidad por modo ----
+   La clase `.modo-<slug>` solo declara variables, así que se puede poner en
+   cualquier contenedor y todo lo de adentro —el emblema, el halo de la
+   tarjeta, el borde de foco— hereda el color de ese modo sin repetir la
+   tabla en cada componente. */
+.modo-clasico { --m: var(--modo-clasico); --m-2: var(--modo-clasico-2); --m-ink: var(--modo-clasico-ink); }
+.modo-orbita { --m: var(--modo-orbita); --m-2: var(--modo-orbita-2); --m-ink: var(--modo-orbita-ink); }
+.modo-1000-nombres { --m: var(--modo-tablero); --m-2: var(--modo-tablero-2); --m-ink: var(--modo-tablero-ink); }
+.modo-palabra-diaria { --m: var(--modo-diaria); --m-2: var(--modo-diaria-2); --m-ink: var(--modo-diaria-ink); }
+.modo-infinito { --m: var(--modo-infinito); --m-2: var(--modo-infinito-2); --m-ink: var(--modo-infinito-ink); }
+.modo-multijugador { --m: var(--modo-multi); --m-2: var(--modo-multi-2); --m-ink: var(--modo-multi-ink); }
+.modo-contrarreloj { --m: var(--modo-reloj); --m-2: var(--modo-reloj-2); --m-ink: var(--modo-reloj-ink); }
+
+/* La pastilla: relleno saturado con tinta oscura encima, que es la firma del
+   material. Si el modo no tiene color propio (uno que venga de Cerebro), cae
+   al acento del sistema y no se rompe nada. */
+.emblem {
+  flex: none;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  color: var(--m-ink, var(--wb-on-accent));
+  background: linear-gradient(155deg, var(--m, var(--wb-accent)), var(--m-2, var(--wb-accent)));
+  box-shadow: var(--sh-2);
+  transition: transform var(--release);
+}
+.emblem svg { width: 74%; height: 74%; display: block; }
+/* Los "huecos": se pintan con el tono claro del modo, no con la tinta, para
+   que se lean encima de una forma ya rellena. Va por CSS y no por atributo
+   porque los atributos de presentación de SVG no aceptan var(). */
+.emblem .cut { fill: var(--m, var(--wb-accent)); }
+
+.emblem--card {
+  width: 64px;
+  border-radius: var(--radius-md);
+}
+.emblem--chip {
+  width: 22px;
+  border-radius: 7px;
+  box-shadow: var(--sh-1);
+}
+.emblem--chip svg { width: 78%; height: 78%; }

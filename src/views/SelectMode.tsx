@@ -6,7 +6,7 @@
 // una tira compacta: siguen comunicando la hoja de ruta sin robarle
 // protagonismo a lo que sí se puede jugar hoy.
 import { Link } from 'react-router';
-import { Icon } from '../components/Icon';
+import { ModeEmblem } from '../components/ModeEmblem';
 import { TopBar } from '../components/TopBar';
 import { getModos } from '../lib/content';
 import { usePageTitle } from '../hooks/usePageTitle';
@@ -27,8 +27,11 @@ export function SelectMode() {
       <ul className="select-mode__grid">
         {jugables.map((m) => (
           <li key={m.id}>
-            <Link to={`/${m.slug}`} className="mode-card surface mode-card--enabled">
-              <Icon name={m.icono} className="mode-card__icon" size={32} />
+            <Link
+              to={`/${m.slug}`}
+              className={`mode-card surface mode-card--enabled modo-${m.slug}`}
+            >
+              <ModeEmblem slug={m.slug} icono={m.icono} />
               <span className="mode-card__name">{m.nombre}</span>
               <span className="mode-card__desc">{m.descripcion}</span>
               <span className="mode-card__go" aria-hidden="true">Jugar →</span>
@@ -42,8 +45,8 @@ export function SelectMode() {
           <h3 className="select-mode__soon-title">En camino</h3>
           <ul className="select-mode__soon-list">
             {proximos.map((m) => (
-              <li key={m.id} className="soon-chip" title={m.descripcion}>
-                <Icon name={m.icono} size={16} />
+              <li key={m.id} className={`soon-chip modo-${m.slug}`} title={m.descripcion}>
+                <ModeEmblem slug={m.slug} icono={m.icono} size="chip" />
                 <span>{m.nombre}</span>
               </li>
             ))}
